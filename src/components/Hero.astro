@@ -1,0 +1,113 @@
+---
+import type { Locale } from '../i18n';
+import { getContent } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getContent(locale);
+---
+
+<section class="hero" id="hero" aria-labelledby="hero-title">
+  <div class="hero__grid-texture" aria-hidden="true"></div>
+
+  <div class="hero__inner container">
+    <div class="hero__content">
+      <p class="hero__eyebrow" data-hero-content>
+        <span class="hero__eyebrow-dot" aria-hidden="true"></span>
+        {t.hero.eyebrow}
+      </p>
+
+      <h1 class="hero__title" id="hero-title" data-hero-title>
+        {t.hero.title} <span class="highlight">{t.hero.titleHighlight}</span>.
+      </h1>
+
+      <p class="hero__lead" data-hero-content>
+        {t.hero.lead}
+      </p>
+
+      <div class="hero__actions" data-hero-content>
+        <a class="btn-primary" href="#works" data-magnetic>{t.hero.ctaWorks}</a>
+        <a class="btn-secondary" href="#contact" data-magnetic>{t.hero.ctaContact}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    padding-top: calc(var(--header-height) + var(--space-16));
+    padding-bottom: var(--space-24);
+    overflow: hidden;
+  }
+
+  .hero__grid-texture {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--color-accent-orange-glow) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-accent-orange-glow) 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.35;
+    mask-image: radial-gradient(ellipse 80% 60% at 30% 40%, black, transparent);
+  }
+
+  .hero__inner {
+    width: min(100% - clamp(32px, 8vw, 120px) * 2, var(--max-width));
+    margin-inline: auto;
+  }
+
+  .hero__content {
+    max-width: 780px;
+  }
+
+  .hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    color: var(--color-accent-blue);
+    margin-bottom: var(--space-8);
+  }
+
+  .hero__eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent-blue);
+    box-shadow: 0 0 10px var(--color-accent-blue-glow);
+  }
+
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: var(--text-hero);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    max-width: 14ch;
+    margin-bottom: var(--space-8);
+  }
+
+  .hero__lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    max-width: 52ch;
+    margin-bottom: var(--space-12);
+    line-height: 1.7;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+  }
+</style>

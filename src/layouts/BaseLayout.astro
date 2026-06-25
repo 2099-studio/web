@@ -1,0 +1,156 @@
+---
+import type { Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description?: string;
+}
+
+const { locale, title, description } = Astro.props;
+const siteUrl = 'https://2099.studio';
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#080808" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" data-favicon />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" data-favicon />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="alternate" hreflang="es" href={`${siteUrl}/`} />
+    <link rel="alternate" hreflang="en" href={`${siteUrl}/en/`} />
+    <link rel="alternate" hreflang="x-default" href={`${siteUrl}/`} />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=clash-display@700&f[]=satoshi@400,500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+    <script is:inline define:vars={{ locale }}>
+      (function () {
+        const STORAGE_KEY = '2099-locale';
+        const path = location.pathname;
+        const onEn = path === '/en' || path.startsWith('/en/');
+        const current = onEn ? 'en' : 'es';
+        const hash = location.hash || '';
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if (saved === 'en' && current === 'es' && (path === '/' || path === '/index.html')) {
+          location.replace('/en/' + hash);
+          return;
+        }
+        if (saved === 'es' && current === 'en') {
+          location.replace('/' + hash);
+          return;
+        }
+        if (!saved) {
+          const lang = (navigator.language || '').toLowerCase();
+          const prefersEs = lang.indexOf('es') === 0;
+          const prefersEn = lang.indexOf('en') === 0;
+          if (prefersEn && !prefersEs && current === 'es' && (path === '/' || path === '/index.html')) {
+            localStorage.setItem(STORAGE_KEY, 'en');
+            location.replace('/en/' + hash);
+            return;
+          }
+          if (prefersEs && current === 'en') {
+            localStorage.setItem(STORAGE_KEY, 'es');
+            location.replace('/' + hash);
+            return;
+          }
+        }
+
+        const savedTheme = localStorage.getItem('2099-theme');
+        const preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        const theme = savedTheme || preferred;
+        document.documentElement.setAttribute('data-theme', theme);
+        const themeColor = theme === 'light' ? '#F5F4F0' : '#080808';
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColor);
+        const faviconSrc = theme === 'light' ? '/favicon-light.png' : '/favicon.png';
+        document.querySelectorAll('[data-favicon]').forEach((link) => {
+          link.setAttribute('href', faviconSrc);
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <slot />
+    <script>
+      import { initTheme } from '../scripts/theme';
+      import { initMotion } from '../scripts/motion';
+      import { initLocale } from '../scripts/locale';
+      import { initFavicon } from '../scripts/favicon';
+
+      initTheme();
+      initLocale();
+      initFavicon();
+      initMotion();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+
+  body.has-custom-cursor {
+    cursor: none;
+  }
+
+  body.has-custom-cursor a,
+  body.has-custom-cursor button {
+    cursor: none;
+  }
+
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 10000;
+    border-radius: var(--radius-full);
+    transform: translate3d(-50%, -50%, 0);
+    will-change: transform;
+  }
+
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--color-accent-orange);
+  }
+
+  .cursor-ring {
+    width: 36px;
+    height: 36px;
+    border: 1px solid color-mix(in srgb, var(--color-text-primary) 35%, transparent);
+    transition: width var(--dur-fast) var(--ease-out), height var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .cursor-ring.is-hover {
+    width: 52px;
+    height: 52px;
+    border-color: var(--color-accent-orange);
+  }
+
+  @media (pointer: coarse) {
+    body.has-custom-cursor {
+      cursor: auto;
+    }
+
+    .cursor-dot,
+    .cursor-ring {
+      display: none;
+    }
+  }
+</style>

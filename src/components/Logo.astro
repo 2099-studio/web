@@ -1,0 +1,63 @@
+---
+interface Props {
+  class?: string;
+  height?: number;
+}
+
+const { class: className, height = 36 } = Astro.props;
+---
+
+<span class:list={['logo', className]} style={`--logo-height: ${height}px`}>
+  <img
+    class="logo__img logo__img--for-dark"
+    src="/assets/brand/logo-white.png"
+    alt="2099.studio"
+    width="140"
+    height={height}
+    decoding="async"
+  />
+  <img
+    class="logo__img logo__img--for-light"
+    src="/assets/brand/logo-dark.png"
+    alt="2099.studio"
+    width="140"
+    height={height}
+    decoding="async"
+  />
+</span>
+
+<style>
+  .logo {
+    display: inline-grid;
+    align-items: center;
+    line-height: 0;
+  }
+
+  .logo__img {
+    grid-area: 1 / 1;
+    height: var(--logo-height, 36px);
+    width: auto;
+    opacity: 0;
+    transition: none;
+  }
+
+  /* Dark theme → logo blanco */
+  :global(:root) .logo__img--for-dark,
+  :global([data-theme='dark']) .logo__img--for-dark {
+    opacity: 1;
+  }
+
+  :global(:root) .logo__img--for-light,
+  :global([data-theme='dark']) .logo__img--for-light {
+    opacity: 0;
+  }
+
+  /* Light theme → logo oscuro */
+  :global([data-theme='light']) .logo__img--for-dark {
+    opacity: 0;
+  }
+
+  :global([data-theme='light']) .logo__img--for-light {
+    opacity: 1;
+  }
+</style>

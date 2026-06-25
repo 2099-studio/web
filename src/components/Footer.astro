@@ -1,0 +1,328 @@
+---
+import type { Locale } from '../i18n';
+import { getContent, localePath } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getContent(locale);
+const { footer: f, site, nav } = t;
+const { contact } = site;
+const year = new Date().getFullYear();
+const homePath = localePath(locale);
+
+const navLinks = [
+  { href: '#services', label: nav.services },
+  { href: '#works', label: nav.works },
+  { href: '#methodology', label: nav.studio },
+  { href: '#contact', label: nav.contact },
+];
+
+const socialLinks = [
+  { label: 'Instagram', href: contact.instagram },
+  { label: 'LinkedIn', href: contact.linkedin },
+  { label: 'WhatsApp', href: contact.whatsapp },
+];
+---
+
+<footer class="site-footer" data-footer>
+  <div class="site-footer__utility container" data-reveal>
+    <div class="site-footer__utility-col site-footer__utility-col--talk">
+      <p class="site-footer__label">{f.letsTalk}</p>
+      <a class="site-footer__email" href={`mailto:${contact.email}`} data-magnetic>
+        {contact.email}
+      </a>
+    </div>
+
+    <nav class="site-footer__utility-col site-footer__utility-col--nav" aria-label={f.navAria}>
+      <ul class="site-footer__nav">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a class="site-footer__nav-link" href={link.href} data-magnetic>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="site-footer__utility-col site-footer__utility-col--social">
+      <p class="site-footer__label">{f.social}</p>
+      <ul class="site-footer__social">
+        {
+          socialLinks.map((link) => (
+            <li>
+              <a
+                class="site-footer__social-link"
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-magnetic
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="site-footer__utility-col site-footer__utility-col--time">
+      <p class="site-footer__label">{f.localTime}</p>
+      <p class="site-footer__clock" data-footer-clock aria-live="polite">
+        {contact.timezone}
+      </p>
+    </div>
+  </div>
+
+  <div class="site-footer__wordmark-wrap container" data-footer-wordmark>
+    <a class="site-footer__wordmark-link" href={homePath} aria-label={f.wordmarkLabel}>
+      <img
+        class="site-footer__wordmark-img"
+        src="/assets/brand/footer-wordmark.png"
+        alt=""
+        width="800"
+        height="200"
+        decoding="async"
+      />
+    </a>
+  </div>
+
+  <div class="site-footer__bar container">
+    <p class="site-footer__copy">© {year} 2099.studio — {f.rights}</p>
+    <a class="btn-primary site-footer__cta" href="#contact" data-magnetic>{f.cta}</a>
+    <button class="site-footer__top" type="button" data-back-to-top data-magnetic>
+      <span>{f.backToTop}</span>
+      <span class="site-footer__top-icon" aria-hidden="true">↑</span>
+    </button>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    background: var(--color-bg);
+    overflow: hidden;
+  }
+
+  .site-footer__utility {
+    display: grid;
+    gap: var(--space-10);
+    padding-block: var(--space-16) var(--space-10);
+  }
+
+  .site-footer__utility-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .site-footer__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+  }
+
+  .site-footer__email {
+    font-family: var(--font-display);
+    font-size: clamp(1.125rem, 2.5vw, var(--text-xl));
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .site-footer__email:hover,
+  .site-footer__email:focus-visible {
+    color: var(--color-accent-orange);
+  }
+
+  .site-footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    list-style: none;
+  }
+
+  .site-footer__nav-link {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .site-footer__nav-link:hover,
+  .site-footer__nav-link:focus-visible {
+    color: var(--color-text-primary);
+  }
+
+  .site-footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    list-style: none;
+  }
+
+  .site-footer__social-link {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .site-footer__social-link:hover,
+  .site-footer__social-link:focus-visible {
+    color: var(--color-accent-orange);
+  }
+
+  .site-footer__clock {
+    font-family: var(--font-mono);
+    font-size: var(--text-md);
+    color: var(--color-text-primary);
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .site-footer__wordmark-wrap {
+    padding-block: var(--space-4) var(--space-2);
+    line-height: 0;
+  }
+
+  .site-footer__wordmark-link {
+    display: inline-block;
+  }
+
+  .site-footer__wordmark-img {
+    display: block;
+    width: auto;
+    max-width: min(220px, 42vw);
+    height: auto;
+    max-height: clamp(40px, 7vw, 72px);
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  :global([data-theme='light']) .site-footer__wordmark-img {
+    filter: invert(1);
+  }
+
+  .site-footer__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    padding-block: var(--space-6) var(--space-10);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .site-footer__copy {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    letter-spacing: 0.04em;
+    flex: 1;
+    min-width: 12rem;
+  }
+
+  .site-footer__cta {
+    height: 40px;
+    padding-inline: var(--space-6);
+    font-size: var(--text-xs);
+  }
+
+  .site-footer__top {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .site-footer__top:hover,
+  .site-footer__top:focus-visible {
+    color: var(--color-text-primary);
+    border-color: var(--color-text-tertiary);
+  }
+
+  .site-footer__top-icon {
+    font-size: var(--text-sm);
+    line-height: 1;
+  }
+
+  @media (min-width: 900px) {
+    .site-footer__utility {
+      grid-template-columns: 1.1fr 1.2fr 1fr 0.7fr;
+      align-items: start;
+      gap: var(--space-8);
+      padding-block: var(--space-20) var(--space-12);
+    }
+
+    .site-footer__utility-col--nav {
+      justify-self: center;
+    }
+
+    .site-footer__utility-col--time {
+      align-items: flex-end;
+      text-align: right;
+    }
+  }
+
+  @media (max-width: 899px) {
+    .site-footer__utility-col--nav {
+      order: 4;
+    }
+
+    .site-footer__bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .site-footer__cta,
+    .site-footer__top {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  const topBtn = document.querySelector<HTMLButtonElement>('[data-back-to-top]');
+  topBtn?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  const clock = document.querySelector<HTMLElement>('[data-footer-clock]');
+  if (clock) {
+    const tz = 'America/Argentina/Buenos_Aires';
+
+    const tick = () => {
+      clock.textContent = new Intl.DateTimeFormat(undefined, {
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZone: tz,
+      }).format(new Date());
+    };
+
+    tick();
+    window.setInterval(tick, 30_000);
+  }
+</script>

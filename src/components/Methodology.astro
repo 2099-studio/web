@@ -1,0 +1,309 @@
+---
+import type { Locale } from '../i18n';
+import { getContent } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getContent(locale);
+const { methodology } = t;
+---
+
+<section class="methodology" id="methodology" data-methodology aria-labelledby="methodology-title">
+  <div class="methodology__texture" aria-hidden="true"></div>
+
+  <div class="methodology__inner container">
+    <aside class="methodology__sidebar">
+      <header class="methodology__header">
+        <p class="methodology__eyebrow">
+          <span class="methodology__eyebrow-dot" aria-hidden="true"></span>
+          {methodology.eyebrow}
+        </p>
+        <h2 class="methodology__title" id="methodology-title">
+          {methodology.title} <span class="methodology__highlight">{methodology.titleHighlight}</span>.
+        </h2>
+        <p class="methodology__lead">{methodology.lead}</p>
+      </header>
+
+      <div class="methodology__rail" aria-hidden="true">
+        <div class="methodology__rail-track">
+          <div class="methodology__rail-fill" data-methodology-progress></div>
+        </div>
+      </div>
+    </aside>
+
+    <ol class="methodology__steps" data-methodology-steps>
+      {
+        methodology.steps.map((step, index) => (
+          <li
+            class={`methodology-step${index === 0 ? ' is-active' : ''}`}
+            data-methodology-step
+            data-step-index={index}
+          >
+            <article class="methodology-step__card">
+              <div class="methodology-step__marker" aria-hidden="true">
+                <span class="methodology-step__dot"></span>
+              </div>
+              <div class="methodology-step__content">
+                <div class="methodology-step__meta">
+                  <span class="methodology-step__number">{step.number}</span>
+                  <h3 class="methodology-step__title">{step.title}</h3>
+                </div>
+                <p class="methodology-step__description">{step.description}</p>
+                <ul class="methodology-step__tools" aria-label={methodology.toolsLabel}>
+                  {step.tools.map((tool) => (
+                    <li class="methodology-step__tool">{tool}</li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .methodology {
+    position: relative;
+    padding-block: var(--space-24);
+    border-top: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+
+  .methodology__texture {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--color-accent-blue-glow) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-accent-blue-glow) 1px, transparent 1px);
+    background-size: 32px 32px;
+    opacity: 0.35;
+    mask-image: radial-gradient(ellipse 60% 70% at 20% 50%, black, transparent);
+    pointer-events: none;
+  }
+
+  .methodology__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+
+  .methodology__header {
+    max-width: 480px;
+  }
+
+  .methodology__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent-blue);
+    margin-bottom: var(--space-6);
+  }
+
+  .methodology__eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent-blue);
+    box-shadow: 0 0 10px var(--color-accent-blue-glow);
+  }
+
+  .methodology__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, var(--text-2xl));
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-6);
+  }
+
+  .methodology__highlight {
+    color: var(--color-accent-blue);
+  }
+
+  .methodology__lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .methodology__rail {
+    display: none;
+  }
+
+  .methodology__steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    list-style: none;
+  }
+
+  .methodology-step__card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-6);
+    padding: var(--space-8);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition:
+      border-color var(--dur-base) var(--ease-out),
+      background var(--dur-base) var(--ease-out),
+      opacity var(--dur-base) var(--ease-out);
+  }
+
+  .methodology-step:not(.is-active) .methodology-step__card {
+    opacity: 0.45;
+  }
+
+  .methodology-step.is-active .methodology-step__card {
+    border-color: color-mix(in srgb, var(--color-accent-blue) 45%, var(--color-border));
+    background: var(--color-elevated);
+    opacity: 1;
+  }
+
+  .methodology-step__marker {
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-2);
+  }
+
+  .methodology-step__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-border);
+    background: var(--color-bg);
+    transition:
+      border-color var(--dur-base) var(--ease-out),
+      background var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out);
+  }
+
+  .methodology-step.is-active .methodology-step__dot {
+    border-color: var(--color-accent-blue);
+    background: var(--color-accent-blue);
+    box-shadow: 0 0 16px var(--color-accent-blue-glow);
+  }
+
+  .methodology-step__meta {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    margin-bottom: var(--space-3);
+  }
+
+  .methodology-step__number {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+  }
+
+  .methodology-step.is-active .methodology-step__number {
+    color: var(--color-accent-blue);
+  }
+
+  .methodology-step__title {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .methodology-step__description {
+    font-size: var(--text-md);
+    color: var(--color-text-secondary);
+    max-width: 56ch;
+    margin-bottom: var(--space-6);
+    line-height: 1.7;
+  }
+
+  .methodology-step__tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+  }
+
+  .methodology-step__tool {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out),
+      color var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out);
+  }
+
+  .methodology-step.is-active .methodology-step__tool {
+    opacity: 1;
+    transform: translateY(0);
+    color: var(--color-accent-blue);
+    border-color: color-mix(in srgb, var(--color-accent-blue) 35%, var(--color-border));
+  }
+
+  @media (min-width: 1024px) {
+    .methodology__inner {
+      grid-template-columns: minmax(280px, 360px) 1fr;
+      gap: var(--space-16);
+      align-items: start;
+    }
+
+    .methodology__rail {
+      display: block;
+      margin-top: var(--space-12);
+    }
+
+    .methodology__rail-track {
+      width: 2px;
+      height: 200px;
+      background: var(--color-border);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .methodology__rail-fill {
+      width: 100%;
+      height: 100%;
+      background: var(--color-accent-blue);
+      transform-origin: top center;
+      transform: scaleY(0);
+      box-shadow: 0 0 12px var(--color-accent-blue-glow);
+    }
+
+    .methodology__steps {
+      gap: var(--space-8);
+      min-height: 60vh;
+    }
+
+    .methodology-step__card {
+      padding: var(--space-8) var(--space-10);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .methodology-step:not(.is-active) .methodology-step__card {
+      opacity: 1;
+    }
+
+    .methodology-step__tool {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

@@ -1,0 +1,278 @@
+---
+import type { Locale } from '../i18n';
+import { getContent } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getContent(locale);
+const { industries, site } = { industries: t.industries, site: t.site };
+---
+
+<section class="industries" id="industries" aria-labelledby="industries-title">
+  <div class="industries__inner container">
+    <header class="industries__header" data-reveal>
+      <p class="industries__eyebrow">
+        <span class="industries__eyebrow-dot" aria-hidden="true"></span>
+        {industries.eyebrow}
+      </p>
+      <h2 class="industries__title" id="industries-title">
+        {industries.title} <span class="industries__highlight">{industries.titleHighlight}</span>.
+      </h2>
+      <p class="industries__lead">{industries.lead}</p>
+    </header>
+
+    <div class="industries__matrix">
+      {
+        industries.layers.map((layer, index) => (
+          <details
+            class={`industry-layer industry-layer--${layer.accent}`}
+            data-industry-layer
+            open={index === 0}
+          >
+            <summary class="industry-layer__summary">
+              <span class="industry-layer__dot" aria-hidden="true"></span>
+              <span class="industry-layer__title">{layer.title}</span>
+              <span class={`industry-layer__badge industry-layer__badge--${layer.accent}`}>
+                {layer.badge}
+              </span>
+              <span class="industry-layer__chevron" aria-hidden="true">↓</span>
+            </summary>
+
+            <div class="industry-layer__body">
+              <div class="industry-layer__cols">
+                <div>
+                  <h3 class="industry-layer__col-title">{industries.sectors}</h3>
+                  <ul class="industry-layer__list">
+                    {layer.sectors.map((sector) => (
+                      <li>{sector}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h3 class="industry-layer__col-title">{industries.typicalServices}</h3>
+                  <ul class="industry-layer__list">
+                    {layer.services.map((service) => (
+                      <li>{service}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              {
+                layer.ventaja && (
+                  <p class="industry-layer__ventaja">
+                    <strong>{industries.uniqueAdvantage}</strong> {site.ventajaEmergente}
+                  </p>
+                )
+              }
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .industries {
+    padding-block: var(--space-24);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .industries__header {
+    max-width: 720px;
+    margin-bottom: var(--space-16);
+  }
+
+  .industries__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  .industries__eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--gradient-brand);
+  }
+
+  .industries__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, var(--text-2xl));
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-6);
+  }
+
+  .industries__highlight {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .industries__lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    max-width: 52ch;
+    line-height: 1.7;
+  }
+
+  .industries__matrix {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .industry-layer {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .industry-layer__summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-6) var(--space-8);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .industry-layer__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .industry-layer__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+  }
+
+  .industry-layer--orange .industry-layer__dot {
+    background: var(--color-accent-orange);
+  }
+
+  .industry-layer--blue .industry-layer__dot {
+    background: var(--color-accent-blue);
+  }
+
+  .industry-layer--mix .industry-layer__dot {
+    background: var(--gradient-brand);
+  }
+
+  .industry-layer__title {
+    flex: 1;
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary);
+  }
+
+  .industry-layer__badge {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+  }
+
+  .industry-layer__badge--orange {
+    color: var(--color-accent-orange);
+    background: var(--color-accent-orange-glow);
+  }
+
+  .industry-layer__badge--blue {
+    color: var(--color-accent-blue);
+    background: var(--color-accent-blue-glow);
+  }
+
+  .industry-layer__badge--mix {
+    color: var(--color-text-primary);
+    background: color-mix(in srgb, var(--color-accent-orange-glow) 50%, var(--color-accent-blue-glow));
+  }
+
+  .industry-layer__chevron {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  .industry-layer[open] .industry-layer__chevron {
+    transform: rotate(180deg);
+  }
+
+  .industry-layer__body {
+    padding: 0 var(--space-8) var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .industry-layer__cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    padding-top: var(--space-6);
+  }
+
+  .industry-layer__col-title {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-4);
+  }
+
+  .industry-layer__list {
+    list-style: none;
+  }
+
+  .industry-layer__list li {
+    font-size: var(--text-md);
+    color: var(--color-text-secondary);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border);
+    line-height: 1.5;
+  }
+
+  .industry-layer__list li:last-child {
+    border-bottom: none;
+  }
+
+  .industry-layer__ventaja {
+    margin-top: var(--space-6);
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-elevated);
+    border-radius: var(--radius-md);
+    font-size: var(--text-md);
+    color: var(--color-text-secondary);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .industry-layer__ventaja strong {
+    font-style: normal;
+    color: var(--color-accent-orange);
+    font-weight: 500;
+  }
+
+  @media (min-width: 768px) {
+    .industry-layer__cols {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,389 @@
+---
+import type { Locale } from '../i18n';
+import { getContent } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getContent(locale);
+const { contact: c, site } = { contact: t.contact, site: t.site };
+const { contact } = site;
+
+const socialLinks = [
+  { label: 'WhatsApp', href: contact.whatsapp, icon: 'WA' },
+  { label: 'LinkedIn', href: contact.linkedin, icon: 'in' },
+  { label: 'Instagram', href: contact.instagram, icon: 'IG' },
+];
+---
+
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <div class="contact__glow" aria-hidden="true"></div>
+  <div class="contact__glow contact__glow--secondary" aria-hidden="true"></div>
+
+  <div class="contact__inner container">
+    <header class="contact__header" data-reveal>
+      <p class="contact__eyebrow">
+        <span class="contact__eyebrow-dot" aria-hidden="true"></span>
+        {c.eyebrow}
+      </p>
+
+      <h2 class="contact__title" id="contact-title">
+        {c.title} <span class="contact__highlight">{c.titleHighlight}</span>{c.titleAfter}
+      </h2>
+
+      <p class="contact__lead">{c.lead}</p>
+    </header>
+
+    <div class="contact__layout">
+      <form class="contact__form" data-contact-form data-reveal>
+        <div class="contact__field">
+          <label class="contact__label" for="contact-name">{c.name}</label>
+          <input
+            class="contact__input"
+            type="text"
+            id="contact-name"
+            name="name"
+            required
+            autocomplete="name"
+            placeholder={c.namePlaceholder}
+          />
+        </div>
+
+        <div class="contact__field">
+          <label class="contact__label" for="contact-email">{c.email}</label>
+          <input
+            class="contact__input"
+            type="email"
+            id="contact-email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder={c.emailPlaceholder}
+          />
+        </div>
+
+        <div class="contact__field">
+          <label class="contact__label" for="contact-type">{c.projectType}</label>
+          <select class="contact__input contact__select" id="contact-type" name="type" required>
+            <option value="" disabled selected>{c.selectPlaceholder}</option>
+            {
+              c.projectTypes.map((type) => (
+                <option value={type}>{type}</option>
+              ))
+            }
+          </select>
+        </div>
+
+        <div class="contact__field">
+          <label class="contact__label" for="contact-message">
+            {c.message} <span class="contact__optional">{c.messageOptional}</span>
+          </label>
+          <textarea
+            class="contact__input contact__textarea"
+            id="contact-message"
+            name="message"
+            rows="4"
+            placeholder={c.messagePlaceholder}
+          ></textarea>
+        </div>
+
+        <button class="btn-primary contact__submit" type="submit" data-magnetic>
+          {c.submit}
+        </button>
+      </form>
+
+      <aside class="contact__aside" data-reveal>
+        <div class="contact__info-block">
+          <h3 class="contact__info-title">{c.directEmail}</h3>
+          <a class="contact__info-link" href={`mailto:${contact.email}`} data-magnetic>
+            {contact.email}
+          </a>
+        </div>
+
+        <div class="contact__info-block">
+          <h3 class="contact__info-title">{c.social}</h3>
+          <ul class="contact__social">
+            {
+              socialLinks.map((link) => (
+                <li>
+                  <a
+                    class="contact__social-link"
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-magnetic
+                  >
+                    <span class="contact__social-icon" aria-hidden="true">{link.icon}</span>
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="contact__info-block">
+          <h3 class="contact__info-title">{c.location}</h3>
+          <p class="contact__info-text">{contact.location}</p>
+          <p class="contact__info-text contact__info-text--mono">{contact.timezone}</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    position: relative;
+    padding-block: var(--space-24);
+    border-top: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+
+  .contact__glow {
+    position: absolute;
+    width: min(90vw, 600px);
+    height: min(90vw, 600px);
+    top: 30%;
+    left: 50%;
+    translate: -50% -50%;
+    border-radius: var(--radius-full);
+    background: radial-gradient(circle, var(--color-accent-orange-glow), transparent 70%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+
+  .contact__glow--secondary {
+    width: min(70vw, 400px);
+    height: min(70vw, 400px);
+    background: radial-gradient(circle, var(--color-accent-blue-glow), transparent 65%);
+    opacity: 0.5;
+    animation: contact-pulse 4s var(--ease-out) infinite alternate;
+  }
+
+  @keyframes contact-pulse {
+    from {
+      transform: translate(-50%, -50%) scale(0.95);
+      opacity: 0.3;
+    }
+    to {
+      transform: translate(-50%, -50%) scale(1.05);
+      opacity: 0.6;
+    }
+  }
+
+  .contact__inner {
+    position: relative;
+  }
+
+  .contact__header {
+    max-width: 640px;
+    margin-bottom: var(--space-16);
+  }
+
+  .contact__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent-orange);
+    margin-bottom: var(--space-6);
+  }
+
+  .contact__eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent-orange);
+    box-shadow: 0 0 12px var(--color-accent-orange-glow);
+  }
+
+  .contact__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, var(--text-2xl));
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-6);
+  }
+
+  .contact__highlight {
+    color: var(--color-accent-orange);
+  }
+
+  .contact__lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    max-width: 52ch;
+    line-height: 1.7;
+  }
+
+  .contact__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  .contact__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding: var(--space-8);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .contact__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .contact__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  .contact__optional {
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--color-text-tertiary);
+  }
+
+  .contact__input {
+    font-family: var(--font-body);
+    font-size: var(--text-md);
+    color: var(--color-text-primary);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .contact__input::placeholder {
+    color: var(--color-text-tertiary);
+  }
+
+  .contact__input:focus {
+    outline: none;
+    border-color: var(--color-accent-orange);
+  }
+
+  .contact__select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--space-4) center;
+    padding-right: var(--space-10);
+  }
+
+  .contact__textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .contact__submit {
+    align-self: flex-start;
+    margin-top: var(--space-2);
+  }
+
+  .contact__aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+    padding: var(--space-8);
+  }
+
+  .contact__info-title {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-4);
+  }
+
+  .contact__info-link {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-accent-orange);
+    letter-spacing: -0.02em;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+
+  .contact__info-link:hover {
+    opacity: 0.8;
+  }
+
+  .contact__social {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .contact__social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-md);
+    color: var(--color-text-secondary);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .contact__social-link:hover {
+    color: var(--color-text-primary);
+  }
+
+  .contact__social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-tertiary);
+  }
+
+  .contact__info-text {
+    font-size: var(--text-md);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .contact__info-text--mono {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    margin-top: var(--space-1);
+  }
+
+  @media (min-width: 768px) {
+    .contact__layout {
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: var(--space-16);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact__glow--secondary {
+      animation: none;
+    }
+  }
+</style>
