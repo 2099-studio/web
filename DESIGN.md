@@ -384,11 +384,17 @@ document.documentElement.setAttribute('data-theme', saved || preferred);
 
 ## 13 · Token Studio — importación
 
-1. Abrir Figma → Plugins → Token Studio
-2. Import → JSON → seleccionar `tokens/tokens.json`
-3. Mapear sets: `core` (global), `theme-dark`, `theme-light`
-4. Vincular variables nativas de Figma a cada token semántico
-5. Sincronizar cambios bidireccionalmente
+Ver **`FIGMA.md`** para el flujo completo (import local, sync GitHub, themes, fuentes).
+
+Resumen:
+
+1. Abrir Figma → Plugins → **Tokens Studio**
+2. Settings → **W3C DTCG format**
+3. Import → JSON → `tokens/tokens.json`
+4. Themes **Dark** / **Light** se cargan desde `$themes` en el JSON
+5. Apply to document → vincular variables nativas de Figma
+
+Sync continuo: Tokens Studio → GitHub → repo `2099-studio/web` → `tokens/tokens.json`
 
 ---
 
