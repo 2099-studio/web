@@ -7,8 +7,12 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "dev:pages": "node scripts/run-with-pages-env.mjs dev",
     "build": "astro build",
+    "tokens:legacy": "node scripts/export-tokens-legacy.mjs",
+    "build:pages": "node scripts/run-with-pages-env.mjs build",
     "preview": "astro preview",
+    "preview:pages": "node scripts/run-with-pages-env.mjs build && node scripts/run-with-pages-env.mjs preview",
     "astro": "astro"
   },
   "dependencies": {

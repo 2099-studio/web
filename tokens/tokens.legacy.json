@@ -1,0 +1,497 @@
+{
+  "core": {
+    "font": {
+      "family": {
+        "display": {
+          "value": "Clash Display",
+          "type": "fontFamilies",
+          "description": "H1, H2, heroes, section titles"
+        },
+        "body": {
+          "value": "Satoshi",
+          "type": "fontFamilies",
+          "description": "Paragraphs, nav, labels, buttons"
+        },
+        "mono": {
+          "value": "Space Mono",
+          "type": "fontFamilies",
+          "description": "Code, data, technical labels"
+        },
+        "logo-numerals": {
+          "value": "Space Mono",
+          "type": "fontFamilies",
+          "description": "Logo 2099 — exclusive, do not use in headlines"
+        },
+        "logo-suffix": {
+          "value": "Pixelity Sans",
+          "type": "fontFamilies",
+          "description": "Logo .studio — exclusive, do not use elsewhere"
+        }
+      },
+      "weight": {
+        "regular": {
+          "value": "400",
+          "type": "fontWeights"
+        },
+        "medium": {
+          "value": "500",
+          "type": "fontWeights"
+        },
+        "bold": {
+          "value": "700",
+          "type": "fontWeights"
+        }
+      },
+      "size": {
+        "xs": {
+          "value": "11",
+          "type": "fontSizes",
+          "description": "Captions, small labels"
+        },
+        "sm": {
+          "value": "13",
+          "type": "fontSizes",
+          "description": "UI labels, nav"
+        },
+        "md": {
+          "value": "16",
+          "type": "fontSizes",
+          "description": "Body text base"
+        },
+        "lg": {
+          "value": "20",
+          "type": "fontSizes",
+          "description": "Subtitles, intro text"
+        },
+        "xl": {
+          "value": "32",
+          "type": "fontSizes",
+          "description": "H3, section headers"
+        },
+        "2xl": {
+          "value": "48",
+          "type": "fontSizes",
+          "description": "H2"
+        },
+        "3xl": {
+          "value": "72",
+          "type": "fontSizes",
+          "description": "H1"
+        },
+        "hero": {
+          "value": "96",
+          "type": "fontSizes",
+          "description": "Hero display — use clamp(72px, 10vw, 120px) in CSS"
+        }
+      },
+      "letter-spacing": {
+        "display-tight": {
+          "value": "-0.02em",
+          "type": "letterSpacing",
+          "description": "Large Clash Display headlines"
+        }
+      }
+    },
+    "space": {
+      "1": {
+        "value": "4",
+        "type": "spacing"
+      },
+      "2": {
+        "value": "8",
+        "type": "spacing"
+      },
+      "3": {
+        "value": "12",
+        "type": "spacing"
+      },
+      "4": {
+        "value": "16",
+        "type": "spacing"
+      },
+      "6": {
+        "value": "24",
+        "type": "spacing"
+      },
+      "8": {
+        "value": "32",
+        "type": "spacing"
+      },
+      "12": {
+        "value": "48",
+        "type": "spacing"
+      },
+      "16": {
+        "value": "64",
+        "type": "spacing"
+      },
+      "24": {
+        "value": "96",
+        "type": "spacing"
+      },
+      "32": {
+        "value": "128",
+        "type": "spacing"
+      }
+    },
+    "radius": {
+      "sm": {
+        "value": "4",
+        "type": "borderRadius"
+      },
+      "md": {
+        "value": "8",
+        "type": "borderRadius"
+      },
+      "lg": {
+        "value": "16",
+        "type": "borderRadius"
+      },
+      "xl": {
+        "value": "24",
+        "type": "borderRadius"
+      },
+      "full": {
+        "value": "9999",
+        "type": "borderRadius"
+      }
+    },
+    "motion": {
+      "ease-out": {
+        "value": "cubic-bezier(0, 0, 0.2, 1)",
+        "type": "other"
+      },
+      "ease-spring": {
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "type": "other"
+      },
+      "duration": {
+        "fast": {
+          "value": "150ms",
+          "type": "other"
+        },
+        "base": {
+          "value": "300ms",
+          "type": "other"
+        },
+        "slow": {
+          "value": "600ms",
+          "type": "other"
+        },
+        "page": {
+          "value": "900ms",
+          "type": "other"
+        },
+        "text-reveal": {
+          "value": "800ms",
+          "type": "other"
+        },
+        "pixel-disintegration": {
+          "value": "1200ms",
+          "type": "other"
+        },
+        "hover-card": {
+          "value": "200ms",
+          "type": "other"
+        },
+        "cursor-magnetic": {
+          "value": "100ms",
+          "type": "other"
+        },
+        "fade-section": {
+          "value": "500ms",
+          "type": "other"
+        }
+      }
+    },
+    "layout": {
+      "max-width": {
+        "value": "1280",
+        "type": "sizing"
+      },
+      "gutter": {
+        "value": "24",
+        "type": "sizing"
+      },
+      "margin": {
+        "value": "80",
+        "type": "sizing",
+        "description": "Use clamp(16px, 5vw, 80px) in CSS"
+      },
+      "cols": {
+        "value": "12",
+        "type": "sizing"
+      }
+    },
+    "breakpoint": {
+      "sm": {
+        "value": "640",
+        "type": "sizing"
+      },
+      "md": {
+        "value": "768",
+        "type": "sizing"
+      },
+      "lg": {
+        "value": "1024",
+        "type": "sizing"
+      },
+      "xl": {
+        "value": "1280",
+        "type": "sizing"
+      }
+    }
+  },
+  "theme-dark": {
+    "color": {
+      "bg": {
+        "value": "#080808",
+        "type": "color",
+        "description": "Void — main background"
+      },
+      "surface": {
+        "value": "#111111",
+        "type": "color",
+        "description": "Cards and panels"
+      },
+      "elevated": {
+        "value": "#1E1E1E",
+        "type": "color",
+        "description": "Hover states, dropdowns"
+      },
+      "border": {
+        "value": "#2A2A2A",
+        "type": "color",
+        "description": "Borders and dividers"
+      },
+      "text-primary": {
+        "value": "#F2F2F0",
+        "type": "color",
+        "description": "White — primary text"
+      },
+      "text-secondary": {
+        "value": "#666663",
+        "type": "color",
+        "description": "Muted — secondary text"
+      },
+      "text-tertiary": {
+        "value": "#3A3A38",
+        "type": "color",
+        "description": "Dim — placeholders"
+      },
+      "accent-orange": {
+        "value": "#FF5C1A",
+        "type": "color",
+        "description": "Studio Orange — CTAs, hero highlights"
+      },
+      "accent-orange-dark": {
+        "value": "#CC3A00",
+        "type": "color",
+        "description": "Orange hover state"
+      },
+      "accent-orange-glow": {
+        "value": "rgba(255, 92, 26, 0.15)",
+        "type": "color",
+        "description": "Orange glow effects"
+      },
+      "accent-blue": {
+        "value": "#2B5FFF",
+        "type": "color",
+        "description": "Studio Blue — links, tags, technical"
+      },
+      "accent-blue-dark": {
+        "value": "#1A3FCC",
+        "type": "color",
+        "description": "Blue hover state"
+      },
+      "accent-blue-glow": {
+        "value": "rgba(43, 95, 255, 0.15)",
+        "type": "color",
+        "description": "Blue glow effects"
+      },
+      "gradient-brand-start": {
+        "value": "#FF5C1A",
+        "type": "color"
+      },
+      "gradient-brand-end": {
+        "value": "#2B5FFF",
+        "type": "color"
+      },
+      "noise-opacity": {
+        "value": 0.05,
+        "type": "number"
+      }
+    },
+    "shadow": {
+      "sm": {
+        "value": {
+          "x": "0",
+          "y": "1",
+          "blur": "3",
+          "spread": "0",
+          "color": "rgba(0, 0, 0, 0.5)",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      },
+      "md": {
+        "value": {
+          "x": "0",
+          "y": "4",
+          "blur": "16",
+          "spread": "0",
+          "color": "rgba(0, 0, 0, 0.6)",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      },
+      "lg": {
+        "value": {
+          "x": "0",
+          "y": "8",
+          "blur": "40",
+          "spread": "0",
+          "color": "rgba(0, 0, 0, 0.8)",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      }
+    }
+  },
+  "theme-light": {
+    "color": {
+      "bg": {
+        "value": "#F5F4F0",
+        "type": "color",
+        "description": "Paper — main background"
+      },
+      "surface": {
+        "value": "#FFFFFF",
+        "type": "color",
+        "description": "Cards and panels"
+      },
+      "elevated": {
+        "value": "#EDECE8",
+        "type": "color",
+        "description": "Hover states, dropdowns"
+      },
+      "border": {
+        "value": "#DDDBD5",
+        "type": "color",
+        "description": "Borders and dividers"
+      },
+      "text-primary": {
+        "value": "#0A0A0A",
+        "type": "color",
+        "description": "Ink — primary text"
+      },
+      "text-secondary": {
+        "value": "#6B6965",
+        "type": "color",
+        "description": "Stone — secondary text"
+      },
+      "text-tertiary": {
+        "value": "#B5B3AD",
+        "type": "color",
+        "description": "Dust — placeholders"
+      },
+      "accent-orange": {
+        "value": "#D94400",
+        "type": "color",
+        "description": "Orange Deep — AA contrast on light"
+      },
+      "accent-orange-dark": {
+        "value": "#B33600",
+        "type": "color",
+        "description": "Orange hover on light"
+      },
+      "accent-orange-glow": {
+        "value": "rgba(217, 68, 0, 0.08)",
+        "type": "color",
+        "description": "Orange tint on light"
+      },
+      "accent-blue": {
+        "value": "#1A3FCC",
+        "type": "color",
+        "description": "Blue Deep — AA contrast on light"
+      },
+      "accent-blue-dark": {
+        "value": "#102B99",
+        "type": "color",
+        "description": "Blue hover on light"
+      },
+      "accent-blue-glow": {
+        "value": "rgba(26, 63, 204, 0.08)",
+        "type": "color",
+        "description": "Blue tint on light"
+      },
+      "gradient-brand-start": {
+        "value": "#D94400",
+        "type": "color"
+      },
+      "gradient-brand-end": {
+        "value": "#1A3FCC",
+        "type": "color"
+      },
+      "noise-opacity": {
+        "value": 0.03,
+        "type": "number"
+      }
+    },
+    "shadow": {
+      "sm": {
+        "value": {
+          "x": "0",
+          "y": "1",
+          "blur": "3",
+          "spread": "0",
+          "color": "rgba(0, 0, 0, 0.08)",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      },
+      "md": {
+        "value": {
+          "x": "0",
+          "y": "4",
+          "blur": "16",
+          "spread": "0",
+          "color": "rgba(0, 0, 0, 0.10)",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      },
+      "lg": {
+        "value": {
+          "x": "0",
+          "y": "8",
+          "blur": "40",
+          "spread": "0",
+          "color": "rgba(0, 0, 0, 0.14)",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      }
+    }
+  },
+  "$themes": [
+    {
+      "id": "dark",
+      "name": "Dark",
+      "selectedTokenSets": {
+        "core": "enabled",
+        "theme-dark": "enabled",
+        "theme-light": "disabled"
+      }
+    },
+    {
+      "id": "light",
+      "name": "Light",
+      "selectedTokenSets": {
+        "core": "enabled",
+        "theme-dark": "disabled",
+        "theme-light": "enabled"
+      }
+    }
+  ]
+}
