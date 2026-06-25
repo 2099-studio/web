@@ -32,8 +32,6 @@ export function setTheme(theme: 'dark' | 'light', animate = true): void {
     toggle.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
     toggle.setAttribute('title', title);
   }
-
-  syncFaviconWithTheme();
 }
 
 export function initTheme(): void {
@@ -44,5 +42,6 @@ export function initTheme(): void {
 
   toggle.addEventListener('click', () => {
     setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+    syncFaviconWithTheme();
   });
 }

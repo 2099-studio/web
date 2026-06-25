@@ -6,8 +6,8 @@ const CYCLE_MS = 2800;
 function faviconPaths() {
   const base = getClientBaseUrl();
   return {
-    light: withBase('favicon-light.png', base),
-    dark: withBase('favicon.png', base),
+    light: withBase('assets/brand/favicon-light.png', base),
+    dark: withBase('assets/brand/favicon-dark.png', base),
   };
 }
 
@@ -54,18 +54,7 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
-function withCircleClip(draw: () => void): void {
-  if (!ctx) return;
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(SIZE / 2, SIZE / 2, SIZE / 2, 0, Math.PI * 2);
-  ctx.closePath();
-  ctx.clip();
-  draw();
-  ctx.restore();
-}
-
-function drawRoundImage(image: HTMLImageElement, alpha = 1): void {
+function drawImage(image: HTMLImageElement, alpha = 1): void {
   if (!ctx) return;
   ctx.globalAlpha = alpha;
   ctx.drawImage(image, 0, 0, SIZE, SIZE);
@@ -83,7 +72,7 @@ function renderStaticToCanvas(theme: 'dark' | 'light'): void {
   if (!image) return;
 
   ctx.clearRect(0, 0, SIZE, SIZE);
-  withCircleClip(() => drawRoundImage(image));
+  drawImage(image);
   exportCanvasFavicon();
 }
 
@@ -93,10 +82,8 @@ function drawFrame(timestamp: number): void {
   const phase = (Math.sin((timestamp / CYCLE_MS) * Math.PI * 2) + 1) / 2;
 
   ctx.clearRect(0, 0, SIZE, SIZE);
-  withCircleClip(() => {
-    drawRoundImage(lightImage!, 1 - phase);
-    drawRoundImage(darkImage!, phase);
-  });
+  drawImage(lightImage, 1 - phase);
+  drawImage(darkImage, phase);
 
   exportCanvasFavicon();
   rafId = requestAnimationFrame(drawFrame);
@@ -121,11 +108,10 @@ function showStaticFavicon(): void {
 }
 
 function startAnimation(): void {
-  if (started) return;
   if (!lightImage || !darkImage || !ctx) return;
 
-  started = true;
   stopAnimation();
+  started = true;
   rafId = requestAnimationFrame(drawFrame);
 }
 

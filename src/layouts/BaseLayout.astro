@@ -86,10 +86,6 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
         document.documentElement.setAttribute('data-theme', theme);
         const themeColor = theme === 'light' ? '#F5F4F0' : '#080808';
         document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColor);
-        const faviconSrc = theme === 'light' ? base + 'favicon-light.png' : base + 'favicon.png';
-        document.querySelectorAll('[data-favicon]').forEach((link) => {
-          link.setAttribute('href', faviconSrc);
-        });
       })();
     </script>
   </head>
@@ -104,8 +100,8 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
 
       initTheme();
       initLocale();
-      initFavicon();
       initMotion();
+      void initFavicon();
     </script>
   </body>
 </html>
