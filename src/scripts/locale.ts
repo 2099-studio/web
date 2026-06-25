@@ -1,3 +1,5 @@
+import { clientLocalePath } from '../utils/paths';
+
 const STORAGE_KEY = '2099-locale';
 
 export function getLocale(): 'es' | 'en' {
@@ -13,6 +15,6 @@ export function initLocale(): void {
     const next = current === 'es' ? 'en' : 'es';
     localStorage.setItem(STORAGE_KEY, next);
     const hash = window.location.hash;
-    window.location.href = (next === 'en' ? '/en/' : '/') + hash;
+    window.location.href = clientLocalePath(next, hash);
   });
 }

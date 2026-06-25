@@ -1,5 +1,6 @@
 ---
 import type { Locale } from '../i18n';
+import { localePath } from '../i18n';
 
 interface Props {
   locale: Locale;
@@ -8,7 +9,10 @@ interface Props {
 }
 
 const { locale, title, description } = Astro.props;
-const siteUrl = 'https://2099.studio';
+const baseUrl = import.meta.env.BASE_URL;
+const siteUrl = Astro.site?.href.replace(/\/$/, '') ?? 'https://2099.studio';
+const esUrl = `${siteUrl}${localePath('es', '', baseUrl)}`;
+const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
 ---
 
 <!doctype html>
@@ -18,12 +22,13 @@ const siteUrl = 'https://2099.studio';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#080808" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" data-favicon />
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" data-favicon />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="alternate" hreflang="es" href={`${siteUrl}/`} />
-    <link rel="alternate" hreflang="en" href={`${siteUrl}/en/`} />
-    <link rel="alternate" hreflang="x-default" href={`${siteUrl}/`} />
+    <meta name="base-url" content={baseUrl} />
+    <link rel="icon" type="image/png" sizes="32x32" href={`${baseUrl}favicon.png`} data-favicon />
+    <link rel="icon" type="image/png" sizes="48x48" href={`${baseUrl}favicon-48.png`} data-favicon />
+    <link rel="apple-touch-icon" sizes="180x180" href={`${baseUrl}apple-touch-icon.png`} />
+    <link rel="alternate" hreflang="es" href={esUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={esUrl} />
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,35 +41,41 @@ const siteUrl = 'https://2099.studio';
       rel="stylesheet"
     />
     <title>{title}</title>
-    <script is:inline define:vars={{ locale }}>
+    <script is:inline define:vars={{ locale, baseUrl }}>
       (function () {
         const STORAGE_KEY = '2099-locale';
         const path = location.pathname;
-        const onEn = path === '/en' || path.startsWith('/en/');
+        const base = baseUrl;
+        const enPrefix = base === '/' ? '/en' : base.replace(/\/$/, '') + '/en';
+        const onEn = path === enPrefix || path === enPrefix + '/' || path.startsWith(enPrefix + '/');
         const current = onEn ? 'en' : 'es';
         const hash = location.hash || '';
         const saved = localStorage.getItem(STORAGE_KEY);
+        const isHome =
+          path === base ||
+          path === base + 'index.html' ||
+          (base === '/' && (path === '/' || path === '/index.html'));
 
-        if (saved === 'en' && current === 'es' && (path === '/' || path === '/index.html')) {
-          location.replace('/en/' + hash);
+        if (saved === 'en' && current === 'es' && isHome) {
+          location.replace((base === '/' ? '/en/' : base + 'en/') + hash);
           return;
         }
         if (saved === 'es' && current === 'en') {
-          location.replace('/' + hash);
+          location.replace(base + hash);
           return;
         }
         if (!saved) {
           const lang = (navigator.language || '').toLowerCase();
           const prefersEs = lang.indexOf('es') === 0;
           const prefersEn = lang.indexOf('en') === 0;
-          if (prefersEn && !prefersEs && current === 'es' && (path === '/' || path === '/index.html')) {
+          if (prefersEn && !prefersEs && current === 'es' && isHome) {
             localStorage.setItem(STORAGE_KEY, 'en');
-            location.replace('/en/' + hash);
+            location.replace((base === '/' ? '/en/' : base + 'en/') + hash);
             return;
           }
           if (prefersEs && current === 'en') {
             localStorage.setItem(STORAGE_KEY, 'es');
-            location.replace('/' + hash);
+            location.replace(base + hash);
             return;
           }
         }
@@ -75,7 +86,7 @@ const siteUrl = 'https://2099.studio';
         document.documentElement.setAttribute('data-theme', theme);
         const themeColor = theme === 'light' ? '#F5F4F0' : '#080808';
         document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColor);
-        const faviconSrc = theme === 'light' ? '/favicon-light.png' : '/favicon.png';
+        const faviconSrc = theme === 'light' ? base + 'favicon-light.png' : base + 'favicon.png';
         document.querySelectorAll('[data-favicon]').forEach((link) => {
           link.setAttribute('href', faviconSrc);
         });

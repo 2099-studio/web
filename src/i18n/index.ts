@@ -1,6 +1,7 @@
 import es from './es';
 import en from './en';
 import type { Locale, SiteContent } from './types';
+import { localePath as buildLocalePath } from '../utils/paths';
 
 export type { Locale, SiteContent, WorkIndustry, WorkService } from './types';
 
@@ -13,9 +14,8 @@ export function getContent(locale: Locale): SiteContent {
   return content[locale];
 }
 
-export function localePath(locale: Locale, hash = ''): string {
-  const base = locale === 'en' ? '/en/' : '/';
-  return hash ? `${base}${hash.startsWith('#') ? hash : `#${hash}`}` : base;
+export function localePath(locale: Locale, hash = '', baseUrl = '/'): string {
+  return buildLocalePath(locale, hash, baseUrl);
 }
 
 export function alternateLocale(locale: Locale): Locale {

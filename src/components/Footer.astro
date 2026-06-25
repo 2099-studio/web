@@ -11,7 +11,8 @@ const t = getContent(locale);
 const { footer: f, site, nav } = t;
 const { contact } = site;
 const year = new Date().getFullYear();
-const homePath = localePath(locale);
+const baseUrl = import.meta.env.BASE_URL;
+const homePath = localePath(locale, '', baseUrl);
 
 const navLinks = [
   { href: '#services', label: nav.services },
@@ -83,7 +84,7 @@ const socialLinks = [
     <a class="site-footer__wordmark-link" href={homePath} aria-label={f.wordmarkLabel}>
       <img
         class="site-footer__wordmark-img"
-        src="/assets/brand/footer-wordmark.png"
+        src={`${baseUrl}assets/brand/footer-wordmark.png`}
         alt=""
         width="800"
         height="200"

@@ -5,12 +5,13 @@ interface Props {
 }
 
 const { class: className, height = 36 } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <span class:list={['logo', className]} style={`--logo-height: ${height}px`}>
   <img
     class="logo__img logo__img--for-dark"
-    src="/assets/brand/logo-white.png"
+    src={`${baseUrl}assets/brand/logo-white.png`}
     alt="2099.studio"
     width="140"
     height={height}
@@ -18,7 +19,7 @@ const { class: className, height = 36 } = Astro.props;
   />
   <img
     class="logo__img logo__img--for-light"
-    src="/assets/brand/logo-dark.png"
+    src={`${baseUrl}assets/brand/logo-dark.png`}
     alt="2099.studio"
     width="140"
     height={height}

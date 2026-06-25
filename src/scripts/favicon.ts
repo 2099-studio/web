@@ -1,7 +1,15 @@
+import { withBase, getClientBaseUrl } from '../utils/paths';
+
 const SIZE = 32;
 const CYCLE_MS = 2800;
-const LIGHT_SRC = '/favicon-light.png';
-const DARK_SRC = '/favicon.png';
+
+function faviconPaths() {
+  const base = getClientBaseUrl();
+  return {
+    light: withBase('favicon-light.png', base),
+    dark: withBase('favicon.png', base),
+  };
+}
 
 let rafId = 0;
 let started = false;
@@ -32,7 +40,8 @@ function getTheme(): 'dark' | 'light' {
 }
 
 function staticFaviconForTheme(theme: 'dark' | 'light'): string {
-  return theme === 'light' ? LIGHT_SRC : DARK_SRC;
+  const paths = faviconPaths();
+  return theme === 'light' ? paths.light : paths.dark;
 }
 
 function loadImage(src: string): Promise<HTMLImageElement> {
@@ -141,7 +150,8 @@ export async function initFavicon(): Promise<void> {
   if (!ctx) return;
 
   try {
-    [lightImage, darkImage] = await Promise.all([loadImage(LIGHT_SRC), loadImage(DARK_SRC)]);
+    const { light, dark } = faviconPaths();
+    [lightImage, darkImage] = await Promise.all([loadImage(light), loadImage(dark)]);
   } catch {
     setFaviconHref(staticFaviconForTheme(getTheme()));
     return;
