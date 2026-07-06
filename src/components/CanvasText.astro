@@ -1,0 +1,90 @@
+---
+/** Aceternity canvas-text demo — 2099 brand blue (#2B5FFF) */
+const BRAND_RGBA_STEPS = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1].map(
+  (alpha) => `rgba(43, 95, 255, ${alpha})`,
+);
+
+interface Props {
+  text: string;
+  class?: string;
+  colors?: string[];
+  duration?: number;
+  lineGap?: number;
+  lineWidth?: number;
+  curveIntensity?: number;
+  backgroundColor?: string;
+  backgroundColorDark?: string;
+}
+
+const {
+  text,
+  class: className = '',
+  colors = BRAND_RGBA_STEPS,
+  duration = 20,
+  lineGap = 4,
+  lineWidth = 1.5,
+  curveIntensity = 60,
+  backgroundColor = '#2b5fff',
+  backgroundColorDark = '#1a3fcc',
+} = Astro.props;
+---
+
+<span
+  class:list={['canvas-text', className]}
+  data-canvas-text
+  data-canvas-colors={JSON.stringify(colors)}
+  data-canvas-duration={String(duration)}
+  data-canvas-line-gap={String(lineGap)}
+  data-canvas-line-width={String(lineWidth)}
+  data-canvas-curve={String(curveIntensity)}
+  style={`--canvas-text-bg: ${backgroundColor}; --canvas-text-bg-dark: ${backgroundColorDark};`}
+>
+  <span class="canvas-text__label">{text}</span>
+  <canvas class="canvas-text__canvas" role="img" aria-label={text}></canvas>
+  <span class="canvas-text__bg-probe" aria-hidden="true"></span>
+</span>
+
+<style>
+  .canvas-text {
+    position: relative;
+    display: inline-block;
+    vertical-align: baseline;
+  }
+
+  .canvas-text__label {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    user-select: none;
+  }
+
+  .canvas-text__canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  .canvas-text__bg-probe {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    background: var(--canvas-text-bg, #2b5fff);
+  }
+
+  :global([data-theme='dark']) .canvas-text__bg-probe {
+    background: var(--canvas-text-bg-dark, #1a3fcc);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .canvas-text__label {
+      color: var(--color-primary);
+      -webkit-text-fill-color: var(--color-primary);
+    }
+
+    .canvas-text__canvas {
+      display: none;
+    }
+  }
+</style>

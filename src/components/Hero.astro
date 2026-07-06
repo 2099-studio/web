@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '../i18n';
 import { getContent } from '../i18n';
+import CanvasText from './CanvasText.astro';
 
 interface Props {
   locale: Locale;
@@ -17,7 +18,8 @@ const baseUrl = import.meta.env.BASE_URL;
 
     <div class="hero__copy" data-hero-title>
       <h1 class="hero__title" id="hero-title">
-        {t.hero.title} {t.hero.titleHighlight}.
+        {t.hero.title}{' '}
+        <CanvasText text={t.hero.titleHighlight} class="hero__title-canvas" />.
       </h1>
       <p class="hero__lead" data-hero-content>{t.hero.lead}</p>
     </div>
@@ -86,6 +88,16 @@ const baseUrl = import.meta.env.BASE_URL;
     color: var(--color-text-primary);
     margin-bottom: clamp(16px, 1.667vw, 32px);
     text-wrap: balance;
+  }
+
+  .hero__title :global(.canvas-text) {
+    font: inherit;
+    letter-spacing: inherit;
+  }
+
+  .hero__title :global(.canvas-text__label) {
+    font: inherit;
+    letter-spacing: inherit;
   }
 
   .hero__lead {

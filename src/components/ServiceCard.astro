@@ -135,40 +135,51 @@ const SUBTRACT_PATH =
   .service-card__content {
     position: absolute;
     inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     padding: 16px;
     pointer-events: none;
   }
 
   .service-card__copy {
-    max-width: 212px;
+    flex: 1;
+    min-width: 0;
+    max-width: 68%;
   }
 
   .service-card__name {
     font-family: var(--font-display);
     font-size: 18px;
     font-weight: 600;
-    line-height: 1.2;
+    line-height: 1.25;
     color: var(--color-text-primary);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+    text-wrap: balance;
   }
 
   .service-card__desc {
     font-family: var(--font-body);
     font-size: 16px;
-    line-height: 1.45;
+    line-height: 1.5;
     color: var(--color-text-secondary);
+    text-wrap: pretty;
+    overflow-wrap: anywhere;
   }
 
   /* Figma: left 16px, top 166px on 235px panel */
   .service-card__num {
     position: absolute;
-    left: 16px;
-    top: 166px;
+    right: 16px;
+    bottom: 16px;
+    left: auto;
+    top: auto;
     font-family: var(--font-display);
     font-size: 44px;
     font-weight: 600;
     line-height: 1;
     color: var(--color-text-primary);
+    pointer-events: none;
   }
 
   @media (max-width: 1200px) {
@@ -178,8 +189,81 @@ const SUBTRACT_PATH =
     }
 
     .service-card__num {
-      top: 70.6%;
       font-size: clamp(2rem, 3.056vw, 44px);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .service-card__frame {
+      max-width: 100%;
+      aspect-ratio: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .service-card__media {
+      position: relative;
+      top: auto;
+      left: auto;
+      right: auto;
+      bottom: auto;
+      width: 100%;
+      aspect-ratio: 308 / 230;
+      border-width: 8px;
+      border-radius: 24px;
+    }
+
+    .service-card__photo {
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .service-card__detail {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: 100%;
+      aspect-ratio: auto;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .service-card__shape {
+      display: none;
+    }
+
+    .service-card__content {
+      position: relative;
+      inset: auto;
+      flex-direction: column;
+      gap: 14px;
+      padding: 20px;
+    }
+
+    .service-card__copy {
+      max-width: none;
+      flex: none;
+    }
+
+    .service-card__name {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+
+    .service-card__desc {
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .service-card__num {
+      position: static;
+      align-self: flex-start;
+      font-size: 2rem;
+      opacity: 0.9;
     }
   }
 </style>
