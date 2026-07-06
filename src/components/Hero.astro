@@ -2,6 +2,7 @@
 import type { Locale } from '../i18n';
 import { getContent } from '../i18n';
 import CanvasText from './CanvasText.astro';
+import StarsField from './StarsField.astro';
 
 interface Props {
   locale: Locale;
@@ -13,6 +14,8 @@ const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <section class="hero" id="hero" aria-labelledby="hero-title">
+  <StarsField class="hero__stars" />
+
   <div class="hero__content container">
     <p class="hero__eyebrow" data-hero-content>{t.hero.eyebrow}</p>
 
@@ -51,6 +54,11 @@ const baseUrl = import.meta.env.BASE_URL;
     background: var(--color-bg);
     overflow: hidden;
     padding-top: var(--header-height);
+    isolation: isolate;
+  }
+
+  .hero :global(.hero__stars) {
+    mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
   }
 
   .hero__content {

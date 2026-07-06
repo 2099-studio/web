@@ -9,9 +9,13 @@ import { initButtonInteractions } from './button-interactions';
 import { initIndustriesTabs } from './industries-tabs';
 import { initSectionParallax } from './section-parallax';
 import { initCanvasText } from './canvas-text';
+import { initStarsField } from './stars-field';
 
 export function initMotion(): void {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  initCanvasText();
+  initStarsField();
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -124,7 +128,6 @@ export function initMotion(): void {
   initContactForm();
   initSectionParallax();
   initButtonInteractions();
-  initCanvasText();
 
   initCursor();
 }

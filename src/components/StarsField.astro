@@ -1,0 +1,53 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={['stars-field', className]}
+  data-stars-field
+  data-star-color="#2b5fff"
+  data-trail-color="#5c85ff"
+  aria-hidden="true"
+>
+  <canvas class="stars-field__canvas" data-stars-bg></canvas>
+  <svg class="stars-field__shooting" data-shooting-stars xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="hero-shooting-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#5c85ff" stop-opacity="0" />
+        <stop offset="100%" stop-color="#2b5fff" stop-opacity="1" />
+      </linearGradient>
+    </defs>
+  </svg>
+</div>
+
+<style>
+  .stars-field {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .stars-field__canvas,
+  .stars-field__shooting {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .stars-field__shooting {
+    overflow: visible;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stars-field__shooting {
+      display: none;
+    }
+  }
+</style>
