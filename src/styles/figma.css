@@ -1,0 +1,289 @@
+/* 2099.studio — Responsive layout (Figma 1440 → 1920 fluid) */
+
+:root {
+  /*
+   * Base frame: 1440px · Max frame: 1920px (×1.333)
+   * Fluid values use vw from 1440 artboard, capped at 1920 equivalent.
+   */
+
+  /* ── Layout ── */
+  --margin: clamp(20px, 5.556vw, 80px);
+  --max-width: clamp(320px, 88.889vw, 1280px);
+  --header-height: 72px;
+
+  --section-padding-y: clamp(64px, 8.333vw, 120px);
+  --section-header-gap: clamp(32px, 3.333vw, 64px);
+  --gap-layout: clamp(24px, 4.444vw, 64px);
+  --gap-grid: clamp(12px, 0.903vw, 13px);
+
+  /* ── Typography (scale up to 1920) ── */
+  --text-hero: clamp(2.25rem, 5vw, 72px);
+  --text-hero-lead: clamp(1.0625rem, 1.667vw, 24px);
+  --text-section-title: clamp(1.75rem, 3.333vw, 48px);
+  --text-card-title: clamp(1.125rem, 1.667vw, 24px);
+  --text-tab: clamp(1.125rem, 2.222vw, 32px);
+  --text-service-num: clamp(2rem, 3.056vw, 44px);
+  --text-service-name: clamp(1rem, 1.25vw, 18px);
+  --text-footer-email: clamp(1.25rem, 2.222vw, 32px);
+  --text-methodology-step: clamp(1.25rem, 2.222vw, 32px);
+
+  /* ── Typography (fixed at Figma 1440) ── */
+  --text-sm: 13px;
+  --text-lg: 20px;
+  --text-md: 16px;
+  --text-xs: 11px;
+  --text-badge: 16px;
+  --text-hero-btn: 13px;
+  --hero-btn-px: 24px;
+  --hero-btn-py: 12px;
+  --color-hero-eyebrow: #b2b2ad;
+
+  /* ── Hero ── */
+  --hero-copy-max: clamp(300px, 53.125vw, 765px);
+  --hero-graphic-width: 100vw;
+  --hero-graphic-height: clamp(180px, 38vw, 580px);
+  --hero-padding-top: clamp(40px, 6.667vw, 96px);
+  --hero-eyebrow-offset: clamp(24px, 2.986vw, 43px);
+
+  /* Industries panel — Figma 587:2910 */
+  --industries-tab-width: clamp(260px, 20.833vw, 300px);
+  --industries-tab-gap: 12px;
+  --industries-stage-gap: 20px;
+  --industries-panel-max: 961px;
+  --sidebar-methodology: clamp(260px, 25vw, 360px);
+
+  /* ── Service cards ── */
+  --radius-service-card: clamp(20px, 2.222vw, 32px);
+  --border-service-image: clamp(6px, 0.694vw, 10px);
+  --service-detail-height: clamp(180px, 16.319vw, 235px);
+
+  /* ── Methodology ── */
+  --methodology-card-min: clamp(72px, 5.556vw, 80px);
+
+  /* Section badge — Figma autolayout (fits Metodología / Methodology) */
+  --figma-badge-width: 132px;
+  --figma-badge-height: 36px;
+  --figma-badge-radius: 12px;
+  --figma-badge-px: 10px;
+}
+
+.container {
+  width: min(100% - var(--margin) * 2, var(--max-width));
+  margin-inline: auto;
+}
+
+.container--wide {
+  width: min(100% - var(--margin) * 2, min(100vw - var(--margin) * 2, 1480px));
+  margin-inline: auto;
+}
+
+/* ── Section badge ── */
+.figma-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--figma-badge-width);
+  min-width: var(--figma-badge-width);
+  height: var(--figma-badge-height);
+  padding: 0 var(--figma-badge-px);
+  font-family: var(--font-display);
+  font-size: var(--text-badge);
+  font-weight: 500;
+  line-height: 1;
+  color: #000;
+  background: #2b5fff;
+  border-radius: var(--figma-badge-radius);
+  backdrop-filter: blur(15px);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Contraste: azul sobre azul → blanco; badge azul → texto negro */
+[data-surface='primary'],
+.surface-primary {
+  background: var(--color-primary);
+  color: #f2f2f0;
+}
+
+[data-surface='primary'] .text-accent,
+.surface-primary .text-accent {
+  color: #f2f2f0;
+}
+
+[data-theme='light'] .figma-badge,
+.figma-badge {
+  color: #000;
+}
+
+.figma-section {
+  padding-block: var(--section-padding-y);
+  background: var(--color-bg);
+}
+
+.figma-section__head {
+  display: grid;
+  grid-template-columns: var(--figma-badge-width) 1fr;
+  align-items: center;
+  row-gap: clamp(12px, 1.111vw, 16px);
+  margin-bottom: var(--section-header-gap);
+}
+
+.figma-section__head .figma-badge {
+  position: static;
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+  align-self: center;
+  margin: 0;
+  z-index: 1;
+}
+
+.figma-section__title {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  justify-self: center;
+  font-family: var(--font-display);
+  font-size: var(--text-section-title);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  text-align: center;
+  max-width: min(900px, 100%);
+  margin-inline: auto;
+  padding-top: 0;
+}
+
+.figma-section__lead {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  max-width: min(340px, 100%);
+}
+
+.figma-section__subtitle {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  text-align: center;
+  max-width: min(640px, 100%);
+  margin-inline: auto;
+  margin-top: 0;
+}
+
+/* ── Buttons ── */
+.btn-figma-primary,
+.btn-figma-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--hero-btn-py) var(--hero-btn-px);
+  font-family: var(--font-body);
+  font-size: var(--text-hero-btn);
+  font-weight: 500;
+  line-height: 1;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  transition:
+    transform 0.35s var(--btn-ease),
+    background 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out);
+}
+
+.btn-figma-primary {
+  color: var(--color-btn-primary-text);
+  background: var(--color-btn-primary-bg);
+  border: 1px solid transparent;
+}
+
+.btn-figma-secondary {
+  color: var(--color-text-primary);
+  background: transparent;
+  border: 1px solid var(--color-border);
+}
+
+@media (hover: hover) {
+  .btn-figma-primary:hover,
+  .btn-figma-secondary:hover {
+    transform: scale(1.03);
+  }
+}
+
+.btn-figma-primary:focus-visible,
+.btn-figma-secondary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* ── Nav arrows ── */
+.figma-nav-arrows {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.figma-nav-arrows__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  font-size: 18px;
+  transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.figma-nav-arrows__btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+/* ── Breakpoints ── */
+@media (max-width: 1023px) {
+  :root {
+    --header-height: 64px;
+  }
+}
+
+@media (min-width: 1920px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 767px) {
+  .figma-section__head {
+    grid-template-columns: 1fr;
+    align-items: start;
+    row-gap: 16px;
+  }
+
+  .figma-section__head .figma-badge {
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  .figma-section__title {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: start;
+    text-align: left;
+    margin-inline: 0;
+  }
+
+  .figma-section__subtitle {
+    grid-row: 3;
+    text-align: left;
+    margin-inline: 0;
+  }
+}

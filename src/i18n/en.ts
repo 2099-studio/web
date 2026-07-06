@@ -28,8 +28,8 @@ const en: SiteContent = {
     titleDark: 'Switch to dark mode',
   },
   hero: {
-    eyebrow: '// 2099.studio — design system',
-    title: 'We unite brand, design, and',
+    eyebrow: 'Digital Design, Advertising & Web Development Studio',
+    title: 'We unite brand, design and',
     titleHighlight: 'technology',
     lead: 'We unite brand, product design, and technology in a holistic flow to elevate companies in complex environments.',
     ctaWorks: 'View projects',
@@ -37,7 +37,8 @@ const en: SiteContent = {
   },
   services: {
     eyebrow: '02 — Services',
-    title: 'Value proposition. Four pillars, one',
+    badge: 'Services',
+    title: 'Digital Product Design & Development',
     titleHighlight: 'flow',
     ventajaLabel: 'Core competitive advantage:',
     specialties: 'Specialties',
@@ -45,14 +46,16 @@ const en: SiteContent = {
       {
         number: '01',
         title: 'Branding & Identity',
+        shortTitle: 'Branding',
         description:
           'Naming, storytelling, and brand systems that define how your product looks and feels.',
         tags: ['Naming', 'Storytelling', 'Logo', 'Brand Guidelines', 'Pitch Decks'],
-        accent: 'orange',
+        accent: 'blue',
       },
       {
         number: '02',
         title: 'UX/UI Design',
+        shortTitle: 'UX/UI design',
         description:
           'User-centered product design, from research to scalable design systems.',
         tags: ['Product Design', 'User Research', 'Wireframes', 'Design Systems', 'UX Audits'],
@@ -61,14 +64,16 @@ const en: SiteContent = {
       {
         number: '03',
         title: 'Advertising & Content',
+        shortTitle: 'Advertising',
         description:
           'Visual content and narrative for campaigns, social, and memorable brand experiences.',
         tags: ['Filmmaker', 'Photography', 'Social Media', 'Email Mkt', 'AI Content'],
-        accent: 'orange',
+        accent: 'blue',
       },
       {
         number: '04',
         title: 'Development',
+        shortTitle: 'Development',
         description:
           'Frontend, MVPs, and web products with performance, accessibility, and Awwwards-level quality.',
         tags: ['Frontend', 'MVPs', 'Webflow', 'Mobile', 'Responsive'],
@@ -78,18 +83,23 @@ const en: SiteContent = {
   },
   industries: {
     eyebrow: '03 — Industries',
-    title: 'Industry matrix. Three layers, one',
+    badge: 'Industries',
+    title: 'Industry matrix.',
+    titleLine2: 'Three layers, one edge.',
     titleHighlight: 'edge',
     lead: 'Web2/Retail · SaaS/Fintech · Web3/AI — each layer with its visual language and the same execution standard.',
-    sectors: 'Sectors',
-    typicalServices: 'Typical services',
+    sectors: 'SECTORS',
+    typicalServices: 'TYPICAL SERVICES',
     uniqueAdvantage: 'Unique edge:',
     layers: [
       {
         id: 'web2',
         badge: 'Stability',
+        tabLabel: 'Web2 & Retail',
+        panelTitle: 'Traditional Layer',
+        folderTab: 'Branding',
         title: 'Traditional Layer — Web2 & Retail',
-        accent: 'orange',
+        accent: 'blue',
         sectors: [
           'Construction & Real Estate',
           'E-commerce',
@@ -107,6 +117,9 @@ const en: SiteContent = {
       {
         id: 'saas',
         badge: 'Growth',
+        tabLabel: 'SaaS & Fintech',
+        panelTitle: 'Technology Layer',
+        folderTab: 'UX/UI Design',
         title: 'Technology Layer — SaaS & Fintech',
         accent: 'blue',
         sectors: [
@@ -121,6 +134,9 @@ const en: SiteContent = {
       {
         id: 'web3',
         badge: 'Frontier',
+        tabLabel: 'Web3 & AI',
+        panelTitle: 'Emerging Layer',
+        folderTab: 'UX/UI Design',
         title: 'Emerging Layer — Web3 & AI',
         accent: 'mix',
         sectors: [
@@ -143,6 +159,7 @@ const en: SiteContent = {
   },
   methodology: {
     eyebrow: '04 — Methodology',
+    badge: 'Methodology',
     title: 'Five steps. One',
     titleHighlight: 'holistic flow',
     lead: 'Discovery → Strategy → UX → UI → Execution. The same sequence, powered by the studio AI system.',
@@ -226,7 +243,7 @@ const en: SiteContent = {
           'Zero case study of the studio operating system. From visual identity to Awwwards-level code.',
         industries: ['web2', 'saas', 'web3'],
         services: ['branding', 'ux', 'dev'],
-        accent: 'orange',
+        accent: 'blue',
         live: true,
       },
       {
@@ -246,7 +263,7 @@ const en: SiteContent = {
         description: 'Premium e-commerce with editorial motion and optimized Core Web Vitals.',
         industries: ['web2'],
         services: ['branding', 'ads', 'dev'],
-        accent: 'orange',
+        accent: 'blue',
         live: false,
       },
       {

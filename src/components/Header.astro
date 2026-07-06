@@ -20,81 +20,48 @@ const navLinks = [
 
 <header class="header">
   <div class="header__inner container">
-    <a class="header__logo" href={homePath} aria-label={t.nav.home}>
-      <Logo height={32} />
-    </a>
+    <div class="header__zone header__zone--logo">
+      <a class="header__logo-link" href={homePath} aria-label={t.nav.home}>
+        <Logo />
+      </a>
+    </div>
 
-    <nav class="header__nav" aria-label={locale === 'es' ? 'Principal' : 'Main'}>
+    <button class="header__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="header__zone header__zone--nav" aria-label={locale === 'es' ? 'Principal' : 'Main'}>
       <ul class="header__nav-list">
-        {
-          navLinks.map((link) => (
-            <li>
-              <a class="header__nav-link" href={link.href} data-magnetic>
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
+        {navLinks.map((link) => (
+          <li><a class="header__nav-link" href={link.href} data-nav-link>{link.label}</a></li>
+        ))}
       </ul>
     </nav>
 
-    <div class="header__actions">
-      <button
-        class="header__locale-toggle"
-        type="button"
-        data-locale-toggle
-        aria-label={locale === 'es' ? t.locale.switchToEn : t.locale.switchToEs}
-        title={locale === 'es' ? t.locale.switchToEn : t.locale.switchToEs}
-      >
+    <div class="header__zone header__zone--actions">
+      <button class="header__pill header__pill--locale" type="button" data-locale-toggle aria-label={locale === 'es' ? t.locale.switchToEn : t.locale.switchToEs}>
         <span class="header__locale-option header__locale-option--es">{t.locale.labelEs}</span>
         <span class="header__locale-option header__locale-option--en">{t.locale.labelEn}</span>
       </button>
-
-      <button
-        class="header__theme-toggle"
-        type="button"
-        data-theme-toggle
-        aria-label={t.theme.ariaLight}
-        aria-pressed="false"
-        title={t.theme.titleLight}
-      >
-        <span class="header__theme-option header__theme-option--light">
-          <svg
-            class="header__theme-icon"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.75"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
-            ></path>
-          </svg>
-          <span class="header__theme-label">{t.theme.light}</span>
-        </span>
-
-        <span class="header__theme-option header__theme-option--dark">
-          <svg
-            class="header__theme-icon"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.75"
-            aria-hidden="true"
-          >
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-          <span class="header__theme-label">{t.theme.dark}</span>
-        </span>
+      <button class="header__pill header__pill--theme" type="button" data-theme-toggle aria-label={t.theme.ariaLight}>
+        <svg class="header__theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+        <span class="header__theme-option header__theme-option--light">{t.theme.light}</span>
+        <span class="header__theme-option header__theme-option--dark">{t.theme.dark}</span>
       </button>
-
-      <a class="btn-primary header__cta" href="#contact" data-magnetic>{t.nav.contact}</a>
+      <a class="btn-figma-primary header__cta" href="#contact">{t.nav.contact}</a>
     </div>
+  </div>
+
+  <div class="header__mobile" id="mobile-nav" data-nav-panel hidden>
+    <ul class="header__mobile-list">
+      {navLinks.map((link) => (
+        <li><a class="header__mobile-link" href={link.href} data-nav-link>{link.label}</a></li>
+      ))}
+    </ul>
+    <a class="btn-figma-primary" href="#contact" data-nav-link>{t.nav.contact}</a>
   </div>
 </header>
 
@@ -103,170 +70,206 @@ const navLinks = [
     position: fixed;
     inset: 0 0 auto;
     z-index: 100;
-    height: var(--header-height);
+    background: var(--color-bg);
     border-bottom: 1px solid transparent;
-    transition:
-      border-color var(--dur-base) var(--ease-out),
-      background-color var(--dur-base) var(--ease-out);
   }
 
   .header.is-scrolled {
     border-bottom-color: var(--color-border);
-    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
-    backdrop-filter: blur(12px);
   }
 
   .header__inner {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    display: flex;
     align-items: center;
-    height: 100%;
-    gap: var(--space-4);
+    gap: 16px;
+    height: 72px;
   }
 
-  .header__logo {
-    --logo-height: 32px;
-    justify-self: start;
+  .header__zone--logo {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
   }
 
-  .header__nav {
-    justify-self: center;
+  .header__logo-link {
+    display: inline-flex;
+    align-items: center;
   }
 
-  .header__nav-list {
+  .header__zone--nav {
+    flex: 0 0 auto;
+  }
+
+  .header__zone--actions {
+    flex: 1 1 0;
+    min-width: 0;
     display: none;
     align-items: center;
-    gap: var(--space-8);
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  .header__toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    margin-left: auto;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+  }
+
+  .header__toggle span {
+    display: block;
+    height: 2px;
+    background: var(--color-text-primary);
+    border-radius: 1px;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  .header.is-open .header__toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .header.is-open .header__toggle span:nth-child(2) { opacity: 0; }
+  .header.is-open .header__toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .header__nav-list {
+    display: flex;
+    align-items: center;
+    gap: 32px;
     list-style: none;
   }
 
   .header__nav-link {
-    font-size: var(--text-sm);
+    font-family: var(--font-body);
+    font-size: 13px;
     font-weight: 500;
     color: var(--color-text-secondary);
-    transition: color var(--dur-fast) var(--ease-out);
+    white-space: nowrap;
+    transition: color 0.15s;
   }
 
-  .header__nav-link:hover,
-  .header__nav-link:focus-visible {
+  .header__nav-link:hover {
     color: var(--color-text-primary);
   }
 
-  .header__actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: var(--space-2);
-    justify-self: end;
-  }
-
-  .header__locale-toggle,
-  .header__theme-toggle {
+  .header__pill {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     height: 40px;
-    padding: 0 var(--space-4);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
     color: var(--color-text-secondary);
     background: transparent;
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
+  }
+
+  .header__pill--locale {
+    width: 56px;
+    padding: 0;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.06em;
-    transition:
-      border-color var(--dur-fast) var(--ease-out),
-      color var(--dur-fast) var(--ease-out);
   }
 
-  .header__locale-toggle:hover,
-  .header__theme-toggle:hover {
-    border-color: var(--color-text-tertiary);
-    color: var(--color-text-primary);
-  }
-
-  .header__locale-toggle:focus-visible,
-  .header__theme-toggle:focus-visible {
-    outline: 2px solid var(--color-accent-orange);
-    outline-offset: 3px;
-  }
-
-  .header__locale-option,
-  .header__theme-option {
-    display: none;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-sm);
-    font-weight: 500;
-  }
-
-  :global(html[lang='es']) .header__locale-option--en {
-    display: inline-flex;
-  }
-
-  :global(html[lang='en']) .header__locale-option--es {
-    display: inline-flex;
-  }
-
-  :global(:root) .header__theme-option--light,
-  :global([data-theme='dark']) .header__theme-option--light {
-    display: inline-flex;
-  }
-
-  :global([data-theme='light']) .header__theme-option--light {
-    display: none;
-  }
-
-  :global([data-theme='light']) .header__theme-option--dark {
-    display: inline-flex;
+  .header__pill--theme {
+    width: 88px;
+    padding: 0 12px;
   }
 
   .header__theme-icon {
     flex-shrink: 0;
   }
 
+  .header__locale-option,
+  .header__theme-option {
+    display: none;
+  }
+
+  :global(html[lang='es']) .header__locale-option--en { display: inline; }
+  :global(html[lang='en']) .header__locale-option--es { display: inline; }
+  :global(:root) .header__theme-option--light,
+  :global([data-theme='dark']) .header__theme-option--light { display: inline; }
+  :global([data-theme='light']) .header__theme-option--light { display: none; }
+  :global([data-theme='light']) .header__theme-option--dark { display: inline; }
+
   .header__cta {
     height: 40px;
-    padding-inline: var(--space-6);
-    white-space: nowrap;
+    padding-inline: 24px;
   }
 
-  @media (min-width: 768px) {
-    .header__nav-list {
+  .header__mobile {
+    padding: 0 var(--margin) 24px;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+
+  .header__mobile[hidden] { display: none; }
+  .header.is-open .header__mobile { display: block; }
+
+  .header__mobile-list {
+    list-style: none;
+    padding: 16px 0;
+  }
+
+  .header__mobile-link {
+    display: block;
+    padding: 12px 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .header__toggle,
+    .header__mobile {
+      display: none !important;
+    }
+
+    .header__zone--nav {
+      display: block;
+    }
+
+    .header__zone--actions {
       display: flex;
     }
-
-    .header__actions {
-      gap: var(--space-3);
-    }
   }
 
-  @media (max-width: 480px) {
-    .header__theme-label {
+  @media (max-width: 1023px) {
+    .header__zone--nav {
       display: none;
-    }
-
-    .header__locale-toggle,
-    .header__theme-toggle {
-      width: 40px;
-      padding: 0;
-    }
-
-    .header__cta {
-      padding-inline: var(--space-4);
-      font-size: var(--text-xs);
     }
   }
 </style>
 
 <script>
   const header = document.querySelector('.header');
-  if (header) {
-    const onScroll = () => {
-      header.classList.toggle('is-scrolled', window.scrollY > 24);
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-  }
+  const toggle = document.querySelector('[data-nav-toggle]');
+  const panel = document.querySelector('[data-nav-panel]');
+
+  window.addEventListener('scroll', () => {
+    header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  }, { passive: true });
+
+  toggle?.addEventListener('click', () => {
+    const open = !header?.classList.contains('is-open');
+    header?.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    panel?.toggleAttribute('hidden', !open);
+  });
+
+  document.querySelectorAll('[data-nav-link]').forEach((el) => {
+    el.addEventListener('click', () => {
+      header?.classList.remove('is-open');
+      panel?.setAttribute('hidden', '');
+      toggle?.setAttribute('aria-expanded', 'false');
+    });
+  });
 </script>

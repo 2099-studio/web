@@ -39,6 +39,7 @@ export interface SiteContent {
   };
   services: {
     eyebrow: string;
+    badge: string;
     title: string;
     titleHighlight: string;
     ventajaLabel: string;
@@ -46,6 +47,7 @@ export interface SiteContent {
     items: {
       number: string;
       title: string;
+      shortTitle?: string;
       description: string;
       tags: string[];
       accent: 'orange' | 'blue';
@@ -53,7 +55,9 @@ export interface SiteContent {
   };
   industries: {
     eyebrow: string;
+    badge: string;
     title: string;
+    titleLine2: string;
     titleHighlight: string;
     lead: string;
     sectors: string;
@@ -67,10 +71,14 @@ export interface SiteContent {
       sectors: string[];
       services: string[];
       ventaja?: boolean;
+      tabLabel: string;
+      panelTitle: string;
+      folderTab: string;
     }[];
   };
   methodology: {
     eyebrow: string;
+    badge: string;
     title: string;
     titleHighlight: string;
     lead: string;

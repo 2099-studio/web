@@ -29,15 +29,10 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
     <link rel="alternate" hreflang="es" href={esUrl} />
     <link rel="alternate" hreflang="en" href={enUrl} />
     <link rel="alternate" hreflang="x-default" href={esUrl} />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://api.fontshare.com/v2/css?f[]=clash-display@700&f[]=satoshi@400,500&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <title>{title}</title>
@@ -81,16 +76,14 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
         }
 
         const savedTheme = localStorage.getItem('2099-theme');
-        const preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        const theme = savedTheme || preferred;
+        const theme = savedTheme || 'dark';
         document.documentElement.setAttribute('data-theme', theme);
-        const themeColor = theme === 'light' ? '#F5F4F0' : '#080808';
+        const themeColor = theme === 'light' ? '#FFFFFF' : '#080808';
         document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColor);
       })();
     </script>
   </head>
   <body>
-    <div class="noise" aria-hidden="true"></div>
     <slot />
     <script>
       import { initTheme } from '../scripts/theme';
@@ -133,7 +126,7 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
   .cursor-dot {
     width: 6px;
     height: 6px;
-    background: var(--color-accent-orange);
+    background: var(--color-primary);
   }
 
   .cursor-ring {
@@ -147,7 +140,7 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
   .cursor-ring.is-hover {
     width: 52px;
     height: 52px;
-    border-color: var(--color-accent-orange);
+    border-color: var(--color-primary);
   }
 
   @media (pointer: coarse) {

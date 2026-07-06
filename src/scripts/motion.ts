@@ -5,6 +5,9 @@ import { initCursor } from './cursor';
 import { initMethodology } from './methodology';
 import { initWorksFilter } from './works-filter';
 import { initContactForm } from './contact-form';
+import { initButtonInteractions } from './button-interactions';
+import { initIndustriesTabs } from './industries-tabs';
+import { initSectionParallax } from './section-parallax';
 
 export function initMotion(): void {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -16,10 +19,11 @@ export function initMotion(): void {
 
   if (!prefersReduced && heroTitle) {
     gsap.from(heroTitle, {
-      clipPath: 'inset(0 100% 0 0)',
+      opacity: 0,
+      y: 32,
       duration: 0.8,
       ease: 'power2.out',
-      delay: 0.25,
+      delay: 0.15,
     });
 
     gsap.from(heroContent, {
@@ -27,8 +31,8 @@ export function initMotion(): void {
       y: 24,
       duration: 0.6,
       ease: 'power2.out',
-      stagger: 0.12,
-      delay: 0.5,
+      stagger: 0.1,
+      delay: 0.35,
     });
   }
 
@@ -81,23 +85,22 @@ export function initMotion(): void {
     });
   }
 
-  const industryLayers = gsap.utils.toArray<HTMLElement>('[data-industry-layer]');
+  const industryLayers = gsap.utils.toArray<HTMLElement>('[data-industry-panel]');
   if (industryLayers.length) {
-    gsap.from(industryLayers, {
+    gsap.from(industryLayers[0]?.parentElement ?? industryLayers[0], {
       opacity: 0,
-      x: -40,
+      y: 40,
       duration: 0.7,
       ease: 'power2.out',
-      stagger: 0.12,
       scrollTrigger: {
-        trigger: industryLayers[0]?.parentElement,
+        trigger: industryLayers[0]?.closest('[data-industries]'),
         start: 'top 80%',
         toggleActions: 'play none none none',
       },
     });
   }
 
-  initMethodology();
+  initIndustriesTabs();
 
   const workCards = gsap.utils.toArray<HTMLElement>('[data-work-card]');
   if (workCards.length) {
@@ -115,8 +118,11 @@ export function initMotion(): void {
     });
   }
 
+  initMethodology();
   initWorksFilter();
   initContactForm();
+  initSectionParallax();
+  initButtonInteractions();
 
   initCursor();
 }

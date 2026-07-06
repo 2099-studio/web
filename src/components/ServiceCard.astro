@@ -1,0 +1,185 @@
+---
+interface Props {
+  id: string;
+  number: string;
+  name: string;
+  description: string;
+  imageSrc: string;
+}
+
+const { id, number, name, description, imageSrc } = Astro.props;
+const clipId = `service-panel-clip-${id}`;
+
+/** Figma Subtract path — Card Service 594:212 */
+const SUBTRACT_PATH =
+  'M151.992 26.2205C154.882 31.0463 160.093 34 165.718 34H292C300.837 34 308 41.1634 308 50V219C308 227.837 300.837 235 292 235H16C7.16345 235 0 227.837 0 219V16C0 7.16345 7.16344 0 16 0H127.221C132.846 0 138.058 2.95375 140.948 7.77955L151.992 26.2205Z';
+---
+
+<article class="service-card" data-service-card>
+  <div class="service-card__frame">
+    <div class="service-card__media">
+      <img class="service-card__photo" src={imageSrc} alt="" width="305" height="230" loading="lazy" decoding="async" />
+    </div>
+
+    <div class="service-card__detail">
+      <svg
+        class="service-card__shape"
+        viewBox="0 0 308 235"
+        width="308"
+        height="235"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <defs>
+          <clipPath id={clipId}>
+            <path d={SUBTRACT_PATH} />
+          </clipPath>
+        </defs>
+        <foreignObject x="0" y="0" width="308" height="235" clip-path={`url(#${clipId})`}>
+          <div xmlns="http://www.w3.org/1999/xhtml" class="service-card__glass"></div>
+        </foreignObject>
+        <path class="service-card__shape-fill" d={SUBTRACT_PATH} />
+        <path class="service-card__shape-stroke" d={SUBTRACT_PATH} fill="none" vector-effect="non-scaling-stroke" />
+      </svg>
+
+      <div class="service-card__content">
+        <div class="service-card__copy">
+          <h3 class="service-card__name">{name}</h3>
+          <p class="service-card__desc">{description}</p>
+        </div>
+        <span class="service-card__num" aria-hidden="true">{number}</span>
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+  .service-card {
+    min-width: 0;
+  }
+
+  :global([data-theme='light']) .service-card__frame {
+    filter: drop-shadow(0 10px 32px rgba(0, 0, 0, 0.07));
+  }
+
+  /* Figma: 308 × 373 px */
+  .service-card__frame {
+    position: relative;
+    width: 100%;
+    max-width: 308px;
+    margin-inline: auto;
+    aspect-ratio: 308 / 373;
+  }
+
+  /* inset: 0 3.25% 17.96% 3.9% */
+  .service-card__media {
+    position: absolute;
+    top: 0;
+    left: 3.9%;
+    right: 3.25%;
+    bottom: 17.96%;
+    z-index: 1;
+    overflow: hidden;
+    border: 10px solid var(--color-surface);
+    border-radius: 32px;
+    background: var(--color-elevated);
+    box-sizing: border-box;
+  }
+
+  .service-card__photo {
+    position: absolute;
+    top: 0;
+    left: -40.69%;
+    width: 187.26%;
+    max-width: none;
+    height: 112.09%;
+    object-fit: cover;
+    object-position: center;
+    pointer-events: none;
+  }
+
+  /* inset: 37% 0 0 0 — detail 308 × 235 */
+  .service-card__detail {
+    position: absolute;
+    top: 37%;
+    left: 0;
+    width: 100%;
+    aspect-ratio: 308 / 235;
+    z-index: 2;
+  }
+
+  .service-card__shape {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .service-card__shape-fill {
+    fill: var(--color-service-panel-fill);
+  }
+
+  .service-card__shape-stroke {
+    stroke: var(--color-border);
+    stroke-width: 1;
+  }
+
+  .service-card__glass {
+    width: 100%;
+    height: 100%;
+    background: var(--color-service-glass-fill);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+  }
+
+  .service-card__content {
+    position: absolute;
+    inset: 0;
+    padding: 16px;
+    pointer-events: none;
+  }
+
+  .service-card__copy {
+    max-width: 212px;
+  }
+
+  .service-card__name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+  }
+
+  .service-card__desc {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--color-text-secondary);
+  }
+
+  /* Figma: left 16px, top 166px on 235px panel */
+  .service-card__num {
+    position: absolute;
+    left: 16px;
+    top: 166px;
+    font-family: var(--font-display);
+    font-size: 44px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-text-primary);
+  }
+
+  @media (max-width: 1200px) {
+    .service-card__media {
+      border-width: clamp(6px, 0.694vw, 10px);
+      border-radius: clamp(20px, 2.222vw, 32px);
+    }
+
+    .service-card__num {
+      top: 70.6%;
+      font-size: clamp(2rem, 3.056vw, 44px);
+    }
+  }
+</style>

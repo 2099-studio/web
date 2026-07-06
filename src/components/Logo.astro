@@ -1,64 +1,57 @@
 ---
 interface Props {
   class?: string;
-  height?: number;
 }
 
-const { class: className, height = 36 } = Astro.props;
+const { class: className } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
-<span class:list={['logo', className]} style={`--logo-height: ${height}px`}>
+<span class:list={['logo', className]}>
   <img
-    class="logo__img logo__img--for-dark"
-    src={`${baseUrl}assets/brand/logo-white.png`}
+    class="logo__img logo__img--dark"
+    src={`${baseUrl}assets/brand/logo-header.svg`}
     alt="2099.studio"
-    width="140"
-    height={height}
+    width="73"
+    height="42"
     decoding="async"
   />
   <img
-    class="logo__img logo__img--for-light"
-    src={`${baseUrl}assets/brand/logo-dark.png`}
-    alt="2099.studio"
-    width="140"
-    height={height}
+    class="logo__img logo__img--light"
+    src={`${baseUrl}assets/brand/logo-header.svg`}
+    alt=""
+    width="73"
+    height="42"
     decoding="async"
+    aria-hidden="true"
   />
 </span>
 
 <style>
   .logo {
-    display: inline-grid;
+    display: inline-flex;
     align-items: center;
     line-height: 0;
+    flex-shrink: 0;
   }
 
   .logo__img {
-    grid-area: 1 / 1;
-    height: var(--logo-height, 36px);
-    width: auto;
-    opacity: 0;
-    transition: none;
+    display: block;
+    width: 73px;
+    height: 42px;
+    object-fit: contain;
   }
 
-  /* Dark theme → logo blanco */
-  :global(:root) .logo__img--for-dark,
-  :global([data-theme='dark']) .logo__img--for-dark {
-    opacity: 1;
+  .logo__img--light {
+    display: none;
   }
 
-  :global(:root) .logo__img--for-light,
-  :global([data-theme='dark']) .logo__img--for-light {
-    opacity: 0;
+  :global([data-theme='light']) .logo__img--dark {
+    display: none;
   }
 
-  /* Light theme → logo oscuro */
-  :global([data-theme='light']) .logo__img--for-dark {
-    opacity: 0;
-  }
-
-  :global([data-theme='light']) .logo__img--for-light {
-    opacity: 1;
+  :global([data-theme='light']) .logo__img--light {
+    display: block;
+    filter: invert(1);
   }
 </style>

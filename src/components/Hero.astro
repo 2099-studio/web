@@ -8,30 +8,37 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = getContent(locale);
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <section class="hero" id="hero" aria-labelledby="hero-title">
-  <div class="hero__grid-texture" aria-hidden="true"></div>
+  <div class="hero__content container">
+    <p class="hero__eyebrow" data-hero-content>{t.hero.eyebrow}</p>
 
-  <div class="hero__inner container">
-    <div class="hero__content">
-      <p class="hero__eyebrow" data-hero-content>
-        <span class="hero__eyebrow-dot" aria-hidden="true"></span>
-        {t.hero.eyebrow}
-      </p>
-
-      <h1 class="hero__title" id="hero-title" data-hero-title>
-        {t.hero.title} <span class="highlight">{t.hero.titleHighlight}</span>.
+    <div class="hero__copy" data-hero-title>
+      <h1 class="hero__title" id="hero-title">
+        {t.hero.title} {t.hero.titleHighlight}.
       </h1>
+      <p class="hero__lead" data-hero-content>{t.hero.lead}</p>
+    </div>
 
-      <p class="hero__lead" data-hero-content>
-        {t.hero.lead}
-      </p>
+    <div class="hero__actions" data-hero-content>
+      <a class="btn-figma-primary" href="#works">{t.hero.ctaWorks}</a>
+      <a class="btn-figma-secondary" href="#contact">{t.hero.ctaContact}</a>
+    </div>
+  </div>
 
-      <div class="hero__actions" data-hero-content>
-        <a class="btn-primary" href="#works" data-magnetic>{t.hero.ctaWorks}</a>
-        <a class="btn-secondary" href="#contact" data-magnetic>{t.hero.ctaContact}</a>
-      </div>
+  <div class="hero__graphic-wrap">
+    <div class="hero__graphic" aria-hidden="true">
+      <img
+        class="hero__graphic-img"
+        src={`${baseUrl}assets/brand/hero-2099.svg`}
+        alt=""
+        width="1480"
+        height="506"
+        decoding="async"
+        fetchpriority="high"
+      />
     </div>
   </div>
 </section>
@@ -39,51 +46,35 @@ const t = getContent(locale);
 <style>
   .hero {
     position: relative;
-    min-height: 100dvh;
-    display: flex;
-    align-items: center;
-    padding-top: calc(var(--header-height) + var(--space-16));
-    padding-bottom: var(--space-24);
+    background: var(--color-bg);
     overflow: hidden;
-  }
-
-  .hero__grid-texture {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--color-accent-orange-glow) 1px, transparent 1px),
-      linear-gradient(90deg, var(--color-accent-orange-glow) 1px, transparent 1px);
-    background-size: 24px 24px;
-    opacity: 0.35;
-    mask-image: radial-gradient(ellipse 80% 60% at 30% 40%, black, transparent);
-  }
-
-  .hero__inner {
-    width: min(100% - clamp(32px, 8vw, 120px) * 2, var(--max-width));
-    margin-inline: auto;
+    padding-top: var(--header-height);
   }
 
   .hero__content {
-    max-width: 780px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: var(--hero-copy-max);
+    padding-top: var(--hero-padding-top);
+    padding-bottom: clamp(24px, 2.222vw, 43px);
   }
 
   .hero__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.06em;
-    color: var(--color-accent-blue);
-    margin-bottom: var(--space-8);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-hero-eyebrow);
+    margin-bottom: var(--hero-eyebrow-offset);
+    width: 100%;
   }
 
-  .hero__eyebrow-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: var(--radius-full);
-    background: var(--color-accent-blue);
-    box-shadow: 0 0 10px var(--color-accent-blue-glow);
+  .hero__copy {
+    width: 100%;
+    margin-bottom: clamp(24px, 2.222vw, 43px);
   }
 
   .hero__title {
@@ -92,22 +83,62 @@ const t = getContent(locale);
     font-weight: 700;
     line-height: 0.95;
     letter-spacing: -0.02em;
-    max-width: 14ch;
-    margin-bottom: var(--space-8);
+    color: var(--color-text-primary);
+    margin-bottom: clamp(16px, 1.667vw, 32px);
+    text-wrap: balance;
   }
 
   .hero__lead {
-    font-size: var(--text-lg);
-    color: var(--color-text-secondary);
-    max-width: 52ch;
-    margin-bottom: var(--space-12);
+    font-family: var(--font-body);
+    font-size: var(--text-hero-lead);
+    font-weight: 400;
     line-height: 1.7;
+    color: var(--color-text-secondary);
+    text-wrap: pretty;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-4);
+    justify-content: center;
+    gap: clamp(12px, 1.111vw, 16px);
+  }
+
+  .hero__graphic-wrap {
+    position: relative;
+    z-index: 1;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    overflow: hidden;
+    line-height: 0;
+    pointer-events: none;
+    margin-top: clamp(8px, 1.667vw, 24px);
+  }
+
+  .hero__graphic {
+    width: var(--hero-graphic-width);
+    max-width: none;
+    margin-inline: auto;
+  }
+
+  .hero__graphic-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center bottom;
+  }
+
+  @media (max-width: 767px) {
+    .hero__content {
+      align-items: stretch;
+      text-align: left;
+      max-width: none;
+    }
+
+    .hero__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
   }
 </style>

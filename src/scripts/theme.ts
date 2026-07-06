@@ -20,7 +20,7 @@ export function setTheme(theme: 'dark' | 'light', animate = true): void {
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem(STORAGE_KEY, theme);
 
-  const themeColor = theme === 'light' ? '#F5F4F0' : '#080808';
+  const themeColor = theme === 'light' ? '#FFFFFF' : '#000000';
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColor);
 
   const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');

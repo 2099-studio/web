@@ -8,126 +8,67 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = getContent(locale);
-const { contact: c, site } = { contact: t.contact, site: t.site };
+const { contact: c, site } = t;
 const { contact } = site;
 
 const socialLinks = [
-  { label: 'WhatsApp', href: contact.whatsapp, icon: 'WA' },
-  { label: 'LinkedIn', href: contact.linkedin, icon: 'in' },
-  { label: 'Instagram', href: contact.instagram, icon: 'IG' },
+  { label: 'WhatsApp', href: contact.whatsapp },
+  { label: 'LinkedIn', href: contact.linkedin },
+  { label: 'Instagram', href: contact.instagram },
 ];
 ---
 
-<section class="contact" id="contact" aria-labelledby="contact-title">
-  <div class="contact__glow" aria-hidden="true"></div>
-  <div class="contact__glow contact__glow--secondary" aria-hidden="true"></div>
-
-  <div class="contact__inner container">
-    <header class="contact__header" data-reveal>
-      <p class="contact__eyebrow">
-        <span class="contact__eyebrow-dot" aria-hidden="true"></span>
-        {c.eyebrow}
-      </p>
-
-      <h2 class="contact__title" id="contact-title">
-        {c.title} <span class="contact__highlight">{c.titleHighlight}</span>{c.titleAfter}
+<section class="contact figma-section" id="contact" aria-labelledby="contact-title">
+  <div class="contact__wrap container">
+    <header class="figma-section__head">
+      <span class="figma-badge">{c.eyebrow.replace(/^\d+\s—\s/, '')}</span>
+      <h2 class="figma-section__title" id="contact-title">
+        {c.title} <span style="color: var(--color-primary)">{c.titleHighlight}</span>{c.titleAfter}
       </h2>
-
-      <p class="contact__lead">{c.lead}</p>
+      <p class="figma-section__subtitle">{c.lead}</p>
     </header>
 
     <div class="contact__layout">
-      <form class="contact__form" data-contact-form data-reveal>
+      <form class="contact__form" data-contact-form>
         <div class="contact__field">
-          <label class="contact__label" for="contact-name">{c.name}</label>
-          <input
-            class="contact__input"
-            type="text"
-            id="contact-name"
-            name="name"
-            required
-            autocomplete="name"
-            placeholder={c.namePlaceholder}
-          />
+          <label for="contact-name">{c.name}</label>
+          <input type="text" id="contact-name" name="name" required autocomplete="name" placeholder={c.namePlaceholder} />
         </div>
-
         <div class="contact__field">
-          <label class="contact__label" for="contact-email">{c.email}</label>
-          <input
-            class="contact__input"
-            type="email"
-            id="contact-email"
-            name="email"
-            required
-            autocomplete="email"
-            placeholder={c.emailPlaceholder}
-          />
+          <label for="contact-email">{c.email}</label>
+          <input type="email" id="contact-email" name="email" required autocomplete="email" placeholder={c.emailPlaceholder} />
         </div>
-
         <div class="contact__field">
-          <label class="contact__label" for="contact-type">{c.projectType}</label>
-          <select class="contact__input contact__select" id="contact-type" name="type" required>
+          <label for="contact-type">{c.projectType}</label>
+          <select id="contact-type" name="type" required>
             <option value="" disabled selected>{c.selectPlaceholder}</option>
-            {
-              c.projectTypes.map((type) => (
-                <option value={type}>{type}</option>
-              ))
-            }
+            {c.projectTypes.map((type) => <option value={type}>{type}</option>)}
           </select>
         </div>
-
         <div class="contact__field">
-          <label class="contact__label" for="contact-message">
-            {c.message} <span class="contact__optional">{c.messageOptional}</span>
-          </label>
-          <textarea
-            class="contact__input contact__textarea"
-            id="contact-message"
-            name="message"
-            rows="4"
-            placeholder={c.messagePlaceholder}
-          ></textarea>
+          <label for="contact-message">{c.message} <span class="contact__opt">{c.messageOptional}</span></label>
+          <textarea id="contact-message" name="message" rows="4" placeholder={c.messagePlaceholder}></textarea>
         </div>
-
-        <button class="btn-primary contact__submit" type="submit" data-magnetic>
-          {c.submit}
-        </button>
+        <button class="btn-figma-primary" type="submit">{c.submit}</button>
       </form>
 
-      <aside class="contact__aside" data-reveal>
-        <div class="contact__info-block">
-          <h3 class="contact__info-title">{c.directEmail}</h3>
-          <a class="contact__info-link" href={`mailto:${contact.email}`} data-magnetic>
-            {contact.email}
-          </a>
+      <aside class="contact__aside">
+        <div>
+          <p class="contact__label">{c.directEmail}</p>
+          <a class="contact__email" href={`mailto:${contact.email}`}>{contact.email}</a>
         </div>
-
-        <div class="contact__info-block">
-          <h3 class="contact__info-title">{c.social}</h3>
+        <div>
+          <p class="contact__label">{c.social}</p>
           <ul class="contact__social">
-            {
-              socialLinks.map((link) => (
-                <li>
-                  <a
-                    class="contact__social-link"
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-magnetic
-                  >
-                    <span class="contact__social-icon" aria-hidden="true">{link.icon}</span>
-                    {link.label}
-                  </a>
-                </li>
-              ))
-            }
+            {socialLinks.map((link) => (
+              <li><a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></li>
+            ))}
           </ul>
         </div>
-
-        <div class="contact__info-block">
-          <h3 class="contact__info-title">{c.location}</h3>
-          <p class="contact__info-text">{contact.location}</p>
-          <p class="contact__info-text contact__info-text--mono">{contact.timezone}</p>
+        <div>
+          <p class="contact__label">{c.location}</p>
+          <p class="contact__text">{contact.location}</p>
+          <p class="contact__text is-muted">{contact.timezone}</p>
         </div>
       </aside>
     </div>
@@ -135,255 +76,128 @@ const socialLinks = [
 </section>
 
 <style>
-  .contact {
-    position: relative;
-    padding-block: var(--space-24);
-    border-top: 1px solid var(--color-border);
-    overflow: hidden;
-  }
-
-  .contact__glow {
-    position: absolute;
-    width: min(90vw, 600px);
-    height: min(90vw, 600px);
-    top: 30%;
-    left: 50%;
-    translate: -50% -50%;
-    border-radius: var(--radius-full);
-    background: radial-gradient(circle, var(--color-accent-orange-glow), transparent 70%);
-    filter: blur(40px);
-    pointer-events: none;
-  }
-
-  .contact__glow--secondary {
-    width: min(70vw, 400px);
-    height: min(70vw, 400px);
-    background: radial-gradient(circle, var(--color-accent-blue-glow), transparent 65%);
-    opacity: 0.5;
-    animation: contact-pulse 4s var(--ease-out) infinite alternate;
-  }
-
-  @keyframes contact-pulse {
-    from {
-      transform: translate(-50%, -50%) scale(0.95);
-      opacity: 0.3;
-    }
-    to {
-      transform: translate(-50%, -50%) scale(1.05);
-      opacity: 0.6;
-    }
-  }
-
-  .contact__inner {
-    position: relative;
-  }
-
-  .contact__header {
-    max-width: 640px;
-    margin-bottom: var(--space-16);
-  }
-
-  .contact__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-accent-orange);
-    margin-bottom: var(--space-6);
-  }
-
-  .contact__eyebrow-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: var(--radius-full);
-    background: var(--color-accent-orange);
-    box-shadow: 0 0 12px var(--color-accent-orange-glow);
-  }
-
-  .contact__title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, var(--text-2xl));
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: var(--space-6);
-  }
-
-  .contact__highlight {
-    color: var(--color-accent-orange);
-  }
-
-  .contact__lead {
-    font-size: var(--text-lg);
-    color: var(--color-text-secondary);
-    max-width: 52ch;
-    line-height: 1.7;
-  }
-
   .contact__layout {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-12);
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: var(--gap-layout);
     align-items: start;
   }
 
   .contact__form {
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
-    padding: var(--space-8);
+    gap: 20px;
+    padding: 32px;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: 16px;
   }
 
   .contact__field {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: 8px;
   }
 
-  .contact__label {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.08em;
+  .contact__field label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-text-secondary);
   }
 
-  .contact__optional {
+  .contact__opt {
     text-transform: none;
-    letter-spacing: 0;
+    font-weight: 400;
     color: var(--color-text-tertiary);
   }
 
-  .contact__input {
+  .contact__field input,
+  .contact__field select,
+  .contact__field textarea {
     font-family: var(--font-body);
-    font-size: var(--text-md);
+    font-size: 16px;
+    padding: 12px 16px;
     color: var(--color-text-primary);
     background: var(--color-bg);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: var(--space-3) var(--space-4);
-    transition: border-color var(--dur-fast) var(--ease-out);
+    border-radius: 8px;
   }
 
-  .contact__input::placeholder {
-    color: var(--color-text-tertiary);
-  }
-
-  .contact__input:focus {
+  .contact__field input:focus,
+  .contact__field select:focus,
+  .contact__field textarea:focus {
     outline: none;
-    border-color: var(--color-accent-orange);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-accent-blue-glow);
   }
 
-  .contact__select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right var(--space-4) center;
-    padding-right: var(--space-10);
-  }
-
-  .contact__textarea {
-    resize: vertical;
-    min-height: 100px;
-  }
-
-  .contact__submit {
+  .contact__form .btn-figma-primary {
     align-self: flex-start;
-    margin-top: var(--space-2);
+    margin-top: 8px;
   }
 
   .contact__aside {
     display: flex;
     flex-direction: column;
-    gap: var(--space-10);
-    padding: var(--space-8);
+    gap: 40px;
+    padding-top: 8px;
   }
 
-  .contact__info-title {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.1em;
+  .contact__label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-text-tertiary);
-    margin-bottom: var(--space-4);
+    margin-bottom: 12px;
   }
 
-  .contact__info-link {
+  .contact__email {
     font-family: var(--font-display);
-    font-size: var(--text-xl);
+    font-size: var(--text-footer-email);
     font-weight: 700;
-    color: var(--color-accent-orange);
-    letter-spacing: -0.02em;
-    transition: opacity var(--dur-fast) var(--ease-out);
+    line-height: 1.1;
+    color: var(--color-text-primary);
   }
 
-  .contact__info-link:hover {
-    opacity: 0.8;
+  .contact__email:hover {
+    color: var(--color-primary);
   }
 
   .contact__social {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: 12px;
   }
 
-  .contact__social-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3);
-    font-size: var(--text-md);
+  .contact__social a {
+    font-size: 16px;
     color: var(--color-text-secondary);
-    transition: color var(--dur-fast) var(--ease-out);
   }
 
-  .contact__social-link:hover {
-    color: var(--color-text-primary);
+  .contact__social a:hover {
+    color: var(--color-primary);
   }
 
-  .contact__social-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 700;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    color: var(--color-text-tertiary);
-  }
-
-  .contact__info-text {
-    font-size: var(--text-md);
+  .contact__text {
+    font-size: 16px;
     color: var(--color-text-secondary);
-    line-height: 1.6;
+    line-height: 1.5;
   }
 
-  .contact__info-text--mono {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
+  .contact__text.is-muted {
+    font-size: 13px;
     color: var(--color-text-tertiary);
-    margin-top: var(--space-1);
+    margin-top: 4px;
   }
 
-  @media (min-width: 768px) {
+  @media (max-width: 768px) {
     .contact__layout {
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: var(--space-16);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .contact__glow--secondary {
-      animation: none;
+      grid-template-columns: 1fr;
+      gap: 40px;
     }
   }
 </style>

@@ -1,0 +1,128 @@
+/* Shared section patterns — Figma 2099.studio */
+
+.section-block {
+  position: relative;
+  padding-block: var(--section-padding-y);
+  border-top: 1px solid var(--color-border);
+  background: var(--section-bg, var(--color-bg));
+  overflow: hidden;
+}
+
+.section-block--muted {
+  --section-bg: var(--color-bg-muted);
+}
+
+.section-header {
+  max-width: var(--section-header-max);
+  margin-inline: auto;
+  margin-bottom: var(--section-header-gap);
+  text-align: center;
+}
+
+.section-header--left {
+  margin-inline: 0;
+  text-align: left;
+}
+
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-6);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  border-radius: var(--radius-pill);
+}
+
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-6);
+}
+
+.section-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, var(--text-2xl));
+  font-weight: var(--font-weight-bold);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-6);
+  color: var(--color-text-primary);
+}
+
+.section-lead {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  max-width: 52ch;
+  margin-inline: auto;
+  line-height: 1.6;
+}
+
+.section-header--left .section-lead {
+  margin-inline: 0;
+}
+
+.section-highlight--blue {
+  color: var(--color-primary);
+}
+
+.surface-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 0.45s var(--btn-ease),
+    box-shadow 0.45s var(--btn-ease),
+    border-color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out),
+    opacity var(--dur-base) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .surface-card--lift:hover,
+  .surface-card--lift:focus-within {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--color-border-strong);
+  }
+}
+
+[data-theme='light'] .section-eyebrow--accent-blue {
+  color: var(--color-accent-blue);
+}
+
+[data-theme='light'] .section-eyebrow--accent-blue .section-eyebrow-dot {
+  background: var(--color-accent-blue);
+}
+
+[data-theme='light'] .section-highlight--blue {
+  color: var(--color-accent-blue);
+}
+
+[data-theme='light'] .surface-card,
+[data-theme='light'] .work-card,
+[data-theme='light'] .methodology__card,
+[data-theme='light'] .contact__form,
+[data-theme='light'] .works__filters {
+  box-shadow: var(--shadow-card);
+}

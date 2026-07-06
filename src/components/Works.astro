@@ -12,51 +12,31 @@ const { works: w } = t;
 const homeHref = localePath(locale);
 ---
 
-<section class="works" id="works" data-works aria-labelledby="works-title">
-  <div class="works__inner container">
-    <header class="works__header" data-reveal>
-      <p class="works__eyebrow">
-        <span class="works__eyebrow-dot" aria-hidden="true"></span>
-        {w.eyebrow}
-      </p>
-      <h2 class="works__title" id="works-title">
-        {w.title} <span class="works__highlight">{w.titleHighlight}</span>.
+<section class="works figma-section" id="works" data-works aria-labelledby="works-title">
+  <div class="works__wrap container">
+    <header class="figma-section__head">
+      <span class="figma-badge">{w.eyebrow.replace(/^\d+\s—\s/, '')}</span>
+      <h2 class="figma-section__title" id="works-title">
+        {w.title} <span style="color: var(--color-primary)">{w.titleHighlight}</span>.
       </h2>
-      <p class="works__lead">{w.lead}</p>
+      <p class="figma-section__subtitle">{w.lead}</p>
     </header>
 
-    <div class="works__filters" data-reveal>
-      <div class="works__filter-group" role="group" aria-label={w.filterIndustryAria}>
+    <div class="works__filters">
+      <div class="works__filter-group">
         <span class="works__filter-label">{w.filterIndustry}</span>
         <div class="works__filter-btns">
-          {
-            w.industryFilters.map((filter, index) => (
-              <button
-                type="button"
-                class={`works__filter-btn${index === 0 ? ' is-active' : ''}`}
-                data-works-filter-industry={filter.id}
-              >
-                {filter.label}
-              </button>
-            ))
-          }
+          {w.industryFilters.map((filter, i) => (
+            <button type="button" class={`works__filter-btn${i === 0 ? ' is-active' : ''}`} data-works-filter-industry={filter.id}>{filter.label}</button>
+          ))}
         </div>
       </div>
-
-      <div class="works__filter-group" role="group" aria-label={w.filterServiceAria}>
+      <div class="works__filter-group">
         <span class="works__filter-label">{w.filterService}</span>
         <div class="works__filter-btns">
-          {
-            w.serviceFilters.map((filter, index) => (
-              <button
-                type="button"
-                class={`works__filter-btn${index === 0 ? ' is-active' : ''}`}
-                data-works-filter-service={filter.id}
-              >
-                {filter.label}
-              </button>
-            ))
-          }
+          {w.serviceFilters.map((filter, i) => (
+            <button type="button" class={`works__filter-btn${i === 0 ? ' is-active' : ''}`} data-works-filter-service={filter.id}>{filter.label}</button>
+          ))}
         </div>
       </div>
     </div>
@@ -66,61 +46,17 @@ const homeHref = localePath(locale);
         w.items.map((work) => {
           const href = work.live ? homeHref : undefined;
           const Tag = href ? 'a' : 'article';
-          const tagProps = href ? { href } : { tabindex: 0 as const };
-
+          const props = href ? { href } : { tabindex: 0 as const };
           return (
-            <Tag
-              class={`work-card work-card--${work.accent}`}
-              data-work-card
-              data-work-item
-              data-industries={work.industries.join(',')}
-              data-services={work.services.join(',')}
-              {...tagProps}
-              data-magnetic={href ? true : undefined}
-              aria-label={`${work.title} — ${work.client}, ${work.year}. ${work.description}`}
-            >
-              <div class="work-card__visual">
-                <div class="work-card__pattern" aria-hidden="true"></div>
-                <span class="work-card__year">{work.year}</span>
-                {!work.live && <span class="work-card__status">{w.comingSoon}</span>}
-              </div>
-
+            <Tag class="work-card" data-work-card data-work-item data-industries={work.industries.join(',')} data-services={work.services.join(',')} {...props}>
+              <div class="work-card__visual"><span class="work-card__year">{work.year}</span></div>
               <div class="work-card__body">
-                <div class="work-card__meta">
-                  <h3 class="work-card__title">{work.title}</h3>
-                  <p class="work-card__client">{work.client}</p>
-                </div>
-
-                <div class="work-card__swap">
-                  <div class="work-card__panel work-card__panel--default">
-                    <div class="work-card__tags">
-                      {
-                        work.industries.map((ind) => (
-                          <span class="work-card__tag">{w.industryLabels[ind]}</span>
-                        ))
-                      }
-                      {
-                        work.services.map((svc) => (
-                          <span class="work-card__tag work-card__tag--service">
-                            {w.serviceLabels[svc]}
-                          </span>
-                        ))
-                      }
-                    </div>
-                  </div>
-
-                  <div class="work-card__panel work-card__panel--hover">
-                    <p class="work-card__description">{work.description}</p>
-                    {
-                      href ? (
-                        <span class="work-card__cta">
-                          {w.viewProject} <span aria-hidden="true">→</span>
-                        </span>
-                      ) : (
-                        <span class="work-card__cta work-card__cta--muted">{w.inDevelopment}</span>
-                      )
-                    }
-                  </div>
+                <h3 class="work-card__title">{work.title}</h3>
+                <p class="work-card__client">{work.client}</p>
+                <p class="work-card__desc">{work.description}</p>
+                <div class="work-card__tags">
+                  {work.industries.map((ind) => <span>{w.industryLabels[ind]}</span>)}
+                  {work.services.map((svc) => <span class="is-service">{w.serviceLabels[svc]}</span>)}
                 </div>
               </div>
             </Tag>
@@ -132,377 +68,136 @@ const homeHref = localePath(locale);
 </section>
 
 <style>
-  .works {
-    padding-block: var(--space-24);
-    border-top: 1px solid var(--color-border);
-  }
-
-  .works__header {
-    max-width: 640px;
-    margin-bottom: var(--space-12);
-  }
-
-  .works__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-6);
-  }
-
-  .works__eyebrow-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: var(--radius-full);
-    background: var(--gradient-brand);
-  }
-
-  .works__title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, var(--text-2xl));
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: var(--space-6);
-  }
-
-  .works__highlight {
-    background: var(--gradient-brand);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .works__lead {
-    font-size: var(--text-lg);
-    color: var(--color-text-secondary);
-    max-width: 52ch;
-  }
-
   .works__filters {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-    margin-bottom: var(--space-12);
-    padding: var(--space-6);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 48px;
+    padding: 24px;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-  }
-
-  .works__filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+    border-radius: 16px;
   }
 
   .works__filter-label {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.1em;
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-text-tertiary);
+    margin-bottom: 12px;
   }
 
   .works__filter-btns {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
+    gap: 8px;
   }
 
   .works__filter-btn {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    padding: var(--space-2) var(--space-4);
-    border-radius: var(--radius-full);
+    padding: 8px 16px;
+    font-size: 11px;
     border: 1px solid var(--color-border);
-    background: transparent;
+    border-radius: var(--radius-full);
     color: var(--color-text-secondary);
-    cursor: pointer;
-    transition:
-      color var(--dur-fast) var(--ease-out),
-      border-color var(--dur-fast) var(--ease-out),
-      background var(--dur-fast) var(--ease-out);
-  }
-
-  .works__filter-btn:hover {
-    color: var(--color-text-primary);
-    border-color: var(--color-text-tertiary);
+    background: var(--color-bg);
   }
 
   .works__filter-btn.is-active {
-    color: var(--color-text-primary);
-    border-color: var(--color-accent-orange);
-    background: var(--color-accent-orange-glow);
-  }
-
-  .works__filter-btn:focus-visible {
-    outline: 2px solid var(--color-accent-orange);
-    outline-offset: 2px;
+    color: var(--color-on-accent);
+    background: var(--color-primary);
+    border-color: var(--color-primary);
   }
 
   .works__grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
   }
 
   .work-card {
-    position: relative;
     display: flex;
     flex-direction: column;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid var(--color-border);
+    min-height: 360px;
     background: var(--color-surface);
-    text-decoration: none;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    overflow: hidden;
     color: inherit;
-    min-height: 400px;
-    transition: border-color var(--dur-fast) var(--ease-out);
+    text-decoration: none;
+    transition: border-color 0.2s;
   }
 
-  .work-card:focus {
-    outline: none;
-  }
-
-  .work-card:focus-visible {
-    outline: 2px solid var(--color-text-primary);
-    outline-offset: 3px;
-  }
-
-  .work-card--orange:hover,
-  .work-card--orange:focus-within {
-    border-color: color-mix(in srgb, var(--color-accent-orange) 50%, var(--color-border));
-  }
-
-  .work-card--blue:hover,
-  .work-card--blue:focus-within {
-    border-color: color-mix(in srgb, var(--color-accent-blue) 50%, var(--color-border));
+  .work-card:hover {
+    border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
   }
 
   .work-card__visual {
-    position: relative;
     height: 200px;
-    overflow: hidden;
-  }
-
-  .work-card__pattern {
-    position: absolute;
-    inset: 0;
-    transition: transform var(--dur-slow) var(--ease-out);
-  }
-
-  .work-card--orange .work-card__pattern {
-    background:
-      radial-gradient(circle at 30% 40%, var(--color-accent-orange-glow), transparent 55%),
-      linear-gradient(135deg, var(--color-elevated), var(--color-surface));
-  }
-
-  .work-card--blue .work-card__pattern {
-    background:
-      radial-gradient(circle at 70% 30%, var(--color-accent-blue-glow), transparent 55%),
-      linear-gradient(135deg, var(--color-elevated), var(--color-surface));
-  }
-
-  .work-card:hover .work-card__pattern,
-  .work-card:focus-within .work-card__pattern {
-    transform: scale(1.06);
+    background: linear-gradient(135deg, var(--color-elevated), var(--color-bg-muted));
+    position: relative;
   }
 
   .work-card__year {
     position: absolute;
-    top: var(--space-4);
-    left: var(--space-4);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
+    top: 16px;
+    left: 16px;
+    font-size: 11px;
     color: var(--color-text-tertiary);
   }
 
-  .work-card__status {
-    position: absolute;
-    top: var(--space-4);
-    right: var(--space-4);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-full);
-    border: 1px solid var(--color-border);
-    color: var(--color-text-secondary);
-    background: color-mix(in srgb, var(--color-bg) 80%, transparent);
-  }
-
   .work-card__body {
+    padding: 24px;
     display: flex;
     flex-direction: column;
+    gap: 8px;
     flex: 1;
-    padding: var(--space-6) var(--space-8) var(--space-8);
-  }
-
-  .work-card__meta {
-    margin-bottom: var(--space-4);
   }
 
   .work-card__title {
     font-family: var(--font-display);
-    font-size: var(--text-xl);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: var(--space-1);
+    font-size: var(--text-card-title);
+    font-weight: 600;
   }
 
   .work-card__client {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
+    font-size: 11px;
     color: var(--color-text-tertiary);
-    letter-spacing: 0.04em;
   }
 
-  .work-card__swap {
-    display: grid;
-    flex: 1;
-    min-height: 8.5rem;
-    align-content: end;
-    margin-top: auto;
-  }
-
-  .work-card__panel {
-    grid-area: 1 / 1;
-    align-self: end;
-    transition:
-      opacity var(--dur-base) var(--ease-out),
-      transform var(--dur-base) var(--ease-out),
-      visibility var(--dur-base) var(--ease-out);
-  }
-
-  .work-card__panel--hover {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(8px);
-  }
-
-  .work-card:hover .work-card__panel--default,
-  .work-card:focus-within .work-card__panel--default {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px);
-  }
-
-  .work-card:hover .work-card__panel--hover,
-  .work-card:focus-within .work-card__panel--hover {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+  .work-card__desc {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    margin-top: 8px;
   }
 
   .work-card__tags {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 16px;
   }
 
-  .work-card__tag {
-    font-family: var(--font-mono);
+  .work-card__tags span {
     font-size: 10px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-full);
+    padding: 4px 10px;
     border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
     color: var(--color-text-secondary);
   }
 
-  .work-card__tag--service {
-    color: var(--color-accent-blue);
-    border-color: color-mix(in srgb, var(--color-accent-blue) 30%, var(--color-border));
+  .work-card__tags .is-service {
+    color: var(--color-primary);
+    border-color: color-mix(in srgb, var(--color-primary) 30%, var(--color-border));
   }
 
-  .work-card__description {
-    font-size: var(--text-md);
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-4);
-    max-width: 40ch;
-    line-height: 1.6;
-  }
-
-  .work-card__cta {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .work-card--orange .work-card__cta:not(.work-card__cta--muted) {
-    color: var(--color-accent-orange);
-  }
-
-  .work-card--blue .work-card__cta:not(.work-card__cta--muted) {
-    color: var(--color-accent-blue);
-  }
-
-  .work-card__cta--muted {
-    color: var(--color-text-tertiary);
-  }
-
-  @media (min-width: 768px) {
-    .works__filters {
-      flex-direction: row;
-      gap: var(--space-12);
-    }
-
-    .works__filter-group {
-      flex: 1;
-    }
-
+  @media (max-width: 768px) {
+    .works__filters,
     .works__grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .work-card {
-      min-height: 440px;
-    }
-
-    .work-card__visual {
-      height: 240px;
-    }
-  }
-
-  @media (hover: none) {
-    .work-card__swap {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-6);
-      min-height: auto;
-    }
-
-    .work-card__panel--default,
-    .work-card__panel--hover {
-      opacity: 1;
-      visibility: visible;
-      transform: none;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .work-card__panel {
-      transition: none;
-    }
-
-    .work-card:hover .work-card__panel--default,
-    .work-card:focus-within .work-card__panel--default {
-      display: none;
-    }
-
-    .work-card:hover .work-card__panel--hover,
-    .work-card:focus-within .work-card__panel--hover {
-      opacity: 1;
-      visibility: visible;
-      transform: none;
+      grid-template-columns: 1fr;
     }
   }
 </style>

@@ -11,299 +11,367 @@ const t = getContent(locale);
 const { methodology } = t;
 ---
 
-<section class="methodology" id="methodology" data-methodology aria-labelledby="methodology-title">
-  <div class="methodology__texture" aria-hidden="true"></div>
-
-  <div class="methodology__inner container">
-    <aside class="methodology__sidebar">
-      <header class="methodology__header">
-        <p class="methodology__eyebrow">
-          <span class="methodology__eyebrow-dot" aria-hidden="true"></span>
-          {methodology.eyebrow}
-        </p>
-        <h2 class="methodology__title" id="methodology-title">
-          {methodology.title} <span class="methodology__highlight">{methodology.titleHighlight}</span>.
-        </h2>
-        <p class="methodology__lead">{methodology.lead}</p>
-      </header>
-
-      <div class="methodology__rail" aria-hidden="true">
-        <div class="methodology__rail-track">
-          <div class="methodology__rail-fill" data-methodology-progress></div>
+<section class="methodology figma-section" id="methodology" data-methodology aria-labelledby="methodology-title">
+  <div class="methodology__wrap container">
+    <div class="methodology__inner">
+      <aside class="methodology__sidebar">
+        <div class="methodology__intro">
+          <span class="figma-badge">{methodology.badge}</span>
+          <h2 class="methodology__title" id="methodology-title">
+            {methodology.title}{' '}
+            <span class="methodology__title-accent">{methodology.titleHighlight}</span>.
+          </h2>
+          <p class="methodology__lead">{methodology.lead}</p>
         </div>
-      </div>
-    </aside>
+        <div class="methodology__rail" aria-hidden="true">
+          <div class="methodology__rail-track">
+            <div class="methodology__rail-fill" data-methodology-progress></div>
+          </div>
+        </div>
+      </aside>
 
-    <ol class="methodology__steps" data-methodology-steps>
-      {
-        methodology.steps.map((step, index) => (
-          <li
-            class={`methodology-step${index === 0 ? ' is-active' : ''}`}
-            data-methodology-step
-            data-step-index={index}
-          >
-            <article class="methodology-step__card">
-              <div class="methodology-step__marker" aria-hidden="true">
-                <span class="methodology-step__dot"></span>
-              </div>
-              <div class="methodology-step__content">
-                <div class="methodology-step__meta">
-                  <span class="methodology-step__number">{step.number}</span>
-                  <h3 class="methodology-step__title">{step.title}</h3>
+      <ol class="methodology__steps">
+        {
+          methodology.steps.map((step, index) => (
+            <li class={`methodology__step${index === 0 ? ' is-active' : ''}`} data-methodology-step data-step-index={index}>
+              <article class="methodology__card">
+                <div class="methodology__card-top">
+                  <span class="methodology__dot" aria-hidden="true"></span>
+                  <div class="methodology__meta">
+                    <span class="methodology__num">{step.number}</span>
+                    <h3 class="methodology__name">{step.title}</h3>
+                  </div>
                 </div>
-                <p class="methodology-step__description">{step.description}</p>
-                <ul class="methodology-step__tools" aria-label={methodology.toolsLabel}>
-                  {step.tools.map((tool) => (
-                    <li class="methodology-step__tool">{tool}</li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          </li>
-        ))
-      }
-    </ol>
+                <div class="methodology__card-body">
+                  <p class="methodology__desc">{step.description}</p>
+                  <div class="methodology__tools-block">
+                    <span class="methodology__tools-label">{methodology.toolsLabel}</span>
+                    <ul class="methodology__tools" aria-label={methodology.toolsLabel}>
+                      {step.tools.map((tool) => (
+                        <li class="methodology__tool">{tool}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </article>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
   </div>
 </section>
 
 <style>
-  .methodology {
-    position: relative;
-    padding-block: var(--space-24);
-    border-top: 1px solid var(--color-border);
-    overflow: hidden;
-  }
-
-  .methodology__texture {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--color-accent-blue-glow) 1px, transparent 1px),
-      linear-gradient(90deg, var(--color-accent-blue-glow) 1px, transparent 1px);
-    background-size: 32px 32px;
-    opacity: 0.35;
-    mask-image: radial-gradient(ellipse 60% 70% at 20% 50%, black, transparent);
-    pointer-events: none;
-  }
-
   .methodology__inner {
-    position: relative;
     display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-12);
+    grid-template-columns: minmax(0, var(--sidebar-methodology)) minmax(0, 1fr);
+    gap: clamp(32px, 4.444vw, 64px);
+    align-items: start;
   }
 
-  .methodology__header {
-    max-width: 480px;
+  .methodology__sidebar {
+    position: sticky;
+    top: calc(var(--header-height) + 32px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(24px, 2.222vw, 32px);
   }
 
-  .methodology__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-accent-blue);
-    margin-bottom: var(--space-6);
-  }
-
-  .methodology__eyebrow-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: var(--radius-full);
-    background: var(--color-accent-blue);
-    box-shadow: 0 0 10px var(--color-accent-blue-glow);
+  .methodology__intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(16px, 1.667vw, 24px);
   }
 
   .methodology__title {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, var(--text-2xl));
+    font-size: var(--text-section-title);
     font-weight: 700;
     line-height: 1.05;
     letter-spacing: -0.02em;
-    margin-bottom: var(--space-6);
+    color: var(--color-text-primary);
+    margin: 0;
+    text-wrap: balance;
   }
 
-  .methodology__highlight {
-    color: var(--color-accent-blue);
+  .methodology__title-accent {
+    color: var(--color-primary);
   }
 
   .methodology__lead {
+    margin: 0;
+    max-width: min(340px, 100%);
+    font-family: var(--font-body);
     font-size: var(--text-lg);
+    font-weight: 400;
+    line-height: 1.55;
     color: var(--color-text-secondary);
-    line-height: 1.7;
+    text-wrap: pretty;
   }
 
-  .methodology__rail {
-    display: none;
+  .methodology__rail-track {
+    width: 2px;
+    height: clamp(140px, 13.889vw, 200px);
+    background: var(--color-border);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+
+  .methodology__rail-fill {
+    width: 100%;
+    height: 100%;
+    background: var(--color-primary);
+    transform-origin: top;
+    transform: scaleY(0.2);
+    transition: transform 0.35s ease;
   }
 
   .methodology__steps {
+    list-style: none;
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
-    list-style: none;
+    gap: clamp(12px, 1.111vw, 16px);
+    min-width: 0;
   }
 
-  .methodology-step__card {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: var(--space-6);
-    padding: var(--space-8);
-    background: var(--color-surface);
+  .methodology__step {
+    min-width: 0;
+  }
+
+  .methodology__card {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 1.111vw, 16px);
+    min-height: var(--methodology-card-min);
+    padding: clamp(18px, 1.667vw, 24px) clamp(20px, 2.222vw, 32px);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: 16px;
+    background: var(--color-surface);
     transition:
-      border-color var(--dur-base) var(--ease-out),
-      background var(--dur-base) var(--ease-out),
-      opacity var(--dur-base) var(--ease-out);
+      opacity 0.35s ease,
+      background 0.35s ease,
+      border-color 0.35s ease,
+      padding 0.35s ease,
+      gap 0.35s ease;
   }
 
-  .methodology-step:not(.is-active) .methodology-step__card {
-    opacity: 0.45;
-  }
-
-  .methodology-step.is-active .methodology-step__card {
-    border-color: color-mix(in srgb, var(--color-accent-blue) 45%, var(--color-border));
+  .methodology__step.is-active .methodology__card {
+    gap: clamp(16px, 1.389vw, 20px);
+    padding: clamp(24px, 2.222vw, 32px);
     background: var(--color-elevated);
+    border-color: color-mix(in srgb, var(--color-primary) 42%, var(--color-border));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-primary) 12%, transparent);
     opacity: 1;
   }
 
-  .methodology-step__marker {
-    display: flex;
-    justify-content: center;
-    padding-top: var(--space-2);
+  .methodology__step:not(.is-active) .methodology__card {
+    opacity: 0.52;
   }
 
-  .methodology-step__dot {
+  .methodology__card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(12px, 1.111vw, 16px);
+    min-width: 0;
+  }
+
+  .methodology__dot {
+    flex-shrink: 0;
     width: 12px;
     height: 12px;
-    border-radius: var(--radius-full);
+    margin-top: 0.55em;
+    border-radius: 50%;
     border: 2px solid var(--color-border);
     background: var(--color-bg);
-    transition:
-      border-color var(--dur-base) var(--ease-out),
-      background var(--dur-base) var(--ease-out),
-      box-shadow var(--dur-base) var(--ease-out);
+    transition: border-color 0.35s ease, background 0.35s ease, transform 0.35s ease;
   }
 
-  .methodology-step.is-active .methodology-step__dot {
-    border-color: var(--color-accent-blue);
-    background: var(--color-accent-blue);
-    box-shadow: 0 0 16px var(--color-accent-blue-glow);
+  .methodology__step.is-active .methodology__dot {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    transform: scale(1.08);
   }
 
-  .methodology-step__meta {
+  .methodology__meta {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
-    gap: var(--space-4);
-    margin-bottom: var(--space-3);
+    gap: 10px clamp(12px, 1.111vw, 16px);
+    min-width: 0;
   }
 
-  .methodology-step__number {
-    font-family: var(--font-mono);
+  .methodology__num {
+    flex-shrink: 0;
+    font-family: var(--font-body);
     font-size: var(--text-sm);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+    color: var(--color-text-tertiary);
+    transition: color 0.35s ease;
+  }
+
+  .methodology__step.is-active .methodology__num {
+    color: var(--color-primary);
+  }
+
+  .methodology__name {
+    font-family: var(--font-display);
+    font-size: clamp(1.125rem, 1.667vw, var(--text-methodology-step));
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    color: var(--color-text-primary);
+    text-wrap: balance;
+  }
+
+  .methodology__card-body {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(14px, 1.25vw, 18px);
+    padding-left: calc(12px + clamp(12px, 1.111vw, 16px));
+    min-width: 0;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition:
+      max-height 0.45s ease,
+      opacity 0.35s ease,
+      padding 0.35s ease;
+  }
+
+  .methodology__step.is-active .methodology__card-body {
+    max-height: 480px;
+    opacity: 1;
+  }
+
+  .methodology__desc {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: clamp(15px, 1.111vw, 16px);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    text-wrap: pretty;
+    overflow-wrap: anywhere;
+  }
+
+  .methodology__tools-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .methodology__tools-label {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--color-text-tertiary);
   }
 
-  .methodology-step.is-active .methodology-step__number {
-    color: var(--color-accent-blue);
+  .methodology__step.is-active .methodology__tools-label {
+    color: color-mix(in srgb, var(--color-primary) 70%, var(--color-text-tertiary));
   }
 
-  .methodology-step__title {
-    font-family: var(--font-display);
-    font-size: var(--text-xl);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-
-  .methodology-step__description {
-    font-size: var(--text-md);
-    color: var(--color-text-secondary);
-    max-width: 56ch;
-    margin-bottom: var(--space-6);
-    line-height: 1.7;
-  }
-
-  .methodology-step__tools {
+  .methodology__tools {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
+    gap: 8px;
     list-style: none;
   }
 
-  .methodology-step__tool {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
+  .methodology__tool {
+    padding: 5px 12px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.2;
     color: var(--color-text-secondary);
-    padding: var(--space-1) var(--space-3);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-full);
-    opacity: 0;
-    transform: translateY(8px);
-    transition:
-      opacity var(--dur-base) var(--ease-out),
-      transform var(--dur-base) var(--ease-out),
-      color var(--dur-base) var(--ease-out),
-      border-color var(--dur-base) var(--ease-out);
+    white-space: nowrap;
+    transition: color 0.35s ease, border-color 0.35s ease, background 0.35s ease;
   }
 
-  .methodology-step.is-active .methodology-step__tool {
-    opacity: 1;
-    transform: translateY(0);
-    color: var(--color-accent-blue);
-    border-color: color-mix(in srgb, var(--color-accent-blue) 35%, var(--color-border));
+  .methodology__step.is-active .methodology__tool {
+    color: var(--color-primary);
+    border-color: color-mix(in srgb, var(--color-primary) 38%, var(--color-border));
+    background: color-mix(in srgb, var(--color-primary) 6%, transparent);
   }
 
   @media (min-width: 1024px) {
+    .methodology__step:not(.is-active) .methodology__card-body {
+      max-height: 0;
+      opacity: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  @media (max-width: 1023px) {
     .methodology__inner {
-      grid-template-columns: minmax(280px, 360px) 1fr;
-      gap: var(--space-16);
-      align-items: start;
+      grid-template-columns: 1fr;
+      gap: clamp(32px, 5vw, 48px);
     }
 
-    .methodology__rail {
-      display: block;
-      margin-top: var(--space-12);
+    .methodology__sidebar {
+      position: static;
     }
 
-    .methodology__rail-track {
-      width: 2px;
-      height: 200px;
-      background: var(--color-border);
-      border-radius: var(--radius-full);
-      overflow: hidden;
+    .methodology__lead {
+      max-width: min(640px, 100%);
     }
 
-    .methodology__rail-fill {
-      width: 100%;
-      height: 100%;
-      background: var(--color-accent-blue);
-      transform-origin: top center;
-      transform: scaleY(0);
-      box-shadow: 0 0 12px var(--color-accent-blue-glow);
+    .methodology__step:not(.is-active) .methodology__card {
+      opacity: 0.72;
     }
 
-    .methodology__steps {
-      gap: var(--space-8);
-      min-height: 60vh;
+    .methodology__card-body {
+      max-height: none;
+      opacity: 1;
+      overflow: visible;
     }
 
-    .methodology-step__card {
-      padding: var(--space-8) var(--space-10);
+    .methodology__card {
+      gap: clamp(14px, 1.389vw, 18px);
+      padding: clamp(20px, 2.5vw, 28px);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .methodology__card-body {
+      padding-left: 0;
+    }
+
+    .methodology__card-top {
+      align-items: center;
+    }
+
+    .methodology__dot {
+      margin-top: 0;
+    }
+
+    .methodology__tool {
+      white-space: normal;
+      text-align: center;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .methodology-step:not(.is-active) .methodology-step__card {
-      opacity: 1;
+    .methodology__card,
+    .methodology__card-body,
+    .methodology__dot,
+    .methodology__rail-fill {
+      transition: none;
     }
 
-    .methodology-step__tool {
+    .methodology__card-body {
+      max-height: none;
       opacity: 1;
-      transform: none;
+      overflow: visible;
     }
   }
 </style>

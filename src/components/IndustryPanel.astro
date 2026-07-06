@@ -1,0 +1,317 @@
+---
+interface Props {
+  index: number;
+  folderTab: string;
+  panelTitle: string;
+  badge: string;
+  sectorsLabel: string;
+  servicesLabel: string;
+  sectors: string[];
+  services: string[];
+  hidden?: boolean;
+  isMobile?: boolean;
+}
+
+const {
+  index,
+  folderTab,
+  panelTitle,
+  badge,
+  sectorsLabel,
+  servicesLabel,
+  sectors,
+  services,
+  hidden = false,
+  isMobile = false,
+} = Astro.props;
+
+const UNION_PATH =
+  'M280.772 0C286.144 0.000120618 291.157 2.69585 294.119 7.17676L327.862 58.2188C330.825 62.6997 335.837 65.3954 341.209 65.3955H637.957C639.063 65.3955 640.143 65.5079 641.187 65.7217L945.014 65.9844C953.845 65.992 961 73.1532 961 81.9844V435.5C961 444.337 953.837 451.5 945 451.5H641.94C640.667 451.826 639.332 452 637.957 452H16C7.16345 452 0 444.837 0 436V16C3.60808e-06 7.16345 7.16345 0 16 0H280.772Z';
+---
+
+<div
+  class:list={['industry-panel', isMobile && 'industry-panel--mobile']}
+  role="tabpanel"
+  data-industry-panel
+  data-panel-index={index}
+  hidden={hidden}
+>
+  <div class="industry-panel__frame">
+    <svg
+      class="industry-panel__shape"
+      viewBox="0 0 961 452"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path class="industry-panel__shape-path" d={UNION_PATH} vector-effect="non-scaling-stroke"></path>
+    </svg>
+
+    <div class="industry-panel__content">
+      <h3 class="industry-panel__folder">{folderTab}</h3>
+
+      <div class="industry-panel__mid">
+        <div class="industry-panel__cols">
+          <div class="industry-panel__col">
+            <p class="industry-panel__label">{sectorsLabel}</p>
+            <ul class="industry-panel__list">
+              {sectors.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div class="industry-panel__col">
+            <p class="industry-panel__label">{servicesLabel}</p>
+            <ul class="industry-panel__list">
+              {services.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="industry-panel__arrows" data-industry-arrows>
+          <button type="button" class="industry-panel__arrow" data-industry-prev aria-label="Anterior">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M14.378 8H1.802M1.802 8L8.09 1.712M1.802 8L8.09 14.288" stroke="currentColor" stroke-width="1.5"></path>
+            </svg>
+          </button>
+          <button type="button" class="industry-panel__arrow" data-industry-next aria-label="Siguiente">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2.704 8H14.023M14.023 8L8.363 13.659M14.023 8L8.363 2.341" stroke="currentColor" stroke-width="1.5"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <footer class="industry-panel__foot">
+        <span class="industry-panel__dot" aria-hidden="true"></span>
+        <p class="industry-panel__foot-text">
+          <span class="industry-panel__foot-layer">{panelTitle}</span>
+          <span class="industry-panel__foot-badge">{badge}</span>
+          <span class="industry-panel__foot-arrow" aria-hidden="true">↑</span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<style>
+  .industry-panel__shape-path {
+    fill: var(--color-industry-panel-fill);
+    stroke: var(--color-industry-panel-stroke);
+    stroke-width: 1;
+  }
+
+  .industry-panel__frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  :global([data-theme='light']) .industry-panel__frame {
+    filter: drop-shadow(0 8px 28px rgba(0, 0, 0, 0.06));
+  }
+
+  .industry-panel__shape {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .industry-panel__content {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: clamp(16px, 2.5vw, 32px);
+    padding: clamp(20px, 2.43vw, 35px) clamp(20px, 3.33vw, 48px) clamp(18px, 2.22vw, 32px)
+      clamp(20px, 2.99vw, 43px);
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .industry-panel__folder {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.125rem, 1.667vw, 24px);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-industry-panel-text);
+    max-width: min(320px, 55%);
+    text-wrap: balance;
+  }
+
+  .industry-panel__mid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(12px, 1.67vw, 20px);
+    align-items: start;
+    min-height: 0;
+    min-width: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+
+  .industry-panel__cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 2.78vw, 40px);
+    min-width: 0;
+    align-content: start;
+  }
+
+  .industry-panel__col {
+    min-width: 0;
+  }
+
+  .industry-panel__label {
+    margin: 0 0 8px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--color-industry-panel-muted);
+  }
+
+  .industry-panel__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .industry-panel__list li {
+    position: relative;
+    padding-left: 1em;
+    font-family: var(--font-body);
+    font-size: clamp(0.875rem, 1.11vw, 16px);
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--color-industry-panel-text);
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .industry-panel__list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--color-industry-panel-text);
+  }
+
+  .industry-panel__arrows {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    align-self: start;
+    padding-top: 19px;
+  }
+
+  .industry-panel__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--color-industry-panel-stroke);
+    border-radius: 50%;
+    background: var(--color-industry-control-bg);
+    color: var(--color-industry-control-text);
+    cursor: pointer;
+    transition: border-color 0.2s, opacity 0.2s;
+  }
+
+  .industry-panel__arrow:hover:not(:disabled) {
+    border-color: var(--color-primary);
+  }
+
+  .industry-panel__arrow:disabled,
+  .industry-panel__arrow.is-inactive {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .industry-panel__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .industry-panel__dot {
+    width: clamp(32px, 2.99vw, 43px);
+    height: clamp(32px, 2.99vw, 43px);
+    border-radius: 50%;
+    background: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .industry-panel__foot-text {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 12px;
+    margin: 0 0 0 auto;
+    font-family: var(--font-body);
+    min-width: 0;
+  }
+
+  .industry-panel__foot-layer {
+    font-size: clamp(0.8125rem, 0.97vw, 14px);
+    font-weight: 500;
+    color: var(--color-industry-panel-text);
+  }
+
+  .industry-panel__foot-badge {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--color-primary);
+  }
+
+  .industry-panel__foot-arrow {
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+  }
+
+  @media (max-width: 1024px) {
+    .industry-panel__mid {
+      grid-template-columns: 1fr;
+    }
+
+    .industry-panel__arrows {
+      padding-top: 0;
+      justify-self: end;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .industry-panel--mobile .industry-panel__frame {
+      aspect-ratio: 961 / 452;
+      height: auto;
+    }
+
+    .industry-panel--mobile .industry-panel__arrows {
+      display: none;
+    }
+
+    .industry-panel__folder {
+      max-width: none;
+    }
+
+    .industry-panel__cols {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .industry-panel__content {
+      gap: 20px;
+    }
+  }
+</style>

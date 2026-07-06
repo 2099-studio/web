@@ -28,7 +28,7 @@ const es: SiteContent = {
     titleDark: 'Cambiar a modo oscuro',
   },
   hero: {
-    eyebrow: '// 2099.studio — design system',
+    eyebrow: 'Estudio de Diseño Digital, Publicidad y Desarrollo Web',
     title: 'Unimos marca, diseño y',
     titleHighlight: 'tecnología',
     lead: 'Unimos marca, diseño de producto y tecnología en un flujo holístico para elevar empresas en entornos complejos.',
@@ -37,7 +37,8 @@ const es: SiteContent = {
   },
   services: {
     eyebrow: '02 — Servicios',
-    title: 'Propuesta de valor. Cuatro ejes, un solo',
+    badge: 'Servicios',
+    title: 'Diseño de Productos Digitales & Desarrollo',
     titleHighlight: 'flujo',
     ventajaLabel: 'Ventaja competitiva central:',
     specialties: 'Especialidades',
@@ -45,14 +46,16 @@ const es: SiteContent = {
       {
         number: '01',
         title: 'Branding & Identidad',
+        shortTitle: 'Branding',
         description:
           'Naming, storytelling y sistemas de marca que definen cómo se ve y se siente tu producto.',
         tags: ['Naming', 'Storytelling', 'Logo', 'Brand Guidelines', 'Pitch Decks'],
-        accent: 'orange',
+        accent: 'blue',
       },
       {
         number: '02',
         title: 'UX/UI Design',
+        shortTitle: 'UX/UI design',
         description:
           'Diseño de producto centrado en el usuario, desde research hasta design systems escalables.',
         tags: ['Product Design', 'User Research', 'Wireframes', 'Design Systems', 'Auditorías UX'],
@@ -61,16 +64,18 @@ const es: SiteContent = {
       {
         number: '03',
         title: 'Advertising & Content',
+        shortTitle: 'Advertising',
         description:
-          'Contenido visual y narrativa para campañas, redes y experiencias de marca memorables.',
+          'Contenido visual y narrativa para campañas, redes sociales y experiencias de marca memorables.',
         tags: ['Filmmaker', 'Photography', 'Social Media', 'Email Mkt', 'AI Content'],
-        accent: 'orange',
+        accent: 'blue',
       },
       {
         number: '04',
         title: 'Development',
+        shortTitle: 'Development',
         description:
-          'Frontend, MVPs y productos web con rendimiento, accesibilidad y calidad Awwwards.',
+          'Frontend, Backend, MVPs y productos web con rendimiento, accesibilidad y calidad Awwwards.',
         tags: ['Frontend', 'MVPs', 'Webflow', 'Mobile', 'Responsive'],
         accent: 'blue',
       },
@@ -78,18 +83,23 @@ const es: SiteContent = {
   },
   industries: {
     eyebrow: '03 — Industrias',
-    title: 'Matriz de industrias. Tres capas, una',
+    badge: 'Industrias',
+    title: 'Matriz de industrias.',
+    titleLine2: 'Tres capas, una ventaja.',
     titleHighlight: 'ventaja',
     lead: 'Web2/Retail · SaaS/Fintech · Web3/AI — cada capa con su lenguaje visual y el mismo estándar de ejecución.',
-    sectors: 'Sectores',
-    typicalServices: 'Servicios típicos',
+    sectors: 'SECTORES',
+    typicalServices: 'SERVICIOS TÍPICOS',
     uniqueAdvantage: 'Ventaja única:',
     layers: [
       {
         id: 'web2',
         badge: 'Estabilidad',
+        tabLabel: 'Web2 & Retail',
+        panelTitle: 'Capa Tradicional',
+        folderTab: 'Branding',
         title: 'Capa Tradicional — Web2 & Retail',
-        accent: 'orange',
+        accent: 'blue',
         sectors: [
           'Construcción & Real Estate',
           'E-commerce',
@@ -107,6 +117,9 @@ const es: SiteContent = {
       {
         id: 'saas',
         badge: 'Crecimiento',
+        tabLabel: 'SaaS & Fintech',
+        panelTitle: 'Capa Tecnológica',
+        folderTab: 'UX/UI Design',
         title: 'Capa Tecnológica — SaaS & Fintech',
         accent: 'blue',
         sectors: [
@@ -121,6 +134,9 @@ const es: SiteContent = {
       {
         id: 'web3',
         badge: 'Vanguardia',
+        tabLabel: 'Web3 & AI',
+        panelTitle: 'Capa Emergente',
+        folderTab: 'UX/UI Design',
         title: 'Capa Emergente — Web3 & AI',
         accent: 'mix',
         sectors: [
@@ -143,6 +159,7 @@ const es: SiteContent = {
   },
   methodology: {
     eyebrow: '04 — Metodología',
+    badge: 'Metodología',
     title: 'Cinco pasos. Un flujo',
     titleHighlight: 'holístico',
     lead: 'Discovery → Strategy → UX → UI → Execution. La misma secuencia, potenciada por el sistema IA del estudio.',
@@ -226,7 +243,7 @@ const es: SiteContent = {
           'Caso de uso cero del sistema operativo del estudio. De identidad visual a código Awwwards.',
         industries: ['web2', 'saas', 'web3'],
         services: ['branding', 'ux', 'dev'],
-        accent: 'orange',
+        accent: 'blue',
         live: true,
       },
       {
@@ -246,7 +263,7 @@ const es: SiteContent = {
         description: 'E-commerce premium con motion editorial y Core Web Vitals optimizados.',
         industries: ['web2'],
         services: ['branding', 'ads', 'dev'],
-        accent: 'orange',
+        accent: 'blue',
         live: false,
       },
       {
@@ -265,7 +282,6 @@ const es: SiteContent = {
     eyebrow: '06 — Contacto',
     title: '¿Tienes un proyecto',
     titleHighlight: 'complejo',
-    titleAfter: '?',
     titleAfter: '?',
     lead: 'Cuéntanos qué estás construyendo. Unimos marca, diseño y tecnología en un solo flujo — sin silos, sin fricción de handoff.',
     name: 'Nombre',
@@ -310,11 +326,11 @@ const es: SiteContent = {
     },
   },
   footer: {
-    letsTalk: 'Hablemos',
-    localTime: 'Hora local',
+    letsTalk: 'HABLEMOS',
+    localTime: 'HORA LOCAL',
     social: 'Social',
     cta: 'Hablar con nosotros',
-    backToTop: 'Volver arriba',
+    backToTop: 'VOLVER ARRIBA',
     rights: 'Todos los derechos reservados.',
     wordmarkLabel: '2099.studio — Inicio',
     navAria: 'Enlaces del sitio',

@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '../i18n';
 import { getContent } from '../i18n';
+import ServiceCard from './ServiceCard.astro';
 
 interface Props {
   locale: Locale;
@@ -8,361 +9,52 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = getContent(locale);
-const { services, site } = { services: t.services, site: t.site };
+const baseUrl = import.meta.env.BASE_URL;
+const serviceImage = `${baseUrl}assets/brand/service-card.png`;
 ---
 
-<section class="services" id="services" aria-labelledby="services-title">
-  <div class="services__texture" aria-hidden="true"></div>
-
-  <div class="services__inner container">
-    <header class="services__header" data-reveal>
-      <p class="services__eyebrow">
-        <span class="services__eyebrow-dot" aria-hidden="true"></span>
-        {t.services.eyebrow}
-      </p>
-      <h2 class="services__title" id="services-title">
-        {t.services.title} <span class="services__highlight">{t.services.titleHighlight}</span>.
-      </h2>
-      <p class="services__lead">{site.tagline}</p>
+<section class="services figma-section" id="services" aria-labelledby="services-title">
+  <div class="services__wrap container">
+    <header class="figma-section__head">
+      <span class="figma-badge">{t.services.badge}</span>
+      <h2 class="figma-section__title" id="services-title">{t.services.title}</h2>
     </header>
 
     <div class="services__grid">
       {
-        services.items.map((service) => (
-          <article
-            class={`service-card service-card--${service.accent}`}
-            data-service-card
-            tabindex="0"
-            aria-label={`${service.title}: ${service.description}. ${t.services.specialties}: ${service.tags.join(', ')}`}
-          >
-            <span class="service-card__number" aria-hidden="true">
-              {service.number}
-            </span>
-
-            <div class="service-card__content">
-              <h3 class="service-card__title">{service.title}</h3>
-
-              <div class="service-card__swap">
-                <div class="service-card__panel service-card__panel--default">
-                  <p class="service-card__description">{service.description}</p>
-                </div>
-
-                <div class="service-card__panel service-card__panel--hover">
-                  <p class="service-card__reveal-label">{t.services.specialties}</p>
-                  <ul class="service-card__tags">
-                    {service.tags.map((tag) => (
-                      <li class="service-card__tag">{tag}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </article>
+        t.services.items.map((service, index) => (
+          <ServiceCard
+            id={String(index)}
+            number={service.number}
+            name={service.shortTitle ?? service.title}
+            description={service.description}
+            imageSrc={serviceImage}
+          />
         ))
       }
     </div>
-
-    <aside class="services__ventaja" data-reveal>
-      <p>
-        <strong>{t.services.ventajaLabel}</strong>
-        {site.ventaja}
-      </p>
-    </aside>
   </div>
 </section>
 
 <style>
-  .services {
-    position: relative;
-    padding-block: var(--space-24);
-    border-top: 1px solid var(--color-border);
-    overflow: hidden;
-  }
-
-  .services__texture {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--color-accent-blue-glow) 1px, transparent 1px),
-      linear-gradient(90deg, var(--color-accent-blue-glow) 1px, transparent 1px);
-    background-size: 20px 20px;
-    opacity: 0.5;
-    mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, black, transparent);
-    pointer-events: none;
-  }
-
-  .services__inner {
-    position: relative;
-  }
-
-  .services__header {
-    max-width: 720px;
-    margin-bottom: var(--space-16);
-  }
-
-  .services__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-accent-blue);
-    margin-bottom: var(--space-6);
-  }
-
-  .services__eyebrow-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: var(--radius-full);
-    background: var(--color-accent-blue);
-    box-shadow: 0 0 10px var(--color-accent-blue-glow);
-  }
-
-  .services__title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, var(--text-2xl));
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: var(--space-6);
-  }
-
-  .services__highlight {
-    color: var(--color-accent-blue);
-  }
-
-  .services__lead {
-    font-size: var(--text-lg);
-    color: var(--color-text-secondary);
-    max-width: 52ch;
-    line-height: 1.7;
-  }
-
   .services__grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-    margin-bottom: var(--space-12);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 13px;
+    align-items: start;
   }
 
-  .service-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-height: 300px;
-    padding: var(--space-8);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    transition:
-      border-color var(--dur-fast) var(--ease-out),
-      background var(--dur-fast) var(--ease-out);
-  }
-
-  .service-card:focus {
-    outline: none;
-  }
-
-  .service-card:focus-visible {
-    outline: 2px solid var(--color-accent-blue);
-    outline-offset: 3px;
-  }
-
-  .service-card--orange:hover,
-  .service-card--orange:focus-within {
-    background: var(--color-elevated);
-    border-color: color-mix(in srgb, var(--color-accent-orange) 50%, var(--color-border));
-  }
-
-  .service-card--blue:hover,
-  .service-card--blue:focus-within {
-    background: var(--color-elevated);
-    border-color: color-mix(in srgb, var(--color-accent-blue) 50%, var(--color-border));
-  }
-
-  .service-card__number {
-    position: absolute;
-    top: var(--space-4);
-    right: var(--space-6);
-    font-family: var(--font-display);
-    font-size: clamp(4rem, 12vw, 6rem);
-    font-weight: 700;
-    line-height: 1;
-    opacity: 0.12;
-    pointer-events: none;
-  }
-
-  .service-card--orange .service-card__number {
-    color: var(--color-accent-orange);
-  }
-
-  .service-card--blue .service-card__number {
-    color: var(--color-accent-blue);
-  }
-
-  .service-card__content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-    margin-top: auto;
-    flex: 1;
-  }
-
-  .service-card__title {
-    font-family: var(--font-display);
-    font-size: var(--text-xl);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-
-  .service-card__swap {
-    display: grid;
-    flex: 1;
-    min-height: 6.5rem;
-    align-content: end;
-  }
-
-  .service-card__panel {
-    grid-area: 1 / 1;
-    align-self: end;
-    transition:
-      opacity var(--dur-base) var(--ease-out),
-      transform var(--dur-base) var(--ease-out),
-      visibility var(--dur-base) var(--ease-out);
-  }
-
-  .service-card__panel--hover {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(8px);
-  }
-
-  .service-card:hover .service-card__panel--default,
-  .service-card:focus-within .service-card__panel--default {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px);
-  }
-
-  .service-card:hover .service-card__panel--hover,
-  .service-card:focus-within .service-card__panel--hover {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-
-  .service-card__description {
-    font-size: var(--text-md);
-    color: var(--color-text-secondary);
-    max-width: 36ch;
-    line-height: 1.6;
-  }
-
-  .service-card__reveal-label {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-text-tertiary);
-    margin-bottom: var(--space-3);
-  }
-
-  .service-card__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    list-style: none;
-  }
-
-  .service-card__tag {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-full);
-    border: 1px solid var(--color-border);
-  }
-
-  .service-card--orange .service-card__tag {
-    color: var(--color-accent-orange);
-    background: var(--color-accent-orange-glow);
-    border-color: color-mix(in srgb, var(--color-accent-orange) 30%, var(--color-border));
-  }
-
-  .service-card--blue .service-card__tag {
-    color: var(--color-accent-blue);
-    background: var(--color-accent-blue-glow);
-    border-color: color-mix(in srgb, var(--color-accent-blue) 30%, var(--color-border));
-  }
-
-  .services__ventaja {
-    padding: var(--space-6) var(--space-8);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    font-size: var(--text-md);
-    color: var(--color-text-secondary);
-    line-height: 1.7;
-  }
-
-  .services__ventaja strong {
-    color: var(--color-text-primary);
-    font-weight: 500;
-    margin-right: var(--space-2);
-  }
-
-  @media (min-width: 768px) {
+  @media (max-width: 1200px) {
     .services__grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-6);
-    }
-
-    .service-card {
-      min-height: 320px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(16px, 2vw, 24px);
     }
   }
 
-  @media (min-width: 1024px) {
+  @media (max-width: 600px) {
     .services__grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  @media (hover: none) {
-    .service-card__swap {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-6);
-      min-height: auto;
-    }
-
-    .service-card__panel--default,
-    .service-card__panel--hover {
-      opacity: 1;
-      visibility: visible;
-      transform: none;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .service-card__panel {
-      transition: none;
-    }
-
-    .service-card:hover .service-card__panel--default,
-    .service-card:focus-within .service-card__panel--default {
-      display: none;
-    }
-
-    .service-card:hover .service-card__panel--hover,
-    .service-card:focus-within .service-card__panel--hover {
-      opacity: 1;
-      visibility: visible;
-      transform: none;
+      grid-template-columns: 1fr;
+      justify-items: center;
     }
   }
 </style>
