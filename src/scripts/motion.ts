@@ -8,7 +8,7 @@ import { initContactForm } from './contact-form';
 import { initButtonInteractions } from './button-interactions';
 import { initIndustriesTabs } from './industries-tabs';
 import { initSectionParallax } from './section-parallax';
-import { initCanvasText } from './canvas-text';
+import { initCanvasText, refreshCanvasText } from './canvas-text';
 import { initStarsField } from './stars-field';
 
 export function initMotion(): void {
@@ -29,6 +29,7 @@ export function initMotion(): void {
       duration: 0.8,
       ease: 'power2.out',
       delay: 0.15,
+      onComplete: refreshCanvasText,
     });
 
     gsap.from(heroContent, {

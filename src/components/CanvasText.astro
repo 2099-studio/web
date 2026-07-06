@@ -1,8 +1,17 @@
 ---
 /** Aceternity canvas-text demo — 2099 brand blue (#2B5FFF) */
-const BRAND_RGBA_STEPS = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1].map(
-  (alpha) => `rgba(43, 95, 255, ${alpha})`,
-);
+const BRAND_RGBA_STEPS = [
+  'rgba(255, 255, 255, 0.95)',
+  'rgba(92, 133, 255, 1)',
+  'rgba(43, 95, 255, 1)',
+  'rgba(43, 95, 255, 0.85)',
+  'rgba(43, 95, 255, 0.7)',
+  'rgba(43, 95, 255, 0.55)',
+  'rgba(43, 95, 255, 0.4)',
+  'rgba(255, 255, 255, 0.6)',
+  'rgba(92, 133, 255, 0.75)',
+  'rgba(43, 95, 255, 0.25)',
+];
 
 interface Props {
   text: string;
@@ -52,9 +61,17 @@ const {
   }
 
   .canvas-text__label {
+    font: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    color: var(--color-primary);
+    -webkit-text-fill-color: var(--color-primary);
+    user-select: none;
+  }
+
+  .canvas-text.canvas-text--ready .canvas-text__label {
     color: transparent;
     -webkit-text-fill-color: transparent;
-    user-select: none;
   }
 
   .canvas-text__canvas {
