@@ -51,26 +51,40 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
           path === base + 'index.html' ||
           (base === '/' && (path === '/' || path === '/index.html'));
 
+        const enHome = base === '/' ? '/en/' : base + 'en/';
+        const esHome = base;
+
+        function preferredLocale() {
+          const list = [];
+          if (navigator.languages && navigator.languages.length) {
+            for (let i = 0; i < navigator.languages.length; i++) list.push(navigator.languages[i]);
+          }
+          if (navigator.language) list.push(navigator.language);
+          for (let i = 0; i < list.length; i++) {
+            const lang = String(list[i] || '').toLowerCase();
+            if (lang.indexOf('es') === 0) return 'es';
+            if (lang.indexOf('en') === 0) return 'en';
+          }
+          return 'es';
+        }
+
         if (saved === 'en' && current === 'es' && isHome) {
-          location.replace((base === '/' ? '/en/' : base + 'en/') + hash);
+          location.replace(enHome + hash);
           return;
         }
         if (saved === 'es' && current === 'en') {
-          location.replace(base + hash);
+          location.replace(esHome + hash);
           return;
         }
         if (!saved) {
-          const lang = (navigator.language || '').toLowerCase();
-          const prefersEs = lang.indexOf('es') === 0;
-          const prefersEn = lang.indexOf('en') === 0;
-          if (prefersEn && !prefersEs && current === 'es' && isHome) {
-            localStorage.setItem(STORAGE_KEY, 'en');
-            location.replace((base === '/' ? '/en/' : base + 'en/') + hash);
+          const preferred = preferredLocale();
+          localStorage.setItem(STORAGE_KEY, preferred);
+          if (preferred === 'en' && current === 'es' && isHome) {
+            location.replace(enHome + hash);
             return;
           }
-          if (prefersEs && current === 'en') {
-            localStorage.setItem(STORAGE_KEY, 'es');
-            location.replace(base + hash);
+          if (preferred === 'es' && current === 'en') {
+            location.replace(esHome + hash);
             return;
           }
         }

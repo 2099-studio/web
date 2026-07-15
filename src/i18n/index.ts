@@ -22,11 +22,20 @@ export function alternateLocale(locale: Locale): Locale {
   return locale === 'es' ? 'en' : 'es';
 }
 
+/** First es/en in the browser language list wins (native/primary preference). */
 export function detectBrowserLocale(): Locale {
   if (typeof navigator === 'undefined') return defaultLocale;
 
-  const lang = (navigator.language || '').toLowerCase();
-  if (lang.startsWith('es')) return 'es';
-  if (lang.startsWith('en')) return 'en';
+  const list = [
+    ...(navigator.languages?.length ? navigator.languages : []),
+    navigator.language || '',
+  ];
+
+  for (const raw of list) {
+    const lang = String(raw).toLowerCase();
+    if (lang.startsWith('es')) return 'es';
+    if (lang.startsWith('en')) return 'en';
+  }
+
   return defaultLocale;
 }
