@@ -16,6 +16,7 @@ import { initStarsField } from './stars-field';
 import { initHeroCarousel } from './hero-carousel';
 import { initServicesPin } from './services-pin';
 import { initViewportFit } from './viewport-fit';
+import { initSectionHold } from './section-hold';
 
 export function initMotion(): void {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -59,6 +60,7 @@ export function initMotion(): void {
     initContactForm();
     initIndustriesTabs();
     initServicesPin();
+    initSectionHold();
     initViewportFit();
     initButtonInteractions();
     initGooeyButtons();
@@ -98,6 +100,7 @@ export function initMotion(): void {
   initServicesPin();
   initIndustriesTabs();
   initMethodology();
+  initSectionHold();
   initViewportFit();
   initTextReveal();
 

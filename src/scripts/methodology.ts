@@ -25,7 +25,21 @@ export function initMethodology(): void {
   setActiveStep(0);
   updateProgress(0);
 
-  const bindScrollSteps = () => {
+  if (isDesktop) {
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top top',
+      end: `+=${(steps.length - 1) * 75}%`,
+      pin: true,
+      scrub: 0.5,
+      anticipatePin: 1,
+      onUpdate: (self) => {
+        const index = Math.min(steps.length - 1, Math.floor(self.progress * steps.length));
+        setActiveStep(index);
+        updateProgress(index);
+      },
+    });
+  } else {
     steps.forEach((step, index) => {
       ScrollTrigger.create({
         trigger: step,
@@ -41,31 +55,5 @@ export function initMethodology(): void {
         },
       });
     });
-  };
-
-  if (isDesktop) {
-    // Pin only when the full step stack fits in the viewport (notebooks often clip).
-    const contentH = section.scrollHeight;
-    const canPin = contentH <= window.innerHeight - 8;
-
-    if (canPin) {
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top top',
-        end: `+=${(steps.length - 1) * 75}%`,
-        pin: true,
-        scrub: 0.5,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          const index = Math.min(steps.length - 1, Math.floor(self.progress * steps.length));
-          setActiveStep(index);
-          updateProgress(index);
-        },
-      });
-    } else {
-      bindScrollSteps();
-    }
-  } else {
-    bindScrollSteps();
   }
 }

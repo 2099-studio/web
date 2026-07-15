@@ -13,76 +13,102 @@ const homeHref = localePath(locale);
 const badge = w.eyebrow.replace(/^\d+\s—\s/, '');
 ---
 
-<section class="works figma-section" id="works" data-works aria-labelledby="works-title">
-  <div class="works__wrap container">
-    <header class="figma-section__head" data-reveal>
-      <span class="figma-badge">{badge}</span>
-      <h2 class="figma-section__title" id="works-title" data-text-reveal>
-        {w.title}
-        {w.titleHighlight ? (
-          <>
-            {' '}
-            <span style="color: var(--color-primary)">{w.titleHighlight}</span>.
-          </>
-        ) : null}
-      </h2>
-      {w.lead ? <p class="figma-section__subtitle" data-text-reveal>{w.lead}</p> : null}
-    </header>
+<section class="works figma-section" id="works" data-works data-section-hold aria-labelledby="works-title">
+  <div class="works__sticky" data-section-hold-pin>
+    <div class="works__fit" data-viewport-fit>
+      <div class="works__wrap container">
+        <header class="figma-section__head" data-reveal>
+          <span class="figma-badge">{badge}</span>
+          <h2 class="figma-section__title" id="works-title" data-text-reveal>
+            {w.title}
+            {w.titleHighlight ? (
+              <>
+                {' '}
+                <span style="color: var(--color-primary)">{w.titleHighlight}</span>.
+              </>
+            ) : null}
+          </h2>
+          {w.lead ? <p class="figma-section__subtitle" data-text-reveal>{w.lead}</p> : null}
+        </header>
 
-    <div class="works__filters" data-reveal>
-      <div class="works__filter-group">
-        <span class="works__filter-label">{w.filterIndustry}</span>
-        <div class="works__filter-btns">
-          {w.industryFilters.map((filter, i) => (
-            <button type="button" class={`works__filter-btn${i === 0 ? ' is-active' : ''}`} data-works-filter-industry={filter.id}>{filter.label}</button>
-          ))}
+        <div class="works__filters" data-reveal>
+          <div class="works__filter-group">
+            <span class="works__filter-label">{w.filterIndustry}</span>
+            <div class="works__filter-btns">
+              {w.industryFilters.map((filter, i) => (
+                <button type="button" class={`works__filter-btn${i === 0 ? ' is-active' : ''}`} data-works-filter-industry={filter.id}>{filter.label}</button>
+              ))}
+            </div>
+          </div>
+          <div class="works__filter-group">
+            <span class="works__filter-label">{w.filterService}</span>
+            <div class="works__filter-btns">
+              {w.serviceFilters.map((filter, i) => (
+                <button type="button" class={`works__filter-btn${i === 0 ? ' is-active' : ''}`} data-works-filter-service={filter.id}>{filter.label}</button>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="works__filter-group">
-        <span class="works__filter-label">{w.filterService}</span>
-        <div class="works__filter-btns">
-          {w.serviceFilters.map((filter, i) => (
-            <button type="button" class={`works__filter-btn${i === 0 ? ' is-active' : ''}`} data-works-filter-service={filter.id}>{filter.label}</button>
-          ))}
-        </div>
-      </div>
-    </div>
 
-    <div class="works__grid">
-      {
-        w.items.map((work) => {
-          const href = work.live ? homeHref : undefined;
-          const Tag = href ? 'a' : 'article';
-          const props = href ? { href } : { tabindex: 0 as const };
-          const primaryIndustry = work.industries[0];
-          const primaryService = work.services[0];
-          const metaParts = [
-            primaryIndustry ? w.industryLabels[primaryIndustry] : null,
-            primaryService ? w.serviceLabels[primaryService] : null,
-          ].filter(Boolean);
-          return (
-            <Tag class="work-card" data-work-card data-work-item data-industries={work.industries.join(',')} data-services={work.services.join(',')} {...props}>
-              <div class="work-card__visual">
-                <span class="work-card__year">{work.year}</span>
-              </div>
-              <div class="work-card__body">
-                <h3 class="work-card__title">{work.title}</h3>
-                <p class="work-card__client">{metaParts.join(' · ') || work.client}</p>
-                {primaryIndustry ? (
-                  <div class="work-card__tags">
-                    <span>{w.industryLabels[primaryIndustry]}</span>
+        <div class="works__grid">
+          {
+            w.items.map((work) => {
+              const href = work.live ? homeHref : undefined;
+              const Tag = href ? 'a' : 'article';
+              const props = href ? { href } : { tabindex: 0 as const };
+              const primaryIndustry = work.industries[0];
+              const primaryService = work.services[0];
+              const metaParts = [
+                primaryIndustry ? w.industryLabels[primaryIndustry] : null,
+                primaryService ? w.serviceLabels[primaryService] : null,
+              ].filter(Boolean);
+              return (
+                <Tag class="work-card" data-work-card data-work-item data-industries={work.industries.join(',')} data-services={work.services.join(',')} {...props}>
+                  <div class="work-card__visual">
+                    <span class="work-card__year">{work.year}</span>
                   </div>
-                ) : null}
-              </div>
-            </Tag>
-          );
-        })
-      }
+                  <div class="work-card__body">
+                    <h3 class="work-card__title">{work.title}</h3>
+                    <p class="work-card__client">{metaParts.join(' · ') || work.client}</p>
+                    {primaryIndustry ? (
+                      <div class="work-card__tags">
+                        <span>{w.industryLabels[primaryIndustry]}</span>
+                      </div>
+                    ) : null}
+                  </div>
+                </Tag>
+              );
+            })
+          }
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
+  .works.figma-section {
+    padding-block: 0;
+  }
+
+  .works__sticky {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .works__fit {
+    width: 100%;
+    padding-block: var(--section-padding-y);
+    box-sizing: border-box;
+    transform: scale(var(--viewport-fit-scale, 1));
+    transform-origin: center center;
+    will-change: transform;
+  }
+
   /* Figma 663:2086 — 1280×180 filter panel */
   .works__filters {
     display: flex;
@@ -221,6 +247,16 @@ const badge = w.eyebrow.replace(/^\d+\s—\s/, '');
   }
 
   @media (max-width: 900px) {
+    .works__sticky {
+      min-height: 0;
+      overflow: visible;
+    }
+
+    .works__fit {
+      transform: none;
+      will-change: auto;
+    }
+
     .works__grid {
       grid-template-columns: 1fr;
     }

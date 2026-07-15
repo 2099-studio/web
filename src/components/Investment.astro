@@ -12,54 +12,80 @@ const t = getContent(locale);
 const { investment: inv } = t;
 ---
 
-<section class="investment figma-section" id="investment" aria-labelledby="investment-title">
-  <div class="investment__wrap container">
-    <header class="figma-section__head" data-reveal>
-      <span class="figma-badge">{inv.badge}</span>
-      <h2 class="figma-section__title" id="investment-title" data-text-reveal>{inv.title}</h2>
-      <p class="figma-section__subtitle" data-text-reveal>{inv.lead}</p>
-    </header>
+<section class="investment figma-section" id="investment" data-section-hold aria-labelledby="investment-title">
+  <div class="investment__sticky" data-section-hold-pin>
+    <div class="investment__fit" data-viewport-fit>
+      <div class="investment__wrap container">
+        <header class="figma-section__head" data-reveal>
+          <span class="figma-badge">{inv.badge}</span>
+          <h2 class="figma-section__title" id="investment-title" data-text-reveal>{inv.title}</h2>
+          <p class="figma-section__subtitle" data-text-reveal>{inv.lead}</p>
+        </header>
 
-    <div class="investment__grid" data-reveal>
-      {
-        inv.plans.map((plan) => {
-          const checkoutUrl = getInvestmentCheckoutUrl(plan.id);
-          const isExternal = /^https?:\/\//i.test(checkoutUrl);
-          return (
-            <article class="investment__card" data-plan={plan.id}>
-              <div class="investment__copy">
-                <h3 class="investment__name">{plan.name}</h3>
-                <p class="investment__desc">{plan.description}</p>
-                <p class="investment__ideal">
-                  <span class="investment__ideal-label">{inv.idealForLabel}:</span>{' '}
-                  {plan.idealFor}
-                </p>
-              </div>
+        <div class="investment__grid" data-reveal>
+          {
+            inv.plans.map((plan) => {
+              const checkoutUrl = getInvestmentCheckoutUrl(plan.id);
+              const isExternal = /^https?:\/\//i.test(checkoutUrl);
+              return (
+                <article class="investment__card" data-plan={plan.id}>
+                  <div class="investment__copy">
+                    <h3 class="investment__name">{plan.name}</h3>
+                    <p class="investment__desc">{plan.description}</p>
+                    <p class="investment__ideal">
+                      <span class="investment__ideal-label">{inv.idealForLabel}:</span>{' '}
+                      {plan.idealFor}
+                    </p>
+                  </div>
 
-              <div class="investment__price-block">
-                <p class="investment__price">{plan.price}</p>
-                <p class="investment__note">{plan.priceNote}</p>
-              </div>
+                  <div class="investment__price-block">
+                    <p class="investment__price">{plan.price}</p>
+                    <p class="investment__note">{plan.priceNote}</p>
+                  </div>
 
-              <a
-                class="btn-figma-primary investment__cta"
-                href={checkoutUrl}
-                data-checkout={plan.id}
-                {...(isExternal
-                  ? { target: '_blank', rel: 'noopener noreferrer' }
-                  : {})}
-              >
-                {inv.cta}
-              </a>
-            </article>
-          );
-        })
-      }
+                  <a
+                    class="btn-figma-primary investment__cta"
+                    href={checkoutUrl}
+                    data-checkout={plan.id}
+                    {...(isExternal
+                      ? { target: '_blank', rel: 'noopener noreferrer' }
+                      : {})}
+                  >
+                    {inv.cta}
+                  </a>
+                </article>
+              );
+            })
+          }
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
+  .investment.figma-section {
+    padding-block: 0;
+  }
+
+  .investment__sticky {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .investment__fit {
+    width: 100%;
+    padding-block: var(--section-padding-y);
+    box-sizing: border-box;
+    transform: scale(var(--viewport-fit-scale, 1));
+    transform-origin: center center;
+    will-change: transform;
+  }
+
   .investment__grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -143,6 +169,16 @@ const { investment: inv } = t;
   }
 
   @media (max-width: 900px) {
+    .investment__sticky {
+      min-height: 0;
+      overflow: visible;
+    }
+
+    .investment__fit {
+      transform: none;
+      will-change: auto;
+    }
+
     .investment__grid {
       grid-template-columns: 1fr;
     }

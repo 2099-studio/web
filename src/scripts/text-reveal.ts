@@ -14,7 +14,7 @@ interface WordShell {
 }
 
 const PIN_SECTION_SELECTOR =
-  '[data-services-pin], [data-industries], [data-methodology]';
+  '[data-services-pin], [data-industries], [data-methodology], [data-section-hold]';
 
 function createWord(text: string): WordShell {
   const root = document.createElement('span');
