@@ -1,4 +1,4 @@
-const HOVER_SELECTOR = 'a, button, [data-magnetic], [role="button"]';
+const HOVER_SELECTOR = 'a, button, [data-magnetic], [role="button"], input, select, textarea, label';
 
 export function initCursor(): void {
   if (window.matchMedia('(pointer: coarse)').matches) return;
@@ -11,14 +11,16 @@ export function initCursor(): void {
   ring.className = 'cursor-ring';
   ring.setAttribute('aria-hidden', 'true');
 
-  document.body.append(dot, ring);
+  // Outside transformed Lenis/ScrollTrigger trees so fixed coords stay viewport-true
+  document.documentElement.append(dot, ring);
   document.body.classList.add('has-custom-cursor');
 
-  // Direct transform writes — sync with pointer events (60/120/144Hz), zero tween lag
+  // Position via left/top only — never fight CSS scale/width on the same transform
   const place = (x: number, y: number) => {
-    const t = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
-    dot.style.transform = t;
-    ring.style.transform = t;
+    dot.style.left = `${x}px`;
+    dot.style.top = `${y}px`;
+    ring.style.left = `${x}px`;
+    ring.style.top = `${y}px`;
   };
 
   place(window.innerWidth / 2, window.innerHeight / 2);
@@ -44,6 +46,7 @@ export function initCursor(): void {
     (event) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
+      if (target === dot || target === ring) return;
       setHover(Boolean(target.closest(HOVER_SELECTOR)));
     },
     { passive: true },

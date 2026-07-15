@@ -131,10 +131,10 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
     top: 0;
     left: 0;
     pointer-events: none;
-    z-index: 10000;
-    border-radius: var(--radius-full);
-    will-change: transform;
-    contain: layout style paint;
+    z-index: 2147483647;
+    border-radius: 999px;
+    transform: translate(-50%, -50%);
+    will-change: left, top;
     backface-visibility: hidden;
   }
 
@@ -147,15 +147,17 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
   .cursor-ring {
     width: 36px;
     height: 36px;
+    box-sizing: border-box;
     border: 1px solid color-mix(in srgb, var(--color-text-primary) 35%, transparent);
-    scale: 1;
     transition:
-      scale 140ms ease-out,
+      width 140ms ease-out,
+      height 140ms ease-out,
       border-color 140ms ease-out;
   }
 
   .cursor-ring.is-hover {
-    scale: 1.44;
+    width: 52px;
+    height: 52px;
     border-color: var(--color-primary);
   }
 

@@ -111,10 +111,8 @@ button {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  --magnet-x: 0px;
-  --magnet-y: 0px;
   --btn-scale: 1;
-  transform: translate3d(var(--magnet-x), var(--magnet-y), 0) scale(var(--btn-scale));
+  transform: scale(var(--btn-scale));
   transition:
     transform 0.5s var(--btn-ease),
     background 0.22s var(--ease-out),
