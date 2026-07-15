@@ -264,6 +264,27 @@ const { methodology } = t;
     }
   }
 
+  @media (max-height: 900px) {
+    .methodology.figma-section {
+      min-height: 0;
+      padding-block: var(--section-padding-y);
+    }
+
+    .methodology__steps {
+      gap: clamp(12px, 1.8vh, 20px);
+    }
+
+    .methodology__card {
+      min-height: var(--methodology-card-min);
+      padding: var(--methodology-card-pad);
+      gap: 16px;
+    }
+
+    .methodology__title {
+      font-size: clamp(1.5rem, 3.5vh, var(--text-section-title-lg));
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .methodology__card,
     .methodology__dot,

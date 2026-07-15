@@ -33,6 +33,7 @@ export function initIndustriesTabs(): () => void {
   const total = tabs.length;
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isMobileMq = window.matchMedia('(max-width: 767px)');
+  const isShortMq = window.matchMedia('(max-height: 820px)');
 
   const syncLayoutA11y = () => {
     const isMobile = isMobileMq.matches;
@@ -114,7 +115,7 @@ export function initIndustriesTabs(): () => void {
 
   const setupPin = () => {
     killPin();
-    if (prefersReduced || isMobileMq.matches) return;
+    if (prefersReduced || isMobileMq.matches || isShortMq.matches) return;
 
     setActive(0);
 
@@ -194,12 +195,14 @@ export function initIndustriesTabs(): () => void {
   if (isMobileMq.matches) startAutoplay();
 
   isMobileMq.addEventListener('change', onResize);
+  isShortMq.addEventListener('change', onResize);
   window.addEventListener('resize', onResize);
 
   return () => {
     stopAutoplay();
     killPin();
     isMobileMq.removeEventListener('change', onResize);
+    isShortMq.removeEventListener('change', onResize);
     window.removeEventListener('resize', onResize);
   };
 }

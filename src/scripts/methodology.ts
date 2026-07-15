@@ -20,12 +20,14 @@ export function initMethodology(): void {
     gsap.set(progressFill, { scaleY: (index + 1) / steps.length });
   };
 
-  const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+  const canPin =
+    window.matchMedia('(min-width: 1024px)').matches &&
+    window.matchMedia('(min-height: 900px)').matches;
 
   setActiveStep(0);
   updateProgress(0);
 
-  if (isDesktop) {
+  if (canPin) {
     ScrollTrigger.create({
       trigger: section,
       start: 'top top',

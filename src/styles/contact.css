@@ -199,3 +199,19 @@
     order: -1;
   }
 }
+
+@media (max-height: 900px) {
+  .contact.figma-section {
+    min-height: 0;
+    justify-content: flex-start;
+    padding-block: var(--section-padding-y);
+  }
+
+  .contact__card {
+    max-height: none;
+  }
+
+  .contact__media {
+    min-height: 0;
+  }
+}

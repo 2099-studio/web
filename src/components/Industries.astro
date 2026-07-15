@@ -151,7 +151,7 @@ const layerLabel = locale === 'es' ? 'Capa' : 'Layer';
     z-index: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: safe center;
     min-height: 100dvh;
     box-sizing: border-box;
     padding-block: var(--section-padding-y);
@@ -164,7 +164,7 @@ const layerLabel = locale === 'es' ? 'Capa' : 'Layer';
     z-index: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: safe center;
     gap: clamp(40px, 4.444vw, 64px);
     box-sizing: border-box;
   }
@@ -407,6 +407,30 @@ const layerLabel = locale === 'es' ? 'Capa' : 'Layer';
 
     .industries__pager-dot.is-active {
       background: var(--color-text-primary);
+    }
+  }
+
+  @media (max-height: 900px) and (min-width: 768px) {
+    .industries__frame {
+      padding-block: var(--section-padding-y);
+    }
+
+    .industries__wrap {
+      gap: clamp(16px, 2.5vh, 36px);
+    }
+
+    .industries__tab {
+      min-height: clamp(52px, 8dvh, 88px);
+      padding: 12px 16px;
+      font-size: clamp(1rem, 2vw, 28px);
+    }
+
+    .industries__panel-wrap {
+      aspect-ratio: auto;
+      width: min(961px, 100%);
+      height: min(452px, calc(100dvh - 14rem));
+      max-width: min(961px, calc(min(452px, calc(100dvh - 14rem)) * 961 / 452));
+      margin-inline: auto;
     }
   }
 </style>
