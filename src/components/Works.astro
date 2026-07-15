@@ -15,7 +15,7 @@ const badge = w.eyebrow.replace(/^\d+\s—\s/, '');
 
 <section class="works figma-section" id="works" data-works data-section-hold aria-labelledby="works-title">
   <div class="works__sticky" data-section-hold-pin>
-    <div class="works__fit" data-viewport-fit>
+    <div class="works__fit">
       <div class="works__wrap container">
         <header class="figma-section__head" data-reveal>
           <span class="figma-badge">{badge}</span>
@@ -104,9 +104,6 @@ const badge = w.eyebrow.replace(/^\d+\s—\s/, '');
     width: 100%;
     padding-block: var(--section-padding-y);
     box-sizing: border-box;
-    transform: scale(var(--viewport-fit-scale, 1));
-    transform-origin: center center;
-    will-change: transform;
   }
 
   /* Figma 663:2086 — 1280×180 filter panel */
@@ -252,11 +249,6 @@ const badge = w.eyebrow.replace(/^\d+\s—\s/, '');
       overflow: visible;
     }
 
-    .works__fit {
-      transform: none;
-      will-change: auto;
-    }
-
     .works__grid {
       grid-template-columns: 1fr;
     }
@@ -274,23 +266,6 @@ const badge = w.eyebrow.replace(/^\d+\s—\s/, '');
   @media (min-width: 901px) and (max-width: 1100px) {
     .works__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  /* Notebook height: less filter chrome so cards enter the first view */
-  @media (max-height: 900px) and (min-width: 901px) {
-    .works__filters {
-      gap: 14px;
-      margin-bottom: 28px;
-      padding: 16px 20px;
-    }
-
-    .works__filter-group {
-      gap: 8px;
-    }
-
-    .work-card {
-      height: 280px;
     }
   }
 </style>

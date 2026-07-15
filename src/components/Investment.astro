@@ -14,7 +14,7 @@ const { investment: inv } = t;
 
 <section class="investment figma-section" id="investment" data-section-hold aria-labelledby="investment-title">
   <div class="investment__sticky" data-section-hold-pin>
-    <div class="investment__fit" data-viewport-fit>
+    <div class="investment__fit">
       <div class="investment__wrap container">
         <header class="figma-section__head" data-reveal>
           <span class="figma-badge">{inv.badge}</span>
@@ -81,9 +81,6 @@ const { investment: inv } = t;
     width: 100%;
     padding-block: var(--section-padding-y);
     box-sizing: border-box;
-    transform: scale(var(--viewport-fit-scale, 1));
-    transform-origin: center center;
-    will-change: transform;
   }
 
   .investment__grid {
@@ -172,11 +169,6 @@ const { investment: inv } = t;
     .investment__sticky {
       min-height: 0;
       overflow: visible;
-    }
-
-    .investment__fit {
-      transform: none;
-      will-change: auto;
     }
 
     .investment__grid {

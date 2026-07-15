@@ -17,7 +17,7 @@ const UNION_PATH =
 
 <section class="services-pin figma-section" id="services" data-services-pin aria-labelledby="services-title">
   <div class="services-pin__sticky" data-services-sticky>
-    <div class="services-pin__fit" data-viewport-fit>
+    <div class="services-pin__fit">
       <header class="services-pin__head" data-reveal>
         <span class="figma-badge">{t.services.badge}</span>
         <h2 class="services-pin__title" id="services-title" data-text-reveal>{t.services.title}</h2>
@@ -108,9 +108,6 @@ const UNION_PATH =
     gap: clamp(28px, 4vw, 48px);
     padding-block: clamp(72px, 8vw, 120px);
     width: 100%;
-    transform: scale(var(--viewport-fit-scale, 1));
-    transform-origin: center center;
-    will-change: transform;
   }
 
   .services-pin__head {
@@ -374,7 +371,6 @@ const UNION_PATH =
     .services-pin__fit {
       padding-block: clamp(64px, 12vw, 96px);
       gap: 28px;
-      transform: none;
     }
 
     .services-pin__panel {
