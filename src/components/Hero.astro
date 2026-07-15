@@ -360,6 +360,33 @@ function splitHighlight(line: string) {
       opacity: 0;
       visibility: hidden;
     }
+
+    /* Allow title/lead to wrap — desktop nowrap clips on narrow widths */
+    .hero__title {
+      width: 100%;
+      max-width: none;
+      line-height: 1.05;
+    }
+
+    .hero__title-line,
+    .hero__lead-line {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: unset;
+      text-wrap: balance;
+    }
+
+    .hero__lead {
+      align-items: flex-start;
+      width: 100%;
+      max-width: none;
+    }
+
+    .hero__eyebrow {
+      white-space: normal;
+      text-wrap: balance;
+      line-height: 1.35;
+    }
   }
 
   @media (max-height: 900px) {
@@ -394,31 +421,15 @@ function splitHighlight(line: string) {
       justify-content: flex-start;
     }
 
-    .hero__eyebrow {
-      text-wrap: balance;
-      line-height: 1.35;
-    }
-
     .hero__title {
-      width: 100%;
-      max-width: none;
       margin-inline: 0;
-    }
-
-    .hero__title-line {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: clip;
+      font-size: clamp(1.75rem, 8.5vw, 2.5rem);
     }
 
     .hero__lead {
-      align-items: flex-start;
       margin-inline: 0;
-      width: 100%;
-    }
-
-    .hero__lead-line {
-      white-space: nowrap;
+      font-size: clamp(0.9375rem, 3.8vw, 1.125rem);
+      line-height: 1.45;
     }
 
     .hero__actions {
