@@ -1,5 +1,9 @@
-/** Magic UI Text Reveal — vanilla / GSAP port for section titles.
+/**
+ * Magic UI Text Reveal — vanilla / GSAP port for Astro section titles.
  * @see https://magicui.design/docs/components/text-reveal
+ *
+ * Note: this project is Astro (no React). Do not use
+ * `pnpm dlx shadcn@latest add @magicui/text-reveal` — that targets React/shadcn.
  */
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -8,6 +12,9 @@ interface WordShell {
   root: HTMLSpanElement;
   fill: HTMLSpanElement;
 }
+
+const PIN_SECTION_SELECTOR =
+  '[data-services-pin], [data-industries], [data-methodology]';
 
 function createWord(text: string): WordShell {
   const root = document.createElement('span');
@@ -31,7 +38,6 @@ function processNode(node: Node, fills: HTMLSpanElement[]): void {
   if (node.nodeType === Node.TEXT_NODE) {
     const text = node.textContent ?? '';
     if (!text.trim()) {
-      // Drop whitespace-only nodes — spacing comes from word margins
       if (text.length) node.parentNode?.removeChild(node);
       return;
     }
@@ -57,6 +63,16 @@ function processNode(node: Node, fills: HTMLSpanElement[]): void {
   if (el.classList.contains('text-reveal__word')) return;
 
   Array.from(el.childNodes).forEach((child) => processNode(child, fills));
+}
+
+function applyProgress(fills: HTMLSpanElement[], progress: number): void {
+  const total = fills.length;
+  fills.forEach((fill, i) => {
+    const start = i / total;
+    const end = start + 1 / total;
+    const local = gsap.utils.clamp(0, 1, (progress - start) / (end - start));
+    fill.style.opacity = String(local);
+  });
 }
 
 function mountTextReveal(host: HTMLElement): ScrollTrigger | null {
@@ -88,30 +104,43 @@ function mountTextReveal(host: HTMLElement): ScrollTrigger | null {
 
   gsap.set(fills, { opacity: 0 });
 
-  const total = fills.length;
+  // Pinned sections keep the title fixed — scrub against the section docking instead
+  const pinRoot = host.closest(PIN_SECTION_SELECTOR) as HTMLElement | null;
+  const trigger = pinRoot ?? host;
 
   return ScrollTrigger.create({
-    trigger: host,
+    trigger,
     start: 'top 88%',
-    end: 'top 42%',
-    scrub: true,
+    // Finish reveal as the section reaches the top (when pins lock)
+    end: pinRoot ? 'top 12%' : 'top 40%',
+    scrub: 0.35,
+    invalidateOnRefresh: true,
     onUpdate: (self) => {
-      const progress = self.progress;
-      fills.forEach((fill, i) => {
-        const start = i / total;
-        const end = start + 1 / total;
-        const local = gsap.utils.clamp(0, 1, (progress - start) / (end - start));
-        fill.style.opacity = String(local);
-      });
+      applyProgress(fills, self.progress);
+    },
+    onLeave: () => {
+      applyProgress(fills, 1);
+    },
+    onEnterBack: (self) => {
+      applyProgress(fills, self.progress);
     },
   });
 }
 
-export function initTextReveal(): void {
+export function initTextReveal(): () => void {
   gsap.registerPlugin(ScrollTrigger);
 
+  const triggers: ScrollTrigger[] = [];
   const hosts = document.querySelectorAll<HTMLElement>('[data-text-reveal]');
+
   hosts.forEach((host) => {
-    mountTextReveal(host);
+    const trigger = mountTextReveal(host);
+    if (trigger) triggers.push(trigger);
   });
+
+  ScrollTrigger.refresh();
+
+  return () => {
+    triggers.forEach((t) => t.kill());
+  };
 }

@@ -442,7 +442,7 @@
 .text-reveal__ghost {
   position: absolute;
   inset: 0;
-  opacity: 0.22;
+  opacity: 0.28;
   color: inherit;
   pointer-events: none;
   user-select: none;

@@ -92,9 +92,11 @@ export function initMotion(): void {
     });
   });
 
-  initTextReveal();
+  // Pins first, then text-reveal — scrub must account for pinned layouts
   initServicesPin();
   initIndustriesTabs();
+  initMethodology();
+  initTextReveal();
 
   const workCards = gsap.utils.toArray<HTMLElement>('[data-work-card]');
   if (workCards.length) {
@@ -128,7 +130,6 @@ export function initMotion(): void {
     });
   }
 
-  initMethodology();
   initWorksFilter();
   initContactForm();
   initSectionParallax();
