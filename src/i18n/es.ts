@@ -29,7 +29,7 @@ const es: SiteContent = {
   },
   hero: {
     eyebrow: 'Estudio de Diseño Digital, Publicidad y Desarrollo Web',
-    title: 'Unimos, marca,\ndiseño y Magic AI.',
+    title: 'Unimos marca,\ndiseño y Magic AI.',
     titleHighlight: 'Magic AI',
     lead: 'Branding, UX/UI, Desarrollo y Contenido con AI.',
     leadSecondary: 'Un flujo para marcas memorables y productos que crecen.',

@@ -133,8 +133,9 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
     pointer-events: none;
     z-index: 10000;
     border-radius: var(--radius-full);
-    transform: translate3d(-50%, -50%, 0);
     will-change: transform;
+    contain: layout style paint;
+    backface-visibility: hidden;
   }
 
   .cursor-dot {
@@ -147,13 +148,14 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
     width: 36px;
     height: 36px;
     border: 1px solid color-mix(in srgb, var(--color-text-primary) 35%, transparent);
-    transition: width var(--dur-fast) var(--ease-out), height var(--dur-fast) var(--ease-out),
-      border-color var(--dur-fast) var(--ease-out);
+    scale: 1;
+    transition:
+      scale 140ms ease-out,
+      border-color 140ms ease-out;
   }
 
   .cursor-ring.is-hover {
-    width: 52px;
-    height: 52px;
+    scale: 1.44;
     border-color: var(--color-primary);
   }
 

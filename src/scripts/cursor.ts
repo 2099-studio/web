@@ -1,4 +1,4 @@
-import gsap from 'gsap';
+const HOVER_SELECTOR = 'a, button, [data-magnetic], [role="button"]';
 
 export function initCursor(): void {
   if (window.matchMedia('(pointer: coarse)').matches) return;
@@ -14,25 +14,48 @@ export function initCursor(): void {
   document.body.append(dot, ring);
   document.body.classList.add('has-custom-cursor');
 
-  const position = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-  const target = { ...position };
-
-  const render = () => {
-    position.x += (target.x - position.x) * 0.18;
-    position.y += (target.y - position.y) * 0.18;
-    dot.style.transform = `translate3d(${target.x}px, ${target.y}px, 0)`;
-    ring.style.transform = `translate3d(${position.x}px, ${position.y}px, 0)`;
+  // Direct transform writes — sync with pointer events (60/120/144Hz), zero tween lag
+  const place = (x: number, y: number) => {
+    const t = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+    dot.style.transform = t;
+    ring.style.transform = t;
   };
 
-  gsap.ticker.add(render);
+  place(window.innerWidth / 2, window.innerHeight / 2);
 
-  window.addEventListener('mousemove', (event) => {
-    target.x = event.clientX;
-    target.y = event.clientY;
-  });
+  window.addEventListener(
+    'pointermove',
+    (event) => {
+      place(event.clientX, event.clientY);
+    },
+    { passive: true },
+  );
 
-  document.querySelectorAll<HTMLElement>('a, button, [data-magnetic]').forEach((el) => {
-    el.addEventListener('mouseenter', () => ring.classList.add('is-hover'));
-    el.addEventListener('mouseleave', () => ring.classList.remove('is-hover'));
-  });
+  let hovering = false;
+
+  const setHover = (next: boolean) => {
+    if (hovering === next) return;
+    hovering = next;
+    ring.classList.toggle('is-hover', next);
+  };
+
+  document.addEventListener(
+    'pointerover',
+    (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      setHover(Boolean(target.closest(HOVER_SELECTOR)));
+    },
+    { passive: true },
+  );
+
+  document.addEventListener(
+    'pointerout',
+    (event) => {
+      const related = event.relatedTarget;
+      if (related instanceof Element && related.closest(HOVER_SELECTOR)) return;
+      setHover(false);
+    },
+    { passive: true },
+  );
 }

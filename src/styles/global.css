@@ -74,9 +74,7 @@ body.is-theme-transitioning *::after {
 
 .pixel-grid,
 .animate-reveal,
-canvas,
-.cursor-dot,
-.cursor-ring {
+canvas {
   transition: none !important;
 }
 
