@@ -7,14 +7,16 @@ export function getLocale(): 'es' | 'en' {
 }
 
 export function initLocale(): void {
-  const toggle = document.querySelector<HTMLButtonElement>('[data-locale-toggle]');
-  if (!toggle) return;
+  const toggles = document.querySelectorAll<HTMLButtonElement>('[data-locale-toggle]');
+  if (!toggles.length) return;
 
-  toggle.addEventListener('click', () => {
-    const current = getLocale();
-    const next = current === 'es' ? 'en' : 'es';
-    localStorage.setItem(STORAGE_KEY, next);
-    const hash = window.location.hash;
-    window.location.href = clientLocalePath(next, hash);
+  toggles.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const current = getLocale();
+      const next = current === 'es' ? 'en' : 'es';
+      localStorage.setItem(STORAGE_KEY, next);
+      const hash = window.location.hash;
+      window.location.href = clientLocalePath(next, hash);
+    });
   });
 }
