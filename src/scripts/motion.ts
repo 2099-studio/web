@@ -15,6 +15,7 @@ import { initTextReveal } from './text-reveal';
 import { initStarsField } from './stars-field';
 import { initHeroCarousel } from './hero-carousel';
 import { initServicesPin } from './services-pin';
+import { initViewportFit } from './viewport-fit';
 
 export function initMotion(): void {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -58,6 +59,7 @@ export function initMotion(): void {
     initContactForm();
     initIndustriesTabs();
     initServicesPin();
+    initViewportFit();
     initButtonInteractions();
     initGooeyButtons();
     return;
@@ -92,10 +94,11 @@ export function initMotion(): void {
     });
   });
 
-  // Pins first, then text-reveal — scrub must account for pinned layouts
+  // Pins first, then fit scale, then text-reveal — scrub must account for pinned layouts
   initServicesPin();
   initIndustriesTabs();
   initMethodology();
+  initViewportFit();
   initTextReveal();
 
   const workCards = gsap.utils.toArray<HTMLElement>('[data-work-card]');

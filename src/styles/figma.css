@@ -360,10 +360,10 @@
 }
 
 /* Short laptop screens: only tighten padding — never rescale Figma card geometry */
-@media (max-height: 800px) and (min-width: 768px) {
+@media (max-height: 900px) and (min-width: 768px) {
   :root {
-    --section-padding-y: clamp(40px, 5vh, 72px);
-    --section-header-gap: 32px;
+    --section-padding-y: clamp(32px, 4.5vh, 64px);
+    --section-header-gap: 28px;
   }
 }
 

@@ -17,6 +17,7 @@ const layerLabel = locale === 'es' ? 'Capa' : 'Layer';
 
 <section class="industries figma-section" id="industries" data-industries aria-labelledby="industries-title">
   <div class="industries__frame" data-industries-sticky>
+    <div class="industries__fit" data-viewport-fit>
     <div class="industries__wrap container container--wide">
       <header class="figma-section__head industries__head" data-reveal>
         <span class="figma-badge industries__badge">{industries.badge}</span>
@@ -120,6 +121,7 @@ const layerLabel = locale === 'es' ? 'Capa' : 'Layer';
         </div>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
@@ -154,9 +156,21 @@ const layerLabel = locale === 'es' ? 'Capa' : 'Layer';
     justify-content: center;
     min-height: 100dvh;
     box-sizing: border-box;
-    padding-block: var(--section-padding-y);
+    padding-block: 0;
     background-color: var(--industries-bg);
     border-block: 1px solid var(--color-border, #2a2a2a);
+  }
+
+  .industries__fit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    padding-block: var(--section-padding-y);
+    box-sizing: border-box;
+    transform: scale(var(--viewport-fit-scale, 1));
+    transform-origin: center center;
+    will-change: transform;
   }
 
   .industries__wrap {
@@ -314,6 +328,11 @@ const layerLabel = locale === 'es' ? 'Capa' : 'Layer';
   @media (max-width: 767px) {
     .industries__frame {
       min-height: 100dvh;
+    }
+
+    .industries__fit {
+      transform: none;
+      will-change: auto;
     }
 
     .industries__head.figma-section__head {

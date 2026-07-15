@@ -200,9 +200,24 @@
   }
 }
 
-@media (max-height: 800px) and (min-width: 721px) {
+/* Notebooks: don't force a full viewport — let the form breathe and scroll */
+@media (max-height: 900px) and (min-width: 721px) {
   .contact.figma-section {
     min-height: 0;
     justify-content: flex-start;
+    padding-block: clamp(28px, 4vh, 56px);
+  }
+
+  .contact__wrap {
+    gap: 16px;
+  }
+
+  .contact__form {
+    gap: 10px;
+    padding: 22px 24px 20px;
+  }
+
+  .contact__field textarea {
+    min-height: 56px;
   }
 }
