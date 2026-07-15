@@ -93,7 +93,7 @@ const UNION_PATH =
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    justify-content: safe center;
+    justify-content: center;
     gap: clamp(28px, 4vw, 48px);
     padding-block: clamp(72px, 8vw, 120px);
     box-sizing: border-box;
@@ -124,8 +124,8 @@ const UNION_PATH =
     position: relative;
     width: min(1082px, calc(100% - var(--margin) * 2));
     margin-inline: auto;
-    /* Figma 11:77 frame height — falls back on short viewports */
-    min-height: min(438.422px, calc(100dvh - 12rem));
+    /* Figma 11:77 frame height */
+    min-height: 438.422px;
     overflow: visible;
   }
 
@@ -211,7 +211,7 @@ const UNION_PATH =
     position: relative;
     width: var(--service-visual-w);
     height: var(--service-visual-h);
-    margin-top: clamp(16px, 3vh, 50px);
+    margin-top: 50px;
     justify-self: start;
   }
 
@@ -469,18 +469,6 @@ const UNION_PATH =
 
     .services-pin__tick.is-active {
       background: var(--color-primary);
-    }
-  }
-
-  /* Notebook heights: keep desktop layout, shrink vertical chrome so cards fit */
-  @media (max-height: 900px) and (min-width: 901px) {
-    .services-pin__sticky {
-      padding-block: clamp(36px, 5vh, 56px);
-      gap: clamp(12px, 2vh, 24px);
-    }
-
-    .services-pin__num {
-      font-size: var(--text-service-num);
     }
   }
 

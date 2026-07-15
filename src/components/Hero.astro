@@ -389,21 +389,11 @@ function splitHighlight(line: string) {
     }
   }
 
-  @media (max-height: 900px) {
+  @media (max-height: 800px) and (min-width: 768px) {
     .hero {
       min-height: 0;
-      gap: clamp(16px, 2.5vh, 28px);
-      padding-top: calc(var(--header-height) + 12px);
+      gap: 24px;
       padding-bottom: 16px;
-    }
-
-    .hero__inner {
-      flex: 0 1 auto;
-      justify-content: flex-end;
-    }
-
-    .hero__viewport {
-      height: var(--hero-slide-h);
     }
   }
 

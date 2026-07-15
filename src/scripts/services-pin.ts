@@ -5,9 +5,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Sticky services panels:
- * - Scroll advances 01 → 02 → 03 → 04 once
- * - After the last panel, the pin releases and scroll continues to the next section
- * - Short notebooks / mobile: no pin (avoids clipped cards), click/autoplay instead
+ * - Desktop: pin while scroll advances 01 → 02 → 03 → 04, then release
+ * - Mobile (≤900px width): click/autoplay — no pin
  */
 export function initServicesPin(): () => void {
   const section = document.querySelector<HTMLElement>('[data-services-pin]');
@@ -18,7 +17,7 @@ export function initServicesPin(): () => void {
   if (!section || !sticky || panels.length < 2) return () => {};
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const compactMq = window.matchMedia('(max-width: 900px), (max-height: 820px)');
+  const isMobileMq = window.matchMedia('(max-width: 900px)');
 
   const showPanel = (index: number) => {
     const clamped = Math.max(0, Math.min(panels.length - 1, index));
@@ -47,16 +46,16 @@ export function initServicesPin(): () => void {
     }, 2800);
   };
 
-  const enableCompact = () => {
-    trigger?.kill();
-    trigger = undefined;
-    sticky.addEventListener('click', onClick);
+  const onClick = () => {
+    index = (index + 1) % panels.length;
     showPanel(index);
     startTimer();
   };
 
-  const onClick = () => {
-    index = (index + 1) % panels.length;
+  const enableCompact = () => {
+    trigger?.kill();
+    trigger = undefined;
+    sticky.addEventListener('click', onClick);
     showPanel(index);
     startTimer();
   };
@@ -86,18 +85,18 @@ export function initServicesPin(): () => void {
   };
 
   const syncMode = () => {
-    if (prefersReduced || compactMq.matches) enableCompact();
+    if (prefersReduced || isMobileMq.matches) enableCompact();
     else enablePin();
     ScrollTrigger.refresh();
   };
 
   syncMode();
-  compactMq.addEventListener('change', syncMode);
+  isMobileMq.addEventListener('change', syncMode);
 
   return () => {
     stopTimer();
     sticky.removeEventListener('click', onClick);
-    compactMq.removeEventListener('change', syncMode);
+    isMobileMq.removeEventListener('change', syncMode);
     trigger?.kill();
   };
 }

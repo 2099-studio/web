@@ -359,39 +359,11 @@
   }
 }
 
-/* Notebook / short viewports — prevent pinned sections from clipping cards */
-@media (max-height: 900px) {
+/* Short laptop screens: only tighten padding — never rescale Figma card geometry */
+@media (max-height: 800px) and (min-width: 768px) {
   :root {
-    --section-padding-y: clamp(32px, 4.5vh, 56px);
-    --section-header-gap: clamp(20px, 3vh, 36px);
-    --hero-slide-h: min(calc(400px * var(--hero-slide-scale)), 32dvh);
-    --hero-near-h: min(calc(320px * var(--hero-slide-scale)), 26dvh);
-    --hero-far-h: min(calc(240px * var(--hero-slide-scale)), 20dvh);
-    --service-visual-h: clamp(220px, 40dvh, 388.422px);
-    --service-folder-h: clamp(220px, 40dvh, 388.422px);
-    --service-media-h: clamp(180px, 34dvh, 336px);
-    --service-media-top: clamp(20px, 3.5dvh, 44px);
-    --service-copy-top: clamp(20px, 3.5dvh, 47px);
-    --text-service-num: clamp(64px, 12dvh, 128px);
-    --methodology-card-min: clamp(88px, 13dvh, 160px);
-    --methodology-card-pad: clamp(14px, 2.2vh, 32px);
-  }
-
-  .figma-section {
-    padding-block: var(--section-padding-y);
-  }
-}
-
-@media (max-height: 760px) {
-  :root {
-    --section-padding-y: clamp(24px, 3.5vh, 40px);
-    --hero-slide-h: min(calc(400px * var(--hero-slide-scale)), 28dvh);
-    --hero-near-h: min(calc(320px * var(--hero-slide-scale)), 22dvh);
-    --hero-far-h: min(calc(240px * var(--hero-slide-scale)), 17dvh);
-    --service-visual-h: clamp(180px, 36dvh, 300px);
-    --service-folder-h: clamp(180px, 36dvh, 300px);
-    --service-media-h: clamp(150px, 30dvh, 260px);
-    --methodology-card-min: clamp(72px, 11dvh, 120px);
+    --section-padding-y: clamp(40px, 5vh, 72px);
+    --section-header-gap: 32px;
   }
 }
 
