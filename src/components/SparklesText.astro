@@ -1,0 +1,80 @@
+---
+/**
+ * Port of Magic UI SparklesText for Astro (no React/Tailwind).
+ * @see https://magicui.design/docs/components/sparkles-text
+ */
+interface Props {
+  class?: string;
+  sparklesCount?: number;
+  colorFirst?: string;
+  colorSecond?: string;
+}
+
+const {
+  class: className = '',
+  sparklesCount = 12,
+  colorFirst = '#2b5fff',
+  colorSecond = '#92b0ff',
+} = Astro.props;
+---
+
+<span
+  class:list={['sparkles-text', className]}
+  data-sparkles-text
+  data-sparkles-count={String(sparklesCount)}
+  data-sparkles-color-first={colorFirst}
+  data-sparkles-color-second={colorSecond}
+>
+  <span class="sparkles-text__layer" data-sparkles-layer aria-hidden="true"></span>
+  <span class="sparkles-text__content">
+    <slot />
+  </span>
+</span>
+
+<style>
+  .sparkles-text {
+    position: relative;
+    display: inline-block;
+    vertical-align: baseline;
+  }
+
+  .sparkles-text__layer {
+    position: absolute;
+    inset: -0.35em -0.2em;
+    pointer-events: none;
+    z-index: 2;
+    overflow: visible;
+  }
+
+  .sparkles-text__content {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+  }
+
+  .sparkles-text :global(.sparkles-text__star) {
+    position: absolute;
+    pointer-events: none;
+    z-index: 2;
+    will-change: transform, opacity;
+    animation: sparkles-text-twinkle 0.8s ease-in-out infinite;
+  }
+
+  @keyframes sparkles-text-twinkle {
+    0%,
+    100% {
+      opacity: 0;
+      transform: scale(0) rotate(75deg);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(var(--sparkle-scale, 1)) rotate(120deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sparkles-text__layer {
+      display: none;
+    }
+  }
+</style>

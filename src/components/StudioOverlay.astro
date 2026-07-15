@@ -1,0 +1,179 @@
+---
+import type { Locale } from '../i18n';
+import { getContent } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getContent(locale);
+const { methodology, nav } = t;
+---
+
+<div class="studio-overlay" data-studio-overlay hidden>
+  <button class="studio-overlay__backdrop" type="button" data-studio-close aria-label={locale === 'es' ? 'Cerrar' : 'Close'}></button>
+
+  <div class="studio-overlay__panel" role="dialog" aria-modal="true" aria-labelledby="studio-overlay-title">
+    <div class="studio-overlay__top">
+      <p class="studio-overlay__eyebrow">{nav.studio}</p>
+      <button class="studio-overlay__close" type="button" data-studio-close>
+        {locale === 'es' ? 'Cerrar' : 'Close'}
+      </button>
+    </div>
+
+    <h2 class="studio-overlay__title" id="studio-overlay-title">
+      {methodology.title}{' '}
+      <span>{methodology.titleHighlight}</span>.
+    </h2>
+    <p class="studio-overlay__lead">{methodology.lead}</p>
+
+    <ol class="studio-overlay__steps">
+      {
+        methodology.steps.map((step) => (
+          <li>
+            <span class="studio-overlay__num">{step.number}</span>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <a class="btn-figma-primary studio-overlay__cta" href="#methodology" data-studio-close>
+      {locale === 'es' ? 'Ver metodología' : 'See methodology'}
+    </a>
+  </div>
+</div>
+
+<style>
+  .studio-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 280;
+    display: grid;
+    place-items: end center;
+    padding: 16px 16px calc(80px + env(safe-area-inset-bottom));
+  }
+
+  .studio-overlay[hidden] {
+    display: none !important;
+  }
+
+  .studio-overlay__backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    background: color-mix(in srgb, #000 55%, transparent);
+    cursor: pointer;
+  }
+
+  .studio-overlay__panel {
+    position: relative;
+    z-index: 1;
+    width: min(720px, 100%);
+    max-height: min(78dvh, 820px);
+    overflow: auto;
+    padding: clamp(24px, 3vw, 40px);
+    border-radius: 24px;
+    border: 1px solid var(--color-border);
+    background: var(--color-elevated);
+    box-shadow: 0 24px 80px color-mix(in srgb, #000 40%, transparent);
+  }
+
+  .studio-overlay__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .studio-overlay__eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+  }
+
+  .studio-overlay__close {
+    border: 0;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .studio-overlay__close:hover {
+    color: var(--color-text-primary);
+  }
+
+  .studio-overlay__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+    margin-bottom: 16px;
+  }
+
+  .studio-overlay__title span {
+    color: var(--color-primary);
+  }
+
+  .studio-overlay__lead {
+    font-size: var(--text-lg);
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+    margin-bottom: 28px;
+    text-wrap: pretty;
+  }
+
+  .studio-overlay__steps {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .studio-overlay__steps li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    padding: 14px 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .studio-overlay__num {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--color-primary);
+    padding-top: 4px;
+  }
+
+  .studio-overlay__steps h3 {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--color-text-primary);
+  }
+
+  .studio-overlay__steps p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  .studio-overlay__cta {
+    display: inline-flex;
+  }
+</style>

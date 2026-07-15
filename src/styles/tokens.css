@@ -69,8 +69,8 @@
   --hero-bg: #fafafa;
   --noise-opacity: 0.02;
   --color-on-accent: #ffffff;
-  --color-service-panel-fill: rgba(255, 255, 255, 0.96);
-  --color-service-glass-fill: rgba(255, 255, 255, 0.88);
+  --color-service-panel-fill: #ffffff;
+  --color-service-glass-fill: rgba(255, 255, 255, 0.92);
   --color-industry-tab-bg: #ffffff;
   --color-industry-tab-text: #09090b;
   --color-industry-tab-border: #ebebeb;
@@ -102,7 +102,7 @@
   --text-3xl: 72px;
   --text-hero: clamp(2.5rem, 5vw, 4.5rem);
   --text-hero-lead: clamp(1.125rem, 2vw, 1.5rem);
-  --text-hero-btn: 13px;
+  --text-hero-btn: 32px;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -148,7 +148,8 @@
   --bp-xxl: 1920px;
 
   --header-height: 72px;
-  --logo-height-header: 36px;
+  --logo-width-header: 90px;
+  --logo-height-header: 52px;
 
   --hero-offset-nav: clamp(2rem, 6vh, 4rem);
   --hero-copy-pt: calc(var(--header-height) + var(--hero-offset-nav));

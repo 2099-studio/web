@@ -10,118 +10,195 @@ interface Props {
 const { locale } = Astro.props;
 const t = getContent(locale);
 const { industries } = t;
+const prevLabel = locale === 'es' ? 'Anterior' : 'Previous';
+const nextLabel = locale === 'es' ? 'Siguiente' : 'Next';
+const layerLabel = locale === 'es' ? 'Capa' : 'Layer';
 ---
 
 <section class="industries figma-section" id="industries" data-industries aria-labelledby="industries-title">
-  <div class="industries__wrap container container--wide">
-    <header class="figma-section__head industries__head" data-reveal>
-      <span class="figma-badge industries__badge">{industries.badge}</span>
-      <h2 class="figma-section__title industries__title" id="industries-title">
-        {industries.title}<br />{industries.titleLine2}
-      </h2>
-    </header>
+  <div class="industries__frame" data-industries-sticky>
+    <div class="industries__wrap container container--wide">
+      <header class="figma-section__head industries__head" data-reveal>
+        <span class="figma-badge industries__badge">{industries.badge}</span>
+        <h2 class="figma-section__title industries__title" id="industries-title" data-text-reveal>
+          {industries.title}
+          {industries.titleLine2 ? (
+            <>
+              <br />
+              {industries.titleLine2}
+            </>
+          ) : null}
+        </h2>
+      </header>
 
-    <div class="industries__body industries__body--desktop">
-      <div class="industries__tabs" role="tablist" aria-label={industries.badge}>
-        {
-          industries.layers.map((layer, index) => (
-            <button
-              type="button"
-              class={`industries__tab${index === 0 ? ' is-active' : ''}`}
-              role="tab"
-              aria-selected={index === 0}
-              data-industry-tab
-              data-tab-index={index}
-            >
-              {layer.tabLabel}
-            </button>
-          ))
-        }
-      </div>
+      <div class="industries__body industries__body--desktop" data-reveal data-industries-desktop>
+        <div class="industries__tabs" role="tablist" aria-label={industries.badge}>
+          {
+            industries.layers.map((layer, index) => (
+              <button
+                type="button"
+                class={`industries__tab${index === 0 ? ' is-active' : ''}`}
+                role="tab"
+                aria-selected={index === 0}
+                data-industry-tab
+                data-tab-index={index}
+              >
+                {layer.tabLabel}
+              </button>
+            ))
+          }
+        </div>
 
-      <div class="industries__panel-wrap">
-        {
-          industries.layers.map((layer, index) => (
-            <IndustryPanel
-              index={index}
-              folderTab={layer.folderTab}
-              panelTitle={layer.panelTitle}
-              badge={layer.badge}
-              sectorsLabel={industries.sectors}
-              servicesLabel={industries.typicalServices}
-              sectors={layer.sectors}
-              services={layer.services}
-              hidden={index !== 0}
-            />
-          ))
-        }
-      </div>
-    </div>
-
-    <div class="industries__body industries__body--mobile">
-      <div class="industries__mobile-track" data-industry-mobile-track>
-        {
-          industries.layers.map((layer, index) => (
-            <article class="industries__mobile-slide" data-industry-mobile-slide>
-              <div class="industries__tab industries__tab--chip is-active">{layer.tabLabel}</div>
+        <div class="industries__panel-wrap">
+          {
+            industries.layers.map((layer, index) => (
               <IndustryPanel
                 index={index}
                 folderTab={layer.folderTab}
                 panelTitle={layer.panelTitle}
                 badge={layer.badge}
+                description={layer.description}
                 sectorsLabel={industries.sectors}
                 servicesLabel={industries.typicalServices}
                 sectors={layer.sectors}
                 services={layer.services}
-                isMobile={true}
+                prevLabel={prevLabel}
+                nextLabel={nextLabel}
+                hidden={index !== 0}
               />
-            </article>
-          ))
-        }
+            ))
+          }
+        </div>
       </div>
 
-      <div class="industries__mobile-nav">
-        <button type="button" class="industry-panel__arrow" data-industry-mobile-prev aria-label="Anterior">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M14.378 8H1.802M1.802 8L8.09 1.712M1.802 8L8.09 14.288" stroke="currentColor" stroke-width="1.5"></path>
-          </svg>
-        </button>
-        <div class="industries__pager" data-industry-dots>
-          {industries.layers.map((_, index) => (
-            <button
-              type="button"
-              class={`industries__pager-dot${index === 0 ? ' is-active' : ''}`}
-              data-industry-dot={index}
-              aria-label={`Capa ${index + 1}`}
-            ></button>
-          ))}
+      <div class="industries__body industries__body--mobile" data-reveal data-industries-mobile aria-hidden="true">
+        <div class="industries__mobile-track" data-industry-mobile-track>
+          {
+            industries.layers.map((layer, index) => (
+              <article class="industries__mobile-slide" data-industry-mobile-slide>
+                <div class="industries__tab industries__tab--chip is-active">{layer.tabLabel}</div>
+                <IndustryPanel
+                  index={index}
+                  folderTab={layer.folderTab}
+                  panelTitle={layer.panelTitle}
+                  badge={layer.badge}
+                  description={layer.description}
+                  sectorsLabel={industries.sectors}
+                  servicesLabel={industries.typicalServices}
+                  sectors={layer.sectors}
+                  services={layer.services}
+                  prevLabel={prevLabel}
+                  nextLabel={nextLabel}
+                  isMobile={true}
+                />
+              </article>
+            ))
+          }
         </div>
-        <button type="button" class="industry-panel__arrow" data-industry-mobile-next aria-label="Siguiente">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M2.704 8H14.023M14.023 8L8.363 13.659M14.023 8L8.363 2.341" stroke="currentColor" stroke-width="1.5"></path>
-          </svg>
-        </button>
+
+        <div class="industries__mobile-nav">
+          <button type="button" class="industry-panel__arrow" data-industry-mobile-prev aria-label={prevLabel}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M14.378 8H1.802M1.802 8L8.09 1.712M1.802 8L8.09 14.288" stroke="currentColor" stroke-width="1.5"></path>
+            </svg>
+          </button>
+          <div class="industries__pager" data-industry-dots>
+            {industries.layers.map((_, index) => (
+              <button
+                type="button"
+                class={`industries__pager-dot${index === 0 ? ' is-active' : ''}`}
+                data-industry-dot={index}
+                aria-label={`${layerLabel} ${index + 1}`}
+              ></button>
+            ))}
+          </div>
+          <button type="button" class="industry-panel__arrow" data-industry-mobile-next aria-label={nextLabel}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2.704 8H14.023M14.023 8L8.363 13.659M14.023 8L8.363 2.341" stroke="currentColor" stroke-width="1.5"></path>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <style is:global>
-  /* Figma 587:2910 — frame 1440, tabs 300 + gap 20 + panel 961×452 */
+  /*
+   * Frame pinned via ScrollTrigger (industries-tabs.ts) while scroll
+   * advances every industry layer; CSS sticky is fallback only.
+   */
   .industries {
+    --industries-bg: #060606;
     --ind-tab-w: clamp(260px, 20.833vw, 300px);
     --ind-gap: 20px;
     --ind-tab-gap: 12px;
     --ind-panel-ratio: 961 / 452;
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+    padding-block: 0;
+    background: transparent;
+    border: none;
   }
 
+  [data-theme='light'] .industries {
+    --industries-bg: #f2f2f0;
+  }
+
+  .industries__frame {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100dvh;
+    box-sizing: border-box;
+    padding-block: var(--section-padding-y);
+    background-color: var(--industries-bg);
+    border-block: 1px solid var(--color-border, #2a2a2a);
+  }
+
+  .industries__wrap {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(40px, 4.444vw, 64px);
+    box-sizing: border-box;
+  }
+
+  /* Figma 1:483 — badge + title stacked and centered */
   .industries__head.figma-section__head {
-    margin-bottom: clamp(32px, 4.444vw, 64px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 0;
+    flex: 0 0 auto;
+    text-align: center;
+  }
+
+  .industries__head .industries__badge,
+  .industries__head .figma-badge {
+    position: static;
+    grid-column: auto;
+    grid-row: auto;
+    justify-self: center;
+    margin: 0;
   }
 
   .industries__title.figma-section__title {
-    font-size: clamp(1.75rem, 3.333vw, 48px);
-    letter-spacing: -0.02em;
+    grid-column: auto;
+    grid-row: auto;
+    justify-self: center;
+    margin: 0;
+    max-width: min(859px, 100%);
+    font-size: clamp(1.75rem, 2.917vw, 42px);
+    letter-spacing: -0.84px;
+    text-align: center;
   }
 
   .industries__body--mobile {
@@ -130,9 +207,12 @@ const { industries } = t;
 
   .industries__body--desktop {
     display: grid;
-    grid-template-columns: var(--ind-tab-w) minmax(0, 1fr);
+    grid-template-columns: var(--ind-tab-w) minmax(0, 961px);
     gap: var(--ind-gap);
     align-items: stretch;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 100%;
   }
 
   .industries__tabs {
@@ -145,6 +225,7 @@ const { industries } = t;
   .industries__tab {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex: 1 1 0;
     min-height: clamp(88px, 7.36vw, 106px);
     min-width: 0;
@@ -154,7 +235,7 @@ const { industries } = t;
     font-weight: 500;
     line-height: 1.2;
     color: var(--color-industry-tab-text);
-    text-align: left;
+    text-align: center;
     background: var(--color-industry-tab-bg);
     border: 1px solid var(--color-industry-tab-border);
     border-radius: 16px;
@@ -180,7 +261,7 @@ const { industries } = t;
     width: 100%;
     max-width: 961px;
     min-width: 0;
-    justify-self: end;
+    justify-self: stretch;
   }
 
   .industries__panel-wrap .industry-panel {
@@ -231,6 +312,21 @@ const { industries } = t;
   }
 
   @media (max-width: 767px) {
+    .industries__frame {
+      min-height: 100dvh;
+    }
+
+    .industries__head.figma-section__head {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .industries__title.figma-section__title {
+      text-align: left;
+      margin-inline: 0;
+      justify-self: start;
+    }
+
     .industries__body--desktop {
       display: none;
     }

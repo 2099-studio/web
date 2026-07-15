@@ -1,7 +1,6 @@
 ---
 import type { Locale } from '../i18n';
 import { getContent } from '../i18n';
-import ServiceCard from './ServiceCard.astro';
 
 interface Props {
   locale: Locale;
@@ -10,26 +9,71 @@ interface Props {
 const { locale } = Astro.props;
 const t = getContent(locale);
 const baseUrl = import.meta.env.BASE_URL;
-const serviceImage = `${baseUrl}assets/brand/service-card.png`;
+const mediaSrc = `${baseUrl}assets/brand/service-panel-media.jpg`;
+
+const UNION_PATH =
+  'M129.876 0C135.501 0 140.714 2.95353 143.604 7.7793L155.043 26.8828C157.933 31.7086 163.146 34.6621 168.771 34.6621H298C306.837 34.6621 314 41.8256 314 50.6621V372.422C314 381.258 306.837 388.422 298 388.422H16C7.16344 388.422 0 381.258 0 372.422V16C0 7.16345 7.16345 0 16 0H129.876Z';
 ---
 
-<section class="services figma-section" id="services" aria-labelledby="services-title">
-  <div class="services__wrap container">
-    <header class="figma-section__head">
+<section class="services-pin figma-section" id="services" data-services-pin aria-labelledby="services-title">
+  <div class="services-pin__sticky" data-services-sticky>
+    <header class="services-pin__head" data-reveal>
       <span class="figma-badge">{t.services.badge}</span>
-      <h2 class="figma-section__title" id="services-title">{t.services.title}</h2>
+      <h2 class="services-pin__title" id="services-title" data-text-reveal>{t.services.title}</h2>
     </header>
 
-    <div class="services__grid">
+    <div class="services-pin__stage" data-services-stage data-reveal>
       {
         t.services.items.map((service, index) => (
-          <ServiceCard
-            id={String(index)}
-            number={service.number}
-            name={service.shortTitle ?? service.title}
-            description={service.description}
-            imageSrc={serviceImage}
-          />
+          <article
+            class={`services-pin__panel${index === 0 ? ' is-active' : ''}`}
+            data-services-panel
+            data-index={index}
+            aria-hidden={index !== 0}
+          >
+            <div class="services-pin__intro">
+              <span class="services-pin__num" aria-hidden="true">{service.number}</span>
+              <div class="services-pin__copy">
+                <h3>{service.shortTitle ?? service.title}</h3>
+                <p>{service.description}</p>
+              </div>
+            </div>
+
+            <div class="services-pin__visual">
+              <div class="services-pin__media">
+                <img src={mediaSrc} alt="" width="551" height="336" loading="lazy" decoding="async" />
+              </div>
+              <div class="services-pin__folder" aria-hidden="true">
+                <svg
+                  class="services-pin__folder-shape"
+                  viewBox="0 0 314 388.422"
+                  preserveAspectRatio="none"
+                  width="314"
+                  height="388"
+                  focusable="false"
+                >
+                  <path
+                    class="services-pin__folder-fill"
+                    d={UNION_PATH}
+                    vector-effect="non-scaling-stroke"
+                  ></path>
+                </svg>
+                <ul class="services-pin__list">
+                  {service.tags.map((tag) => (
+                    <li>{tag}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="services-pin__progress" data-reveal aria-hidden="true">
+      {
+        t.services.items.map((_, index) => (
+          <span class={`services-pin__tick${index === 0 ? ' is-active' : ''}`} data-services-tick></span>
         ))
       }
     </div>
@@ -37,25 +81,399 @@ const serviceImage = `${baseUrl}assets/brand/service-card.png`;
 </section>
 
 <style>
-  .services__grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 13px;
-    align-items: start;
+  /* Figma 1FNfMUp — Branding component 11:77 (1082×438) applied to all services */
+  .services-pin {
+    position: relative;
+    padding-block: 0;
+    background: transparent;
   }
 
-  @media (max-width: 1200px) {
-    .services__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(16px, 2vw, 24px);
+  .services-pin__sticky {
+    position: relative;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(28px, 4vw, 48px);
+    padding-block: clamp(72px, 8vw, 120px);
+  }
+
+  .services-pin__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    padding-inline: var(--margin);
+  }
+
+  .services-pin__title {
+    margin: 0;
+    max-width: 28ch;
+    font-family: var(--font-display);
+    font-size: var(--text-section-title);
+    font-weight: 700;
+    letter-spacing: -0.84px;
+    line-height: normal;
+    color: var(--color-text-primary);
+    text-wrap: balance;
+  }
+
+  .services-pin__stage {
+    position: relative;
+    width: min(1082px, calc(100% - var(--margin) * 2));
+    margin-inline: auto;
+    /* Figma 11:77 frame height */
+    min-height: 438.422px;
+    overflow: visible;
+  }
+
+  .services-pin__panel {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: max-content var(--service-visual-w);
+    column-gap: var(--service-visual-gap);
+    align-items: start;
+    justify-content: start;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(36px);
+    transition:
+      opacity 0.55s ease,
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0.55s;
+    pointer-events: none;
+  }
+
+  .services-pin__panel.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    z-index: 2;
+  }
+
+  /* Number auto-width + 32px gap to copy (Figma: 01=135px, intro x=167) */
+  .services-pin__intro {
+    display: grid;
+    grid-template-columns: max-content var(--service-copy-w);
+    column-gap: var(--service-num-to-copy-gap);
+    align-items: start;
+    width: max-content;
+  }
+
+  .services-pin__num {
+    font-family: var(--font-display);
+    font-size: var(--text-service-num);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0;
+    color: var(--color-text-primary);
+    width: max-content;
+  }
+
+  .services-pin__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding-top: var(--service-copy-top);
+    max-width: var(--service-copy-w);
+  }
+
+  .services-pin__copy h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--text-service-name);
+    font-weight: 600;
+    line-height: normal;
+    color: var(--color-text-primary);
+  }
+
+  .services-pin__copy p {
+    margin: 0;
+    max-width: var(--service-copy-w);
+    font-family: var(--font-body);
+    font-size: var(--text-service-desc);
+    font-weight: 400;
+    line-height: normal;
+    color: #e9e9e9;
+  }
+
+  :global([data-theme='light']) .services-pin__copy p {
+    color: var(--color-text-secondary);
+  }
+
+  /* Visual group 570×388.42 — media behind folder (Figma 11:76) */
+  .services-pin__visual {
+    position: relative;
+    width: var(--service-visual-w);
+    height: var(--service-visual-h);
+    margin-top: 50px;
+    justify-self: start;
+  }
+
+  .services-pin__media {
+    position: absolute;
+    left: var(--service-media-left);
+    top: var(--service-media-top);
+    z-index: 1;
+    width: var(--service-media-w);
+    height: var(--service-media-h);
+    border: var(--border-service-image) solid var(--color-surface);
+    border-radius: var(--radius-service-card);
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .services-pin__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .services-pin__folder {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    width: var(--service-folder-w);
+    height: var(--service-folder-h);
+    pointer-events: none;
+  }
+
+  .services-pin__folder-shape {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .services-pin__folder-fill {
+    fill: var(--color-service-panel-fill);
+    stroke: var(--color-border);
+    stroke-width: 1;
+  }
+
+  :global([data-theme='light']) .services-pin__folder {
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.06));
+  }
+
+  .services-pin__list {
+    position: absolute;
+    left: 19px;
+    top: 59px;
+    z-index: 1;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--service-list-gap);
+    margin: 0;
+    padding: 0;
+    width: 174px;
+  }
+
+  .services-pin__list li {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-service-list);
+    font-weight: 400;
+    line-height: 31px;
+    color: #e9e9e9;
+    white-space: nowrap;
+  }
+
+  :global([data-theme='light']) .services-pin__list li {
+    color: var(--color-text-primary);
+  }
+
+  .services-pin__progress {
+    display: none;
+  }
+
+  @media (max-width: 1180px) {
+    .services-pin__stage {
+      width: min(100% - var(--margin) * 2, 1082px);
+    }
+
+    .services-pin__panel {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: clamp(24px, 4vw, 56px);
+    }
+
+    .services-pin__intro {
+      grid-template-columns: max-content minmax(0, var(--service-copy-w));
+      column-gap: var(--service-num-to-copy-gap);
+      width: auto;
+    }
+
+    .services-pin__num {
+      font-size: clamp(4.5rem, 12vw, 128px);
+    }
+
+    .services-pin__visual {
+      width: 100%;
+      max-width: var(--service-visual-w);
+      height: auto;
+      aspect-ratio: 570 / 388.422;
+      margin-top: clamp(24px, 3vw, 50px);
+    }
+
+    .services-pin__folder {
+      width: 55.09%;
+      height: 100%;
+    }
+
+    .services-pin__media {
+      left: 3.33%;
+      top: 11.33%;
+      width: 96.67%;
+      height: 86.5%;
+    }
+
+    .services-pin__list {
+      left: 6%;
+      top: 15%;
+      width: auto;
+      max-width: 42%;
+      gap: clamp(10px, 2vw, 19px);
+    }
+
+    .services-pin__list li {
+      font-size: clamp(14px, 2vw, 24px);
+      line-height: 1.3;
+      white-space: normal;
     }
   }
 
-  @media (max-width: 600px) {
-    .services__grid {
+  @media (max-width: 900px) {
+    .services-pin__sticky {
+      min-height: auto;
+      padding-block: clamp(64px, 12vw, 96px);
+      gap: 28px;
+    }
+
+    .services-pin__panel {
+      position: relative;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      pointer-events: auto;
+      display: none;
       grid-template-columns: 1fr;
       gap: 20px;
-      justify-items: stretch;
+      column-gap: 0;
+    }
+
+    .services-pin__panel.is-active {
+      display: grid;
+    }
+
+    .services-pin__stage {
+      min-height: auto;
+      width: min(100% - var(--margin) * 2, 1280px);
+      overflow: hidden;
+    }
+
+    .services-pin__intro {
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      width: auto;
+    }
+
+    .services-pin__copy {
+      padding-top: 8px;
+      max-width: none;
+    }
+
+    .services-pin__copy p {
+      max-width: none;
+    }
+
+    .services-pin__visual {
+      position: relative;
+      width: 100%;
+      max-width: none;
+      height: auto;
+      aspect-ratio: auto;
+      margin-top: 0;
+      justify-self: stretch;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .services-pin__folder {
+      position: relative;
+      left: auto;
+      top: auto;
+      width: 100%;
+      height: auto;
+      max-width: none;
+      min-height: 0;
+      border-radius: 24px;
+      background: color-mix(in srgb, var(--color-elevated) 92%, transparent);
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+      order: 2;
+    }
+
+    .services-pin__folder-shape {
+      display: none;
+    }
+
+    .services-pin__list {
+      position: static;
+      padding: 20px;
+      gap: 10px;
+      width: auto;
+      max-width: none;
+    }
+
+    .services-pin__list li {
+      white-space: normal;
+      line-height: 1.35;
+    }
+
+    .services-pin__media {
+      position: relative;
+      left: auto;
+      top: auto;
+      margin: 0;
+      max-width: none;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 551 / 336;
+      border-width: 0;
+      order: 1;
+    }
+
+    .services-pin__progress {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .services-pin__tick {
+      width: 28px;
+      height: 3px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--color-text-primary) 18%, transparent);
+    }
+
+    .services-pin__tick.is-active {
+      background: var(--color-primary);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .services-pin__panel {
+      transition: none;
     }
   }
 </style>

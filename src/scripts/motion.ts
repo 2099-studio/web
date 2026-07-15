@@ -6,16 +6,23 @@ import { initMethodology } from './methodology';
 import { initWorksFilter } from './works-filter';
 import { initContactForm } from './contact-form';
 import { initButtonInteractions } from './button-interactions';
+import { initGooeyButtons } from './gooey-buttons';
 import { initIndustriesTabs } from './industries-tabs';
 import { initSectionParallax } from './section-parallax';
 import { initCanvasText, refreshCanvasText } from './canvas-text';
+import { initSparklesText } from './sparkles-text';
+import { initTextReveal } from './text-reveal';
 import { initStarsField } from './stars-field';
+import { initHeroCarousel } from './hero-carousel';
+import { initServicesPin } from './services-pin';
 
 export function initMotion(): void {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   initCanvasText();
+  initSparklesText();
   initStarsField();
+  initHeroCarousel();
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -25,20 +32,20 @@ export function initMotion(): void {
   if (!prefersReduced && heroTitle) {
     gsap.from(heroTitle, {
       opacity: 0,
-      y: 32,
-      duration: 0.8,
+      y: 36,
+      duration: 0.85,
       ease: 'power2.out',
-      delay: 0.15,
+      delay: 0.12,
       onComplete: refreshCanvasText,
     });
 
     gsap.from(heroContent, {
       opacity: 0,
       y: 24,
-      duration: 0.6,
+      duration: 0.65,
       ease: 'power2.out',
-      stagger: 0.1,
-      delay: 0.35,
+      stagger: 0.08,
+      delay: 0.28,
     });
   }
 
@@ -46,12 +53,20 @@ export function initMotion(): void {
     document.querySelectorAll('[data-methodology-step]').forEach((step) => {
       step.classList.add('is-active');
     });
+    initTextReveal();
+    initWorksFilter();
+    initContactForm();
+    initIndustriesTabs();
+    initServicesPin();
+    initButtonInteractions();
+    initGooeyButtons();
     return;
   }
 
   const lenis = new Lenis({
-    lerp: 0.08,
+    lerp: 0.07,
     smoothWheel: true,
+    wheelMultiplier: 0.9,
   });
 
   lenis.on('scroll', ScrollTrigger.update);
@@ -62,62 +77,51 @@ export function initMotion(): void {
   gsap.ticker.lagSmoothing(0);
 
   gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
+    const hasTextReveal = Boolean(el.querySelector('[data-text-reveal]'));
     gsap.from(el, {
-      opacity: 0,
-      y: 48,
-      duration: 0.8,
-      ease: 'power2.out',
+      opacity: hasTextReveal ? 1 : 0,
+      y: 64,
+      duration: 0.95,
+      ease: 'power3.out',
       scrollTrigger: {
         trigger: el,
-        start: 'top 85%',
+        start: 'top 88%',
         toggleActions: 'play none none none',
       },
+      onComplete: refreshCanvasText,
     });
   });
 
-  const serviceCards = gsap.utils.toArray<HTMLElement>('[data-service-card]');
-  if (serviceCards.length) {
-    gsap.from(serviceCards, {
-      opacity: 0,
-      y: 56,
-      duration: 0.7,
-      ease: 'power2.out',
-      stagger: 0.1,
-      scrollTrigger: {
-        trigger: serviceCards[0]?.parentElement,
-        start: 'top 80%',
-        toggleActions: 'play none none none',
-      },
-    });
-  }
-
-  const industryLayers = gsap.utils.toArray<HTMLElement>('[data-industry-panel]');
-  if (industryLayers.length) {
-    gsap.from(industryLayers[0]?.parentElement ?? industryLayers[0], {
-      opacity: 0,
-      y: 40,
-      duration: 0.7,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: industryLayers[0]?.closest('[data-industries]'),
-        start: 'top 80%',
-        toggleActions: 'play none none none',
-      },
-    });
-  }
-
+  initTextReveal();
+  initServicesPin();
   initIndustriesTabs();
 
   const workCards = gsap.utils.toArray<HTMLElement>('[data-work-card]');
   if (workCards.length) {
     gsap.from(workCards, {
       opacity: 0,
-      y: 64,
-      duration: 0.75,
-      ease: 'power2.out',
-      stagger: 0.1,
+      y: 96,
+      duration: 0.95,
+      ease: 'power3.out',
+      stagger: 0.12,
       scrollTrigger: {
         trigger: workCards[0]?.parentElement,
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+      },
+    });
+  }
+
+  const methodologySteps = gsap.utils.toArray<HTMLElement>('[data-methodology-step]');
+  if (methodologySteps.length) {
+    gsap.from(methodologySteps, {
+      opacity: 0,
+      y: 48,
+      duration: 0.75,
+      ease: 'power3.out',
+      stagger: 0.08,
+      scrollTrigger: {
+        trigger: methodologySteps[0]?.closest('[data-methodology]'),
         start: 'top 80%',
         toggleActions: 'play none none none',
       },
@@ -129,6 +133,6 @@ export function initMotion(): void {
   initContactForm();
   initSectionParallax();
   initButtonInteractions();
-
+  initGooeyButtons();
   initCursor();
 }

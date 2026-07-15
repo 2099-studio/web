@@ -34,6 +34,7 @@ export interface SiteContent {
     title: string;
     titleHighlight: string;
     lead: string;
+    leadSecondary?: string;
     ctaWorks: string;
     ctaContact: string;
   };
@@ -67,6 +68,7 @@ export interface SiteContent {
       id: string;
       badge: string;
       title: string;
+      description: string;
       accent: 'orange' | 'blue' | 'mix';
       sectors: string[];
       services: string[];
@@ -117,30 +119,48 @@ export interface SiteContent {
       live: boolean;
     }[];
   };
+  investment: {
+    eyebrow: string;
+    badge: string;
+    title: string;
+    lead: string;
+    cta: string;
+    idealForLabel: string;
+    plans: {
+      id: 'local' | 'branding360' | 'ecosystem';
+      name: string;
+      description: string;
+      idealFor: string;
+      price: string;
+      priceNote: string;
+    }[];
+  };
   contact: {
     eyebrow: string;
     title: string;
     titleHighlight: string;
     titleAfter: string;
     lead: string;
+    formIntro: string;
+    formIntroEmail: string;
     name: string;
     email: string;
-    projectType: string;
+    budget: string;
     message: string;
-    messageOptional: string;
     selectPlaceholder: string;
     namePlaceholder: string;
     emailPlaceholder: string;
     messagePlaceholder: string;
     submit: string;
+    success: string;
     directEmail: string;
     social: string;
     location: string;
     mailSubject: string;
     mailBodyName: string;
     mailBodyEmail: string;
-    mailBodyType: string;
-    projectTypes: string[];
+    mailBodyBudget: string;
+    budgetOptions: string[];
   };
   site: {
     tagline: string;

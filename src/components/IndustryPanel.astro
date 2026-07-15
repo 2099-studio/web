@@ -4,10 +4,13 @@ interface Props {
   folderTab: string;
   panelTitle: string;
   badge: string;
+  description?: string;
   sectorsLabel: string;
   servicesLabel: string;
   sectors: string[];
   services: string[];
+  prevLabel: string;
+  nextLabel: string;
   hidden?: boolean;
   isMobile?: boolean;
 }
@@ -17,10 +20,13 @@ const {
   folderTab,
   panelTitle,
   badge,
+  description,
   sectorsLabel,
   servicesLabel,
   sectors,
   services,
+  prevLabel,
+  nextLabel,
   hidden = false,
   isMobile = false,
 } = Astro.props;
@@ -48,7 +54,10 @@ const UNION_PATH =
     </svg>
 
     <div class="industry-panel__content">
-      <h3 class="industry-panel__folder">{folderTab}</h3>
+      <div class="industry-panel__intro">
+        <h3 class="industry-panel__folder">{folderTab}</h3>
+        {description && <p class="industry-panel__desc">{description}</p>}
+      </div>
 
       <div class="industry-panel__mid">
         <div class="industry-panel__cols">
@@ -71,12 +80,12 @@ const UNION_PATH =
         </div>
 
         <div class="industry-panel__arrows" data-industry-arrows>
-          <button type="button" class="industry-panel__arrow" data-industry-prev aria-label="Anterior">
+          <button type="button" class="industry-panel__arrow" data-industry-prev aria-label={prevLabel}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M14.378 8H1.802M1.802 8L8.09 1.712M1.802 8L8.09 14.288" stroke="currentColor" stroke-width="1.5"></path>
             </svg>
           </button>
-          <button type="button" class="industry-panel__arrow" data-industry-next aria-label="Siguiente">
+          <button type="button" class="industry-panel__arrow" data-industry-next aria-label={nextLabel}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M2.704 8H14.023M14.023 8L8.363 13.659M14.023 8L8.363 2.341" stroke="currentColor" stroke-width="1.5"></path>
             </svg>
@@ -88,6 +97,7 @@ const UNION_PATH =
         <span class="industry-panel__dot" aria-hidden="true"></span>
         <p class="industry-panel__foot-text">
           <span class="industry-panel__foot-layer">{panelTitle}</span>
+          {' '}
           <span class="industry-panel__foot-badge">{badge}</span>
           <span class="industry-panel__foot-arrow" aria-hidden="true">↑</span>
         </p>
@@ -131,15 +141,30 @@ const UNION_PATH =
     overflow: hidden;
   }
 
+  .industry-panel__intro {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    /* Keep title inside the folder ear (~341/961 of the Union path) */
+    max-width: min(271px, 35.5%);
+  }
+
   .industry-panel__folder {
     margin: 0;
     font-family: var(--font-display);
     font-size: clamp(1.125rem, 1.667vw, 24px);
     font-weight: 600;
-    line-height: 1.2;
+    line-height: normal;
     color: var(--color-industry-panel-text);
-    max-width: min(320px, 55%);
     text-wrap: balance;
+  }
+
+  .industry-panel__desc {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--color-industry-panel-muted);
   }
 
   .industry-panel__mid {
@@ -149,9 +174,7 @@ const UNION_PATH =
     align-items: start;
     min-height: 0;
     min-width: 0;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-border) transparent;
+    overflow: visible;
   }
 
   .industry-panel__cols {
@@ -169,9 +192,9 @@ const UNION_PATH =
   .industry-panel__label {
     margin: 0 0 8px;
     font-family: var(--font-body);
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    letter-spacing: 0;
     color: var(--color-industry-panel-muted);
   }
 
@@ -181,16 +204,16 @@ const UNION_PATH =
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
   }
 
   .industry-panel__list li {
     position: relative;
     padding-left: 1em;
     font-family: var(--font-body);
-    font-size: clamp(0.875rem, 1.11vw, 16px);
+    font-size: var(--text-lg);
     font-weight: 400;
-    line-height: 1.45;
+    line-height: normal;
     color: var(--color-industry-panel-text);
     overflow-wrap: break-word;
     hyphens: auto;

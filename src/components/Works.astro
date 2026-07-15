@@ -10,19 +10,26 @@ const { locale } = Astro.props;
 const t = getContent(locale);
 const { works: w } = t;
 const homeHref = localePath(locale);
+const badge = w.eyebrow.replace(/^\d+\s—\s/, '');
 ---
 
 <section class="works figma-section" id="works" data-works aria-labelledby="works-title">
   <div class="works__wrap container">
-    <header class="figma-section__head">
-      <span class="figma-badge">{w.eyebrow.replace(/^\d+\s—\s/, '')}</span>
-      <h2 class="figma-section__title" id="works-title">
-        {w.title} <span style="color: var(--color-primary)">{w.titleHighlight}</span>.
+    <header class="figma-section__head" data-reveal>
+      <span class="figma-badge">{badge}</span>
+      <h2 class="figma-section__title" id="works-title" data-text-reveal>
+        {w.title}
+        {w.titleHighlight ? (
+          <>
+            {' '}
+            <span style="color: var(--color-primary)">{w.titleHighlight}</span>.
+          </>
+        ) : null}
       </h2>
-      <p class="figma-section__subtitle">{w.lead}</p>
+      {w.lead ? <p class="figma-section__subtitle">{w.lead}</p> : null}
     </header>
 
-    <div class="works__filters">
+    <div class="works__filters" data-reveal>
       <div class="works__filter-group">
         <span class="works__filter-label">{w.filterIndustry}</span>
         <div class="works__filter-btns">
@@ -47,17 +54,25 @@ const homeHref = localePath(locale);
           const href = work.live ? homeHref : undefined;
           const Tag = href ? 'a' : 'article';
           const props = href ? { href } : { tabindex: 0 as const };
+          const primaryIndustry = work.industries[0];
+          const primaryService = work.services[0];
+          const metaParts = [
+            primaryIndustry ? w.industryLabels[primaryIndustry] : null,
+            primaryService ? w.serviceLabels[primaryService] : null,
+          ].filter(Boolean);
           return (
             <Tag class="work-card" data-work-card data-work-item data-industries={work.industries.join(',')} data-services={work.services.join(',')} {...props}>
-              <div class="work-card__visual"><span class="work-card__year">{work.year}</span></div>
+              <div class="work-card__visual">
+                <span class="work-card__year">{work.year}</span>
+              </div>
               <div class="work-card__body">
                 <h3 class="work-card__title">{work.title}</h3>
-                <p class="work-card__client">{work.client}</p>
-                <p class="work-card__desc">{work.description}</p>
-                <div class="work-card__tags">
-                  {work.industries.map((ind) => <span>{w.industryLabels[ind]}</span>)}
-                  {work.services.map((svc) => <span class="is-service">{w.serviceLabels[svc]}</span>)}
-                </div>
+                <p class="work-card__client">{metaParts.join(' · ') || work.client}</p>
+                {primaryIndustry ? (
+                  <div class="work-card__tags">
+                    <span>{w.industryLabels[primaryIndustry]}</span>
+                  </div>
+                ) : null}
               </div>
             </Tag>
           );
@@ -68,25 +83,31 @@ const homeHref = localePath(locale);
 </section>
 
 <style>
+  /* Figma 663:2086 — 1280×180 filter panel */
   .works__filters {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
     margin-bottom: 48px;
     padding: 24px;
-    background: var(--color-surface);
+    background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: 16px;
+  }
+
+  .works__filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 
   .works__filter-label {
     display: block;
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-text-tertiary);
-    margin-bottom: 12px;
   }
 
   .works__filter-btns {
@@ -101,25 +122,31 @@ const homeHref = localePath(locale);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-full);
     color: var(--color-text-secondary);
-    background: var(--color-bg);
+    background: transparent;
+    cursor: pointer;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease,
+      background 0.2s ease;
   }
 
   .works__filter-btn.is-active {
-    color: var(--color-on-accent);
-    background: var(--color-primary);
+    color: var(--color-text-primary);
+    background: transparent;
     border-color: var(--color-primary);
   }
 
   .works__grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
   }
 
+  /* Figma Work Card 411×340 */
   .work-card {
     display: flex;
     flex-direction: column;
-    min-height: 360px;
+    height: 340px;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 16px;
@@ -134,70 +161,83 @@ const homeHref = localePath(locale);
   }
 
   .work-card__visual {
-    height: 200px;
-    background: linear-gradient(135deg, var(--color-elevated), var(--color-bg-muted));
     position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    background: #101725;
   }
 
   .work-card__year {
     position: absolute;
-    top: 16px;
-    left: 16px;
+    top: 24px;
+    left: 24px;
+    font-family: var(--font-body);
     font-size: 11px;
+    font-weight: 500;
     color: var(--color-text-tertiary);
   }
 
   .work-card__body {
-    padding: 24px;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    flex: 1;
+    flex: 0 0 auto;
+    padding: 24px;
+    background: var(--color-surface);
   }
 
   .work-card__title {
-    font-family: var(--font-display);
-    font-size: var(--text-card-title);
-    font-weight: 600;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-text-primary);
   }
 
   .work-card__client {
-    font-size: 11px;
-    color: var(--color-text-tertiary);
-  }
-
-  .work-card__desc {
-    font-size: 16px;
-    line-height: 1.5;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 400;
     color: var(--color-text-secondary);
-    margin-top: 8px;
   }
 
   .work-card__tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: auto;
-    padding-top: 16px;
+    margin-top: 8px;
   }
 
   .work-card__tags span {
-    font-size: 10px;
-    padding: 4px 10px;
-    border: 1px solid var(--color-border);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border: 1px solid var(--color-primary);
     border-radius: var(--radius-full);
-    color: var(--color-text-secondary);
-  }
-
-  .work-card__tags .is-service {
     color: var(--color-primary);
-    border-color: color-mix(in srgb, var(--color-primary) 30%, var(--color-border));
+    background: transparent;
   }
 
-  @media (max-width: 768px) {
-    .works__filters,
+  @media (max-width: 900px) {
     .works__grid {
       grid-template-columns: 1fr;
+    }
+
+    .work-card {
+      height: auto;
+      min-height: 340px;
+    }
+
+    .work-card__visual {
+      min-height: 200px;
+    }
+  }
+
+  @media (min-width: 901px) and (max-width: 1100px) {
+    .works__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>

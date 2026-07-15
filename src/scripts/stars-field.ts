@@ -1,3 +1,8 @@
+/**
+ * Aceternity shooting-stars + stars-background — vanilla port.
+ * @see https://ui.aceternity.com/components/shooting-stars-and-stars-background
+ */
+
 type Star = {
   x: number;
   y: number;
@@ -33,42 +38,81 @@ type StarsFieldOptions = {
   trailColor: string;
 };
 
-const DEFAULT_OPTIONS: StarsFieldOptions = {
-  starDensity: 0.00012,
+const DEFAULT_OPTIONS: Omit<StarsFieldOptions, 'starColor' | 'trailColor'> = {
+  starDensity: 0.00015,
   allStarsTwinkle: true,
   twinkleProbability: 0.7,
   minTwinkleSpeed: 0.5,
   maxTwinkleSpeed: 1,
   minSpeed: 10,
   maxSpeed: 30,
-  minDelay: 1200,
-  maxDelay: 4200,
+  minDelay: 4200,
+  maxDelay: 8700,
   starWidth: 10,
   starHeight: 1,
-  starColor: '#2b5fff',
-  trailColor: '#5c85ff',
 };
-
-function readOptions(host: HTMLElement): StarsFieldOptions {
-  return {
-    ...DEFAULT_OPTIONS,
-    starColor: host.dataset.starColor ?? DEFAULT_OPTIONS.starColor,
-    trailColor: host.dataset.trailColor ?? DEFAULT_OPTIONS.trailColor,
-    starDensity: Number(host.dataset.starDensity) || DEFAULT_OPTIONS.starDensity,
-    minDelay: Number(host.dataset.minDelay) || DEFAULT_OPTIONS.minDelay,
-    maxDelay: Number(host.dataset.maxDelay) || DEFAULT_OPTIONS.maxDelay,
-  };
-}
 
 function isLightTheme(): boolean {
   return document.documentElement.getAttribute('data-theme') === 'light';
 }
 
+function readThemeColors(host: HTMLElement): { starColor: string; trailColor: string } {
+  const light = isLightTheme();
+  return {
+    starColor: light
+      ? (host.dataset.starColorLight ?? '#09090b')
+      : (host.dataset.starColorDark ?? '#2b5fff'),
+    trailColor: light
+      ? (host.dataset.trailColorLight ?? '#525252')
+      : (host.dataset.trailColorDark ?? '#5c85ff'),
+  };
+}
+
+function readOptions(host: HTMLElement): StarsFieldOptions {
+  const colors = readThemeColors(host);
+  const baseDensity = Number(host.dataset.starDensity) || DEFAULT_OPTIONS.starDensity;
+
+  return {
+    ...DEFAULT_OPTIONS,
+    ...colors,
+    starDensity: isLightTheme() ? baseDensity * 1.35 : baseDensity,
+    minDelay: Number(host.dataset.minDelay) || DEFAULT_OPTIONS.minDelay,
+    maxDelay: Number(host.dataset.maxDelay) || DEFAULT_OPTIONS.maxDelay,
+  };
+}
+
 function starFill(opacity: number): string {
   if (isLightTheme()) {
-    return `rgba(43, 95, 255, ${opacity * 0.55})`;
+    return `rgba(9, 9, 11, ${Math.min(opacity * 0.9, 1)})`;
   }
   return `rgba(255, 255, 255, ${opacity})`;
+}
+
+function starRadius(base: number): number {
+  return isLightTheme() ? base * 1.15 : base;
+}
+
+function getSiteShell(host: HTMLElement): HTMLElement | null {
+  return host.closest('.site-shell');
+}
+
+function measureField(host: HTMLElement): { width: number; height: number } {
+  const shell = getSiteShell(host);
+  const width = Math.max(shell?.clientWidth ?? window.innerWidth, 1);
+  const height = Math.max(
+    shell?.scrollHeight ?? host.offsetHeight,
+    document.documentElement.scrollHeight,
+    window.innerHeight,
+    1,
+  );
+  return { width, height };
+}
+
+function syncHostSize(host: HTMLElement): { width: number; height: number } {
+  const { width, height } = measureField(host);
+  host.style.width = `${width}px`;
+  host.style.height = `${height}px`;
+  return { width, height };
 }
 
 function generateStars(width: number, height: number, options: StarsFieldOptions): Star[] {
@@ -77,10 +121,11 @@ function generateStars(width: number, height: number, options: StarsFieldOptions
   return Array.from({ length: count }, () => {
     const shouldTwinkle = options.allStarsTwinkle || Math.random() < options.twinkleProbability;
     const baseOpacity = Math.random() * 0.5 + 0.5;
+    const radius = Math.random() * 0.05 + 0.5;
     return {
       x: Math.random() * width,
       y: Math.random() * height,
-      radius: Math.random() * 0.05 + 0.5,
+      radius: starRadius(radius),
       opacity: baseOpacity,
       baseOpacity,
       twinkleSpeed: shouldTwinkle
@@ -107,10 +152,15 @@ function randomStartPoint(width: number, height: number): { x: number; y: number
   }
 }
 
+function applyShootingGradient(svg: SVGSVGElement, options: StarsFieldOptions): void {
+  svg.querySelector('[data-shooting-trail-stop]')?.setAttribute('stop-color', options.trailColor);
+  svg.querySelector('[data-shooting-star-stop]')?.setAttribute('stop-color', options.starColor);
+}
+
 function initStarsBackground(
   host: HTMLElement,
   canvas: HTMLCanvasElement,
-  options: StarsFieldOptions,
+  getOptions: () => StarsFieldOptions,
   prefersReduced: boolean,
 ): () => void {
   const ctx = canvas.getContext('2d');
@@ -122,16 +172,16 @@ function initStarsBackground(
   let rafId = 0;
 
   const resize = () => {
-    const rect = host.getBoundingClientRect();
+    const size = syncHostSize(host);
+    width = size.width;
+    height = size.height;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    width = Math.max(rect.width, 1);
-    height = Math.max(rect.height, 1);
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    stars = generateStars(width, height, options);
+    stars = generateStars(width, height, getOptions());
   };
 
   const draw = () => {
@@ -151,30 +201,33 @@ function initStarsBackground(
     }
   };
 
-  resize();
-  draw();
+  const refresh = () => {
+    resize();
+    draw();
+  };
 
-  const ro = new ResizeObserver(resize);
-  ro.observe(host);
+  refresh();
 
-  const onThemeChange = () => draw();
-  const themeObserver = new MutationObserver(onThemeChange);
-  themeObserver.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['data-theme'],
-  });
+  window.addEventListener('resize', refresh, { passive: true });
+  window.addEventListener('load', refresh, { passive: true });
+
+  const shell = getSiteShell(host);
+  const ro = shell ? new ResizeObserver(refresh) : null;
+  ro?.observe(shell!);
+  if (document.body) ro?.observe(document.body);
 
   return () => {
     window.cancelAnimationFrame(rafId);
-    ro.disconnect();
-    themeObserver.disconnect();
+    window.removeEventListener('resize', refresh);
+    window.removeEventListener('load', refresh);
+    ro?.disconnect();
   };
 }
 
 function initShootingStars(
   host: HTMLElement,
   svg: SVGSVGElement,
-  options: StarsFieldOptions,
+  getOptions: () => StarsFieldOptions,
 ): () => void {
   let width = 0;
   let height = 0;
@@ -182,16 +235,11 @@ function initShootingStars(
   let rafId = 0;
   let spawnTimeout = 0;
 
-  const gradient = svg.querySelector('#hero-shooting-gradient');
-  if (gradient) {
-    gradient.querySelector('stop:nth-child(1)')?.setAttribute('stop-color', options.trailColor);
-    gradient.querySelector('stop:nth-child(2)')?.setAttribute('stop-color', options.starColor);
-  }
-
   const resize = () => {
-    const rect = host.getBoundingClientRect();
-    width = Math.max(rect.width, 1);
-    height = Math.max(rect.height, 1);
+    const size = syncHostSize(host);
+    width = size.width;
+    height = size.height;
+    applyShootingGradient(svg, getOptions());
   };
 
   const clearRect = () => {
@@ -202,6 +250,7 @@ function initShootingStars(
     clearRect();
     if (!star) return;
 
+    const options = getOptions();
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
     const w = options.starWidth * star.scale;
     const h = options.starHeight;
@@ -210,7 +259,7 @@ function initShootingStars(
     rect.setAttribute('y', String(star.y));
     rect.setAttribute('width', String(w));
     rect.setAttribute('height', String(h));
-    rect.setAttribute('fill', 'url(#hero-shooting-gradient)');
+    rect.setAttribute('fill', 'url(#site-shooting-gradient)');
     rect.setAttribute(
       'transform',
       `rotate(${star.angle}, ${star.x + w / 2}, ${star.y + h / 2})`,
@@ -220,6 +269,7 @@ function initShootingStars(
 
   const spawn = () => {
     const { x, y, angle } = randomStartPoint(width, height);
+    const options = getOptions();
     star = {
       id: Date.now(),
       x,
@@ -233,6 +283,7 @@ function initShootingStars(
 
   const scheduleSpawn = () => {
     window.clearTimeout(spawnTimeout);
+    const options = getOptions();
     const delay = Math.random() * (options.maxDelay - options.minDelay) + options.minDelay;
     spawnTimeout = window.setTimeout(() => {
       spawn();
@@ -261,13 +312,20 @@ function initShootingStars(
   scheduleSpawn();
   rafId = window.requestAnimationFrame(tick);
 
-  const ro = new ResizeObserver(resize);
-  ro.observe(host);
+  window.addEventListener('resize', resize, { passive: true });
+  window.addEventListener('load', resize, { passive: true });
+
+  const shell = getSiteShell(host);
+  const ro = shell ? new ResizeObserver(resize) : null;
+  ro?.observe(shell!);
+  if (document.body) ro?.observe(document.body);
 
   return () => {
     window.cancelAnimationFrame(rafId);
     window.clearTimeout(spawnTimeout);
-    ro.disconnect();
+    window.removeEventListener('resize', resize);
+    window.removeEventListener('load', resize);
+    ro?.disconnect();
     clearRect();
   };
 }
@@ -284,10 +342,26 @@ export function initStarsField(): () => void {
     const svg = host.querySelector<SVGSVGElement>('[data-shooting-stars]');
     if (!canvas || !svg) return;
 
-    const options = readOptions(host);
-    cleanups.push(initStarsBackground(host, canvas, options, prefersReduced));
+    const getOptions = () => readOptions(host);
+    let bgCleanup = initStarsBackground(host, canvas, getOptions, prefersReduced);
+
+    const onThemeChange = () => {
+      bgCleanup();
+      bgCleanup = initStarsBackground(host, canvas, getOptions, prefersReduced);
+      applyShootingGradient(svg, getOptions());
+    };
+
+    const themeObserver = new MutationObserver(onThemeChange);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+
+    cleanups.push(bgCleanup);
+    cleanups.push(() => themeObserver.disconnect());
+
     if (!prefersReduced) {
-      cleanups.push(initShootingStars(host, svg, options));
+      cleanups.push(initShootingStars(host, svg, getOptions));
     }
   });
 

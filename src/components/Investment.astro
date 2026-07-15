@@ -1,0 +1,150 @@
+---
+import type { Locale } from '../i18n';
+import { getContent } from '../i18n';
+import { getInvestmentCheckoutUrl } from '../data/payments';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getContent(locale);
+const { investment: inv } = t;
+---
+
+<section class="investment figma-section" id="investment" aria-labelledby="investment-title">
+  <div class="investment__wrap container">
+    <header class="figma-section__head" data-reveal>
+      <span class="figma-badge">{inv.badge}</span>
+      <h2 class="figma-section__title" id="investment-title" data-text-reveal>{inv.title}</h2>
+      <p class="figma-section__subtitle">{inv.lead}</p>
+    </header>
+
+    <div class="investment__grid" data-reveal>
+      {
+        inv.plans.map((plan) => {
+          const checkoutUrl = getInvestmentCheckoutUrl(plan.id);
+          const isExternal = /^https?:\/\//i.test(checkoutUrl);
+          return (
+            <article class="investment__card" data-plan={plan.id}>
+              <div class="investment__copy">
+                <h3 class="investment__name">{plan.name}</h3>
+                <p class="investment__desc">{plan.description}</p>
+                <p class="investment__ideal">
+                  <span class="investment__ideal-label">{inv.idealForLabel}:</span>{' '}
+                  {plan.idealFor}
+                </p>
+              </div>
+
+              <div class="investment__price-block">
+                <p class="investment__price">{plan.price}</p>
+                <p class="investment__note">{plan.priceNote}</p>
+              </div>
+
+              <a
+                class="btn-figma-primary investment__cta"
+                href={checkoutUrl}
+                data-checkout={plan.id}
+                {...(isExternal
+                  ? { target: '_blank', rel: 'noopener noreferrer' }
+                  : {})}
+              >
+                {inv.cta}
+              </a>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .investment__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .investment__card {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding: 32px;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    background: var(--color-surface);
+  }
+
+  .investment__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
+  }
+
+  .investment__name {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  .investment__desc {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  .investment__ideal {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--color-text-tertiary);
+  }
+
+  .investment__ideal-label {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+  }
+
+  .investment__price-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .investment__price {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  .investment__note {
+    margin: 0;
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+  }
+
+  .investment__cta {
+    align-self: stretch;
+    justify-content: center;
+    text-align: center;
+    font-size: 14px;
+    padding: 14px 24px;
+    text-decoration: none;
+  }
+
+  @media (max-width: 900px) {
+    .investment__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

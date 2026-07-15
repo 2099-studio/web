@@ -13,6 +13,7 @@
 html {
   scroll-behavior: auto;
   scroll-padding-top: var(--header-height);
+  scroll-padding-bottom: 96px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -40,13 +41,22 @@ body {
   position: relative;
   isolation: isolate;
   overflow-x: clip;
+  min-height: 100dvh;
 }
 
-.site-main,
-.site-footer,
-.header {
+.site-main {
   position: relative;
   z-index: 1;
+  background: transparent;
+}
+
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  z-index: 200;
 }
 
 [data-parallax-section] {
@@ -156,8 +166,8 @@ button {
     box-shadow: 0 6px 28px rgba(0, 0, 0, 0.25);
   }
 
-  :global([data-theme='light']) .btn-primary:hover,
-  :global([data-theme='light']) .btn-hero--primary:hover {
+  [data-theme='light'] .btn-primary:hover,
+  [data-theme='light'] .btn-hero--primary:hover {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
   }
 
@@ -183,8 +193,8 @@ button {
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-text-primary) 8%, transparent);
   }
 
-  :global([data-theme='light']) .btn-secondary:hover,
-  :global([data-theme='light']) .btn-hero--secondary:hover {
+  [data-theme='light'] .btn-secondary:hover,
+  [data-theme='light'] .btn-hero--secondary:hover {
     background: var(--color-bg-muted);
     box-shadow: var(--shadow-sm);
   }

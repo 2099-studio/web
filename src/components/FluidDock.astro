@@ -1,0 +1,121 @@
+---
+import type { Locale } from '../i18n';
+import { getContent } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getContent(locale);
+const { nav } = t;
+---
+
+<div class="fluid-dock" data-fluid-dock aria-label={locale === 'es' ? 'Navegación' : 'Navigation'}>
+  <div class="fluid-dock__shell" data-dock-shell>
+    <!-- Main -->
+    <div class="fluid-dock__state is-active" data-dock-state="main">
+      <a class="fluid-dock__item" href="#works" data-dock-link="works">{nav.works}</a>
+      <a class="fluid-dock__item" href="#services" data-dock-link="services">{nav.services}</a>
+      <button class="fluid-dock__item" type="button" data-dock-open="studio">{nav.studio}</button>
+      <a class="fluid-dock__item" href="#contact" data-dock-link="contact">{nav.contact}</a>
+    </div>
+
+    <!-- Works context -->
+    <div class="fluid-dock__state" data-dock-state="works" hidden>
+      <button class="fluid-dock__item fluid-dock__item--icon" type="button" data-dock-back aria-label={locale === 'es' ? 'Menú' : 'Menu'}>
+        <span></span><span></span><span></span>
+      </button>
+      <a class="fluid-dock__item is-center" href="#works">{nav.works}</a>
+      <a class="fluid-dock__item" href="#works" data-dock-link="works-all">{locale === 'es' ? 'Ver todos' : 'View all'}</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .fluid-dock {
+    position: fixed;
+    left: 50%;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 300;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .fluid-dock__shell {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 6px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-elevated) 88%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px color-mix(in srgb, #000 28%, transparent);
+  }
+
+  .fluid-dock__state {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .fluid-dock__state[hidden] {
+    display: none !important;
+  }
+
+  .fluid-dock__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  .fluid-dock__item:hover,
+  .fluid-dock__item.is-active {
+    color: var(--color-text-primary);
+    background: color-mix(in srgb, var(--color-text-primary) 8%, transparent);
+  }
+
+  .fluid-dock__item.is-center {
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .fluid-dock__item--icon {
+    width: 36px;
+    padding: 0;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .fluid-dock__item--icon span {
+    display: block;
+    width: 14px;
+    height: 1.5px;
+    border-radius: 1px;
+    background: currentColor;
+  }
+
+  @media (max-width: 480px) {
+    .fluid-dock__item {
+      padding: 0 12px;
+      font-size: 12px;
+    }
+  }
+</style>

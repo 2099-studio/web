@@ -8,7 +8,7 @@ export function initSectionParallax(): void {
     const layers = section.querySelectorAll<HTMLElement>('[data-parallax]');
 
     layers.forEach((layer) => {
-      const depth = Number.parseFloat(layer.dataset.parallax || '0.1');
+      const depth = Number.parseFloat(layer.dataset.parallax || '0.2');
 
       gsap.to(layer, {
         yPercent: depth * 100,
@@ -17,23 +17,23 @@ export function initSectionParallax(): void {
           trigger: section,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 0.6,
+          scrub: 1.2,
         },
       });
     });
   });
 
   gsap.utils.toArray<HTMLElement>('[data-parallax-block]').forEach((block) => {
-    const depth = Number.parseFloat(block.dataset.parallaxBlock || '0.06');
+    const depth = Number.parseFloat(block.dataset.parallaxBlock || '0.14');
 
     gsap.to(block, {
-      y: () => depth * 120,
+      y: () => depth * 220,
       ease: 'none',
       scrollTrigger: {
         trigger: block,
-        start: 'top 92%',
-        end: 'bottom 8%',
-        scrub: 0.8,
+        start: 'top 95%',
+        end: 'bottom 5%',
+        scrub: 1.15,
       },
     });
   });

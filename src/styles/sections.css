@@ -122,7 +122,6 @@
 [data-theme='light'] .surface-card,
 [data-theme='light'] .work-card,
 [data-theme='light'] .methodology__card,
-[data-theme='light'] .contact__form,
 [data-theme='light'] .works__filters {
   box-shadow: var(--shadow-card);
 }

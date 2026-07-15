@@ -7,8 +7,10 @@ import Services from './Services.astro';
 import Industries from './Industries.astro';
 import Methodology from './Methodology.astro';
 import Works from './Works.astro';
+import Investment from './Investment.astro';
 import Contact from './Contact.astro';
 import Footer from './Footer.astro';
+import StarsField from './StarsField.astro';
 import { getContent } from '../i18n';
 
 interface Props {
@@ -21,6 +23,8 @@ const t = getContent(locale);
 
 <BaseLayout locale={locale} title={t.meta.title} description={t.meta.description}>
   <div class="site-shell">
+    <StarsField />
+
     <Header locale={locale} />
 
     <main class="site-main">
@@ -29,6 +33,7 @@ const t = getContent(locale);
       <Industries locale={locale} />
       <Methodology locale={locale} />
       <Works locale={locale} />
+      <Investment locale={locale} />
       <Contact locale={locale} />
     </main>
 
