@@ -16,12 +16,12 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
 ---
 
 <!doctype html>
-<html lang={locale}>
+<html lang={locale} data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#080808" />
+    <meta name="theme-color" content="#FFFFFF" />
     <meta name="base-url" content={baseUrl} />
     <link rel="icon" type="image/png" sizes="32x32" href={`${baseUrl}favicon.png`} data-favicon />
     <link rel="icon" type="image/png" sizes="48x48" href={`${baseUrl}favicon-48.png`} data-favicon />
@@ -76,7 +76,7 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
         }
 
         const savedTheme = localStorage.getItem('2099-theme');
-        const theme = savedTheme || 'dark';
+        const theme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : 'light';
         document.documentElement.setAttribute('data-theme', theme);
         const themeColor = theme === 'light' ? '#FFFFFF' : '#080808';
         document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColor);
