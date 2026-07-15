@@ -12,79 +12,52 @@ const { methodology } = t;
 ---
 
 <section class="methodology figma-section" id="methodology" data-methodology aria-labelledby="methodology-title">
-  <div class="methodology__sticky">
-    <div class="methodology__fit" data-viewport-fit>
-      <div class="methodology__wrap container">
-        <div class="methodology__inner">
-          <aside class="methodology__sidebar">
-            <div class="methodology__intro" data-reveal>
-              <span class="figma-badge">{methodology.badge}</span>
-              <h2 class="methodology__title" id="methodology-title" data-text-reveal>
-                {methodology.title}
-                {methodology.titleHighlight ? (
-                  <>
-                    {' '}
-                    <span class="methodology__title-accent">{methodology.titleHighlight}</span>.
-                  </>
-                ) : null}
-              </h2>
-              {methodology.lead ? <p class="methodology__lead" data-text-reveal>{methodology.lead}</p> : null}
-            </div>
-            <div class="methodology__rail" aria-hidden="true">
-              <div class="methodology__rail-track">
-                <div class="methodology__rail-fill" data-methodology-progress></div>
-              </div>
-            </div>
-          </aside>
-
-          <ol class="methodology__steps">
-            {
-              methodology.steps.map((step, index) => (
-                <li class={`methodology__step${index === 0 ? ' is-active' : ''}`} data-methodology-step data-step-index={index}>
-                  <article class="methodology__card">
-                    <span class="methodology__dot" aria-hidden="true"></span>
-                    <div class="methodology__content">
-                      <div class="methodology__meta">
-                        <span class="methodology__num">{step.number}</span>
-                        <h3 class="methodology__name">{step.title}</h3>
-                      </div>
-                      <p class="methodology__desc">{step.description}</p>
-                    </div>
-                  </article>
-                </li>
-              ))
-            }
-          </ol>
+  <div class="methodology__wrap container">
+    <div class="methodology__inner">
+      <aside class="methodology__sidebar">
+        <div class="methodology__intro" data-reveal>
+          <span class="figma-badge">{methodology.badge}</span>
+          <h2 class="methodology__title" id="methodology-title" data-text-reveal>
+            {methodology.title}
+            {methodology.titleHighlight ? (
+              <>
+                {' '}
+                <span class="methodology__title-accent">{methodology.titleHighlight}</span>.
+              </>
+            ) : null}
+          </h2>
+          {methodology.lead ? <p class="methodology__lead" data-text-reveal>{methodology.lead}</p> : null}
         </div>
-      </div>
+        <div class="methodology__rail" aria-hidden="true">
+          <div class="methodology__rail-track">
+            <div class="methodology__rail-fill" data-methodology-progress></div>
+          </div>
+        </div>
+      </aside>
+
+      <ol class="methodology__steps">
+        {
+          methodology.steps.map((step, index) => (
+            <li class={`methodology__step${index === 0 ? ' is-active' : ''}`} data-methodology-step data-step-index={index}>
+              <article class="methodology__card">
+                <span class="methodology__dot" aria-hidden="true"></span>
+                <div class="methodology__content">
+                  <div class="methodology__meta">
+                    <span class="methodology__num">{step.number}</span>
+                    <h3 class="methodology__name">{step.title}</h3>
+                  </div>
+                  <p class="methodology__desc">{step.description}</p>
+                </div>
+              </article>
+            </li>
+          ))
+        }
+      </ol>
     </div>
   </div>
 </section>
 
 <style>
-  .methodology.figma-section {
-    padding-block: 0;
-  }
-
-  .methodology__sticky {
-    position: relative;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-
-  .methodology__fit {
-    width: 100%;
-    padding-block: var(--section-padding-y);
-    box-sizing: border-box;
-    transform: scale(var(--viewport-fit-scale, 1));
-    transform-origin: center center;
-    will-change: transform;
-  }
-
   .methodology__inner {
     display: grid;
     grid-template-columns: minmax(0, var(--sidebar-methodology)) minmax(0, 1fr);
@@ -264,16 +237,6 @@ const { methodology } = t;
   }
 
   @media (max-width: 1023px) {
-    .methodology__sticky {
-      min-height: 0;
-      overflow: visible;
-    }
-
-    .methodology__fit {
-      transform: none;
-      will-change: auto;
-    }
-
     .methodology__inner {
       grid-template-columns: 1fr;
       gap: clamp(32px, 5vw, 48px);
