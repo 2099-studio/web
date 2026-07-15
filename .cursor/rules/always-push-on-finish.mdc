@@ -1,0 +1,14 @@
+---
+description: Al terminar una tarea, commit y push a GitHub sin pedir confirmación extra
+alwaysApply: true
+---
+
+# Siempre pushear al finalizar
+
+Cuando termines una tarea en este repo:
+
+1. Si hay cambios relevantes, hacé **commit** (mensaje claro, sin archivos temporales como `.tmp-*`).
+2. Hacé **push** a `origin` (`main`) de inmediato.
+3. No esperes a que el usuario diga "pushear" otra vez — asumí que actualizar GitHub es parte del cierre de la tarea.
+
+Excepciones: no pushear secretos (`.env`, credenciales) ni pedir force-push a main.
