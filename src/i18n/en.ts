@@ -135,7 +135,7 @@ const en: SiteContent = {
         badge: 'Frontier',
         tabLabel: 'Web3 & AI',
         panelTitle: 'Emerging Layer',
-        folderTab: 'Complex Protocols & AI Frontier',
+        folderTab: 'Protocols & AI Frontier',
         title: 'Emerging Layer — Web3 & AI',
         description: '',
         accent: 'mix',

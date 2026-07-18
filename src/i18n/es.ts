@@ -136,7 +136,7 @@ const es: SiteContent = {
         badge: 'Frontera',
         tabLabel: 'Web3 & AI',
         panelTitle: 'Capa Emergente',
-        folderTab: 'Protocolos Complejos y Frontera AI',
+        folderTab: 'Protocolos y Frontera AI',
         title: 'Capa Emergente — Web3 & AI',
         description: '',
         accent: 'mix',
