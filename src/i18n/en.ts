@@ -30,7 +30,7 @@ const en: SiteContent = {
   hero: {
     eyebrow: 'AI Design Studio',
     title: 'We unite brand,\ndesign and technology',
-    titleHighlight: '',
+    titleHighlight: 'technology',
     lead: 'Branding, UX/UI, Web Design and AI-powered Content.',
     leadSecondary: 'One flow for memorable brands and products that grow.',
     ctaWorks: 'START',

@@ -30,7 +30,7 @@ const es: SiteContent = {
   hero: {
     eyebrow: 'AI Design Studio',
     title: 'Unimos marca,\ndiseño y tecnología',
-    titleHighlight: '',
+    titleHighlight: 'tecnología',
     lead: 'Branding, UX/UI, Diseño Web y Contenido potenciado con AI.',
     leadSecondary: 'Un flujo para marcas memorables y productos que crecen.',
     ctaWorks: 'START',
