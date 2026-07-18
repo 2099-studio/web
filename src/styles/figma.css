@@ -41,22 +41,22 @@
   --hero-copy-max: 812px;
   --hero-title-max: 645px;
   /*
-   * Size: shrink below 1440, never grow past Figma (940×400).
-   * Position: always track 100vw so far peeks stay edge-to-edge on wide screens.
+   * Coverflow cards — a bit larger than the original 940×400 so they
+   * fill more of the viewport while keeping the same aspect / peek math.
    */
-  --hero-slide-scale: min(1, calc(100vw / 1440px));
-  --hero-slide-pos: calc(100vw / 1440px);
-  --hero-slide-w: calc(940px * var(--hero-slide-scale));
-  --hero-slide-h: calc(400px * var(--hero-slide-scale));
-  --hero-near-w: calc(780px * var(--hero-slide-scale));
-  --hero-near-h: calc(320px * var(--hero-slide-scale));
-  --hero-far-w: calc(620px * var(--hero-slide-scale));
-  --hero-far-h: calc(240px * var(--hero-slide-scale));
-  --hero-near-x-prev: calc(216px * var(--hero-slide-pos));
-  --hero-near-x-next: calc(236px * var(--hero-slide-pos));
-  --hero-far-x-prev: calc(500px * var(--hero-slide-pos));
-  --hero-far-x-next: calc(516px * var(--hero-slide-pos));
-  --hero-slide-radius: calc(40px * var(--hero-slide-scale));
+  --hero-slide-scale: clamp(0.72, calc(100vw / 1240px), 1.18);
+  --hero-slide-pos: var(--hero-slide-scale);
+  --hero-slide-w: calc(1080px * var(--hero-slide-scale));
+  --hero-slide-h: calc(460px * var(--hero-slide-scale));
+  --hero-near-w: calc(900px * var(--hero-slide-scale));
+  --hero-near-h: calc(372px * var(--hero-slide-scale));
+  --hero-far-w: calc(720px * var(--hero-slide-scale));
+  --hero-far-h: calc(280px * var(--hero-slide-scale));
+  --hero-near-x-prev: calc(248px * var(--hero-slide-pos));
+  --hero-near-x-next: calc(270px * var(--hero-slide-pos));
+  --hero-far-x-prev: calc(560px * var(--hero-slide-pos));
+  --hero-far-x-next: calc(580px * var(--hero-slide-pos));
+  --hero-slide-radius: calc(44px * var(--hero-slide-scale));
   --hero-padding-top: 70px;
 
   /* Industries panel */
