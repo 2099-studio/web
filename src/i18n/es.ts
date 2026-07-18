@@ -39,7 +39,7 @@ const es: SiteContent = {
   services: {
     eyebrow: '02 — Servicios',
     badge: 'Servicios',
-    title: 'De la marca al código. Con contenido potenciado por AI.',
+    title: 'De la marca al código. Con contenido impulsado por AI.',
     titleHighlight: 'código',
     ventajaLabel: 'Ventaja competitiva central:',
     specialties: 'Especialidades',
