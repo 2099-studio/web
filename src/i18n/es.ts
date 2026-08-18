@@ -9,8 +9,6 @@ const es: SiteContent = {
   nav: {
     home: '2099.studio — Inicio',
     services: 'Servicios',
-    industries: 'Industrias',
-    pricing: 'Pricing',
     works: 'Proyectos',
     studio: 'Estudio',
     contact: 'Brief',
@@ -35,16 +33,16 @@ const es: SiteContent = {
     titleHighlight: 'tecnología',
     lead: 'Branding, UX/UI, Diseño Web y Contenido potenciado con AI.',
     leadSecondary: 'Un flujo para marcas memorables y productos que crecen.',
+    ctaWorks: 'START',
+    ctaContact: 'GO',
   },
   heroChat: {
-    initialMessage: 'Cuéntanos sobre tu idea o proyecto.',
+    initialMessage: '¿Qué quieres crear?',
     questionNameEmail: '¿Cuál es tu nombre y email?',
     questionBudget: '¿Cuál es tu presupuesto estimado?',
     thanks: 'Gracias, {name}. Te contactaremos pronto.',
     inputPlaceholder: 'Escribí tu respuesta…',
-    sendLabel: 'Enviar',
-    sendAria: 'Enviar respuesta',
-    assistantLabel: 'Asistente:',
+    sendAria: 'Enviar mensaje',
     suggestionsLabel: 'Sugerencias',
     suggestions: {
       project: {
@@ -337,9 +335,9 @@ const es: SiteContent = {
       'Escala y producto: si estás listo para un Ecosistema Digital con app, e-commerce o retainer de contenido.',
     ],
     planLinks: [
-      { label: 'Identidad Local', href: '#pricing' },
-      { label: 'Branding 360', href: '#pricing' },
-      { label: 'Ecosistema Digital', href: '#pricing' },
+      { label: 'Identidad Local', href: '#investment' },
+      { label: 'Branding 360', href: '#investment' },
+      { label: 'Ecosistema Digital', href: '#investment' },
     ],
     cta: 'Pedir diagnóstico',
   },

@@ -32,7 +32,9 @@ function splitHighlight(line: string) {
 ---
 
 <section class="hero" id="hero" aria-labelledby="hero-title" data-hero>
-  <div class="hero__shell container" data-reveal>
+  <div class="hero__inner container">
+    <p class="hero__eyebrow" data-hero-content>{t.hero.eyebrow}</p>
+
     <div class="hero__copy" data-hero-title>
       <h1 class="hero__title" id="hero-title">
         {
@@ -59,8 +61,13 @@ function splitHighlight(line: string) {
       </p>
     </div>
 
-    <div class="hero__divider" aria-hidden="true"></div>
+    <div class="hero__actions" data-hero-content>
+      <a class="btn-figma-primary" href="#diagnostic">{t.hero.ctaWorks}</a>
+      <a class="btn-figma-secondary" href="#investment">{t.hero.ctaContact}</a>
+    </div>
+  </div>
 
+  <div class="hero__chat-wrap" data-reveal>
     <div class="hero-chat" data-hero-chat>
       <div
         class="hero-chat__thread"
@@ -71,17 +78,12 @@ function splitHighlight(line: string) {
       ></div>
 
       <form class="hero-chat__panel" data-hero-chat-form>
-        <p class="hero-chat__prompt" data-hero-chat-prompt>
-          <span class="hero-chat__prompt-label">{chat.assistantLabel}</span>{' '}
-          <span data-hero-chat-prompt-text>{chat.initialMessage}</span>
-        </p>
-
         <textarea
           class="hero-chat__input"
           name="message"
           data-hero-chat-input
           rows="1"
-          placeholder={chat.inputPlaceholder}
+          placeholder={chat.initialMessage}
           autocomplete="off"
           required
         ></textarea>
@@ -91,8 +93,15 @@ function splitHighlight(line: string) {
             <div class="hero-chat__suggestions-list"></div>
           </div>
 
-          <button class="hero-chat__send btn-figma-primary" type="submit" aria-label={chat.sendAria}>
-            {chat.sendLabel}
+          <button class="hero-chat__send" type="submit" aria-label={chat.sendAria}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M12 5v14M6 11l6-6 6 6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
           </button>
         </div>
       </form>
@@ -103,47 +112,62 @@ function splitHighlight(line: string) {
 <style>
   .hero {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-items: stretch;
+    gap: clamp(20px, 4vh, 48px);
     min-height: 100svh;
-    padding: calc(var(--header-height) + clamp(20px, 4vh, 40px)) 0 clamp(24px, 4vh, 48px);
+    padding-top: calc(var(--header-height) + clamp(12px, 2vh, 24px));
+    padding-bottom: clamp(16px, 3vh, 32px);
     overflow-x: clip;
+    overflow-y: visible;
     background: transparent;
-    --hero-shell-w: clamp(320px, min(92vw, 960px), 960px);
+    /* DeepSeek-like proportions vs viewport */
+    --hero-chat-w: clamp(300px, 46vw, 720px);
+    --hero-chat-panel-h: max(128px, calc(var(--hero-chat-w) / 3));
+    --hero-chat-thread-max: min(22vh, calc(var(--hero-chat-w) * 0.38));
   }
 
-  .hero__shell {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(20px, 3vh, 32px);
-    width: var(--hero-shell-w);
-    max-width: calc(100% - var(--margin) * 2);
-    margin-inline: auto;
-    padding: clamp(24px, 4vw, 40px);
-    border: 1px solid color-mix(in srgb, var(--color-border) 85%, transparent);
-    border-radius: clamp(20px, 2.5vw, 28px);
-    background: color-mix(in srgb, var(--color-surface) 90%, transparent);
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-border) 30%, transparent);
-  }
-
-  .hero__copy {
+  .hero__inner {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: clamp(12px, 2vh, 16px);
+    width: min(100% - var(--margin) * 2, var(--hero-copy-max));
+    margin-inline: auto;
+    gap: 0;
+    flex: 0 0 auto;
+    justify-content: flex-start;
+  }
+
+  .hero__eyebrow {
+    margin: 0 0 14px;
+    padding: 8px 16px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: normal;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  .hero__copy {
+    width: 100%;
   }
 
   .hero__title {
-    margin: 0;
+    margin: 0 auto 16px;
     width: fit-content;
     max-width: 100%;
     font-family: var(--font-display);
     font-size: var(--text-hero);
     font-weight: 700;
     line-height: 0.95;
+    letter-spacing: 0;
     color: var(--color-text-primary);
+    white-space: normal;
+    text-wrap: unset;
   }
 
   .hero__title-line {
@@ -156,51 +180,79 @@ function splitHighlight(line: string) {
     vertical-align: baseline;
   }
 
+  .hero__title :global(.canvas-text__label) {
+    font-weight: inherit;
+  }
+
   .hero__lead {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    margin: 0;
-    max-width: min(100%, 640px);
+    gap: 0;
+    margin: 0 auto 16px;
+    max-width: min(100%, var(--hero-copy-max));
     font-family: var(--font-body);
     font-size: var(--text-hero-lead);
-    line-height: 1.6;
+    font-weight: 400;
+    line-height: 1.7;
+    letter-spacing: 0;
     color: #d9d9d9;
   }
 
   .hero__lead-line {
     display: block;
+    white-space: nowrap;
   }
 
   :global([data-theme='light']) .hero__lead {
     color: var(--color-text-secondary);
   }
 
-  .hero__divider {
-    height: 1px;
-    border: 0;
-    background: repeating-linear-gradient(
-      to right,
-      color-mix(in srgb, var(--color-border) 70%, transparent) 0 6px,
-      transparent 6px 14px
-    );
-    opacity: 0.9;
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 0;
+  }
+
+  .hero__actions :global(.btn-figma-primary),
+  .hero__actions :global(.btn-figma-secondary) {
+    min-width: 91px;
+    padding: var(--hero-btn-py) var(--hero-btn-px);
+    font-family: var(--font-body);
+    font-size: var(--text-hero-btn);
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    line-height: normal;
+  }
+
+  .hero__chat-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    width: var(--hero-chat-w);
+    max-width: calc(100% - var(--margin) * 2);
+    margin-inline: auto;
+    min-height: 0;
   }
 
   .hero-chat {
     display: flex;
     flex-direction: column;
-    gap: clamp(12px, 2vh, 16px);
+    gap: clamp(12px, 2vh, 20px);
     width: 100%;
   }
 
   .hero-chat__thread {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    max-height: min(22vh, 200px);
+    gap: 14px;
+    max-height: var(--hero-chat-thread-max);
     overflow-y: auto;
+    padding-inline: 4px;
     scrollbar-width: thin;
   }
 
@@ -209,61 +261,59 @@ function splitHighlight(line: string) {
   }
 
   .hero-chat__msg {
-    max-width: 88%;
+    max-width: 85%;
     font-family: var(--font-body);
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 15px;
+    line-height: 1.55;
   }
 
   .hero-chat__msg p {
     margin: 0;
   }
 
+  .hero-chat__msg--assistant {
+    align-self: flex-start;
+    color: var(--color-text-secondary);
+  }
+
   .hero-chat__msg--user {
     align-self: flex-end;
-    padding: 8px 14px;
-    border-radius: 16px;
+    padding: 10px 16px;
+    border-radius: 20px;
     color: var(--color-text-primary);
-    background: color-mix(in srgb, var(--color-border) 50%, var(--color-surface));
-    border: 1px solid color-mix(in srgb, var(--color-border) 75%, transparent);
+    background: color-mix(in srgb, var(--color-border) 55%, var(--color-surface));
+    border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+  }
+
+  :global([data-theme='light']) .hero-chat__msg--user {
+    background: color-mix(in srgb, var(--color-border) 40%, var(--color-surface));
   }
 
   .hero-chat__panel {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    min-height: clamp(140px, 22vw, 180px);
-    padding: clamp(14px, 2vw, 18px);
-    border: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
-    border-radius: clamp(16px, 2vw, 22px);
-    background: color-mix(in srgb, var(--color-bg) 40%, var(--color-surface));
+    gap: clamp(10px, 1.5vh, 14px);
+    width: 100%;
+    min-height: var(--hero-chat-panel-h);
+    padding: clamp(14px, 2vw, 20px) clamp(16px, 2.2vw, 22px) clamp(12px, 1.8vw, 16px);
+    border: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
+    border-radius: clamp(18px, 2vw, 24px);
+    background: color-mix(in srgb, var(--color-surface) 92%, #000);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-border) 35%, transparent);
     transition:
       border-color 0.2s ease,
       box-shadow 0.2s ease;
   }
 
   .hero-chat__panel:focus-within {
-    border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-primary) 20%, transparent);
-  }
-
-  .hero-chat__prompt {
-    margin: 0;
-    font-family: var(--font-body);
-    font-size: clamp(14px, 1.1vw, 15px);
-    line-height: 1.55;
-    color: var(--color-text-secondary);
-  }
-
-  .hero-chat__prompt-label {
-    font-weight: 600;
-    color: var(--color-text-primary);
+    border-color: color-mix(in srgb, var(--color-primary) 45%, var(--color-border));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-primary) 25%, transparent);
   }
 
   .hero-chat__input {
     width: 100%;
-    min-height: 28px;
-    max-height: min(100px, 16vh);
+    min-height: clamp(24px, 3vh, 32px);
+    max-height: min(120px, 18vh);
     resize: none;
     border: 0;
     background: transparent;
@@ -304,15 +354,16 @@ function splitHighlight(line: string) {
   }
 
   .hero-chat__chip {
-    padding: 6px 12px;
+    padding: 7px 14px;
     border: 1px solid color-mix(in srgb, var(--color-border) 85%, transparent);
     border-radius: 999px;
-    background: color-mix(in srgb, var(--color-border) 22%, transparent);
+    background: color-mix(in srgb, var(--color-border) 25%, transparent);
     color: var(--color-text-secondary);
     font-family: var(--font-body);
     font-size: 12px;
     line-height: 1.3;
     cursor: pointer;
+    white-space: nowrap;
     transition:
       border-color 0.2s ease,
       color 0.2s ease,
@@ -320,84 +371,161 @@ function splitHighlight(line: string) {
   }
 
   .hero-chat__chip:hover {
-    border-color: color-mix(in srgb, var(--color-primary) 45%, var(--color-border));
+    border-color: color-mix(in srgb, var(--color-primary) 50%, var(--color-border));
     color: var(--color-text-primary);
-    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
 
   .hero-chat__send {
     flex: 0 0 auto;
-    min-width: 88px;
-    height: 40px;
-    padding: 0 20px;
+    display: grid;
+    place-items: center;
+    width: clamp(36px, 4vw, 42px);
+    height: clamp(36px, 4vw, 42px);
     border: 0;
-    border-radius: 999px;
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #fff;
     cursor: pointer;
-    text-transform: none;
+    transition:
+      opacity 0.2s ease,
+      transform 0.15s ease;
+  }
+
+  .hero-chat__send:hover:not(:disabled) {
+    opacity: 0.92;
+    transform: translateY(-1px);
   }
 
   .hero-chat__send:disabled {
-    opacity: 0.4;
+    opacity: 0.35;
     cursor: not-allowed;
   }
 
   @supports not (field-sizing: content) {
     .hero-chat__input {
-      min-height: 44px;
+      min-height: 48px;
     }
   }
 
   @media (max-width: 1023px) {
+    .hero__title {
+      width: 100%;
+      max-width: none;
+      line-height: 1.05;
+    }
+
     .hero__title-line,
     .hero__lead-line {
       white-space: normal;
+      overflow: visible;
+      text-overflow: unset;
       text-wrap: balance;
-    }
-
-    .hero__copy {
-      align-items: flex-start;
-      text-align: left;
-    }
-
-    .hero__title {
-      width: 100%;
-      line-height: 1.05;
     }
 
     .hero__lead {
       align-items: flex-start;
+      width: 100%;
+      max-width: none;
+    }
+
+    .hero__eyebrow {
+      white-space: normal;
+      text-wrap: balance;
+      line-height: 1.35;
+    }
+  }
+
+  @media (max-height: 800px) and (min-width: 768px) {
+    .hero {
+      --hero-chat-thread-max: min(16vh, calc(var(--hero-chat-w) * 0.32));
+      --hero-chat-panel-h: max(112px, calc(var(--hero-chat-w) / 3.2));
+      gap: 16px;
+      padding-bottom: 12px;
+    }
+
+    .hero__title {
+      font-size: clamp(2rem, 4.5vw, 3.25rem);
+    }
+
+    .hero__lead {
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      margin-bottom: 12px;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .hero {
+      --hero-chat-w: min(46vw, 760px);
     }
   }
 
   @media (max-width: 767px) {
     .hero {
       min-height: 0;
-      align-items: stretch;
+      grid-template-rows: auto auto;
+      padding-bottom: 32px;
+      gap: 24px;
+      --hero-chat-w: min(100% - var(--margin) * 2, 100vw - var(--margin) * 2);
+      --hero-chat-panel-h: max(120px, 28vw);
+      --hero-chat-thread-max: min(26vh, 180px);
     }
 
-    .hero__shell {
-      padding: 20px 16px;
+    .hero__inner {
+      align-items: stretch;
+      text-align: left;
+      width: min(100% - var(--margin) * 2, var(--hero-copy-max));
+      flex: 0 1 auto;
+      justify-content: flex-start;
     }
 
     .hero__title {
+      margin-inline: 0;
       font-size: clamp(1.75rem, 8.5vw, 2.5rem);
     }
 
     .hero__lead {
+      margin-inline: 0;
       font-size: clamp(0.9375rem, 3.8vw, 1.125rem);
+      line-height: 1.45;
+    }
+
+    .hero__actions {
+      flex-direction: column;
+      align-items: stretch;
+      margin-bottom: 8px;
+    }
+
+    .hero__actions :global(.btn-figma-primary),
+    .hero__actions :global(.btn-figma-secondary) {
+      width: 100%;
+    }
+
+    .hero__chat-wrap {
+      width: var(--hero-chat-w);
+      max-width: calc(100% - var(--margin) * 2);
+    }
+
+    .hero-chat__panel {
+      min-height: var(--hero-chat-panel-h);
+      padding: 14px 16px 12px;
+      border-radius: 20px;
+    }
+
+    .hero-chat__input {
+      font-size: 15px;
     }
 
     .hero-chat__chip {
+      font-size: 11px;
+      padding: 6px 12px;
       white-space: normal;
       text-align: left;
     }
 
-    .hero-chat__send {
-      min-width: 76px;
+    .hero-chat__msg {
+      max-width: 92%;
+      font-size: 14px;
     }
   }
 </style>

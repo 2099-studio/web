@@ -11,5 +11,5 @@ export const investmentCheckoutUrls: Record<InvestmentPlanId, string> = {
 };
 
 export function getInvestmentCheckoutUrl(planId: InvestmentPlanId): string {
-  return investmentCheckoutUrls[planId] || '#pricing';
+  return investmentCheckoutUrls[planId] || '#investment';
 }
