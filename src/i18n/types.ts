@@ -11,6 +11,8 @@ export interface SiteContent {
   nav: {
     home: string;
     services: string;
+    industries: string;
+    pricing: string;
     works: string;
     studio: string;
     contact: string;
@@ -144,15 +146,6 @@ export interface SiteContent {
       accent: 'orange' | 'blue';
       live: boolean;
     }[];
-  };
-  diagnostic: {
-    badge: string;
-    title: string;
-    lead: string;
-    opportunitiesLabel: string;
-    opportunities: string[];
-    planLinks: { label: string; href: string }[];
-    cta: string;
   };
   investment: {
     eyebrow: string;

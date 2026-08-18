@@ -9,6 +9,8 @@ const es: SiteContent = {
   nav: {
     home: '2099.studio — Inicio',
     services: 'Servicios',
+    industries: 'Industrias',
+    pricing: 'Pricing',
     works: 'Proyectos',
     studio: 'Estudio',
     contact: 'Brief',
@@ -31,13 +33,12 @@ const es: SiteContent = {
     eyebrow: 'AI Design Studio',
     title: 'Unimos marca,\ndiseño y tecnología',
     titleHighlight: 'tecnología',
-    lead: 'Branding, UX/UI, Diseño Web y Contenido potenciado con AI.',
-    leadSecondary: 'Un flujo para marcas memorables y productos que crecen.',
+    lead: 'Diseño web con identidad visual, interfaces, experiencias y contenido potenciado con AI.',
     ctaWorks: 'START',
     ctaContact: 'GO',
   },
   heroChat: {
-    initialMessage: '¿Qué quieres crear?',
+    initialMessage: 'Contanos sobre tu idea o proyecto.',
     questionNameEmail: '¿Cuál es tu nombre y email?',
     questionBudget: '¿Cuál es tu presupuesto estimado?',
     thanks: 'Gracias, {name}. Te contactaremos pronto.',
@@ -322,24 +323,6 @@ const es: SiteContent = {
         live: false,
       },
     ],
-  },
-  diagnostic: {
-    badge: 'Diagnóstico gratuito',
-    title: 'Conocé el plan justo para tu marca',
-    lead:
-      'Basándonos en referencias del mercado local (como el tarifario de la Cámara de Diseñadores de Rafaela), un proyecto como el tuyo suele requerir una inversión inicial que ronda los $400 a $2.000 USD. Nuestro objetivo con este diagnóstico es identificar el plan justo para que tu inversión tenga el máximo retorno.',
-    opportunitiesLabel: 'Tres oportunidades que evaluamos',
-    opportunities: [
-      'Identidad y presencia digital: si tu marca necesita profesionalizarse con Identidad Local o un salto a Branding 360.',
-      'Contenido y conexión: si tu audiencia pide estrategia, producción audiovisual con IA y una web que convierta.',
-      'Escala y producto: si estás listo para un Ecosistema Digital con app, e-commerce o retainer de contenido.',
-    ],
-    planLinks: [
-      { label: 'Identidad Local', href: '#investment' },
-      { label: 'Branding 360', href: '#investment' },
-      { label: 'Ecosistema Digital', href: '#investment' },
-    ],
-    cta: 'Pedir diagnóstico',
   },
   investment: {
     eyebrow: '06 — Inversión',

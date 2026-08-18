@@ -60,11 +60,6 @@ function splitHighlight(line: string) {
         ))}
       </p>
     </div>
-
-    <div class="hero__actions" data-hero-content>
-      <a class="btn-figma-primary" href="#diagnostic">{t.hero.ctaWorks}</a>
-      <a class="btn-figma-secondary" href="#investment">{t.hero.ctaContact}</a>
-    </div>
   </div>
 
   <div class="hero__chat-wrap" data-reveal>
@@ -107,18 +102,23 @@ function splitHighlight(line: string) {
       </form>
     </div>
   </div>
+
+  <div class="hero__actions" data-hero-content>
+    <a class="btn-figma-primary" href="#hero">{t.hero.ctaWorks}</a>
+  </div>
 </section>
 
 <style>
   .hero {
     position: relative;
-    display: grid;
-    grid-template-rows: auto minmax(0, 1fr);
-    align-items: stretch;
-    gap: clamp(20px, 4vh, 48px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(12px, 2vh, 20px);
     min-height: 100svh;
-    padding-top: calc(var(--header-height) + clamp(12px, 2vh, 24px));
-    padding-bottom: clamp(16px, 3vh, 32px);
+    padding-top: calc(var(--header-height) + clamp(12px, 2vh, 20px));
+    padding-bottom: clamp(16px, 2.5vh, 28px);
     overflow-x: clip;
     overflow-y: visible;
     background: transparent;
@@ -157,7 +157,7 @@ function splitHighlight(line: string) {
   }
 
   .hero__title {
-    margin: 0 auto 16px;
+    margin: 0 auto 12px;
     width: fit-content;
     max-width: 100%;
     font-family: var(--font-display);
@@ -189,19 +189,21 @@ function splitHighlight(line: string) {
     flex-direction: column;
     align-items: center;
     gap: 0;
-    margin: 0 auto 16px;
-    max-width: min(100%, var(--hero-copy-max));
+    margin: 0 auto 0;
+    max-width: min(100%, 36rem);
     font-family: var(--font-body);
     font-size: var(--text-hero-lead);
     font-weight: 400;
-    line-height: 1.7;
+    line-height: 1.6;
     letter-spacing: 0;
     color: #d9d9d9;
   }
 
   .hero__lead-line {
     display: block;
-    white-space: nowrap;
+    white-space: normal;
+    text-wrap: balance;
+    text-align: center;
   }
 
   :global([data-theme='light']) .hero__lead {
@@ -213,7 +215,9 @@ function splitHighlight(line: string) {
     flex-wrap: wrap;
     justify-content: center;
     gap: 16px;
-    margin-bottom: 0;
+    margin: 0;
+    width: var(--hero-chat-w);
+    max-width: calc(100% - var(--margin) * 2);
   }
 
   .hero__actions :global(.btn-figma-primary),
@@ -426,7 +430,13 @@ function splitHighlight(line: string) {
     .hero__lead {
       align-items: flex-start;
       width: 100%;
-      max-width: none;
+      max-width: min(100%, 34rem);
+    }
+
+    .hero__lead-line {
+      white-space: normal;
+      text-wrap: balance;
+      text-align: left;
     }
 
     .hero__eyebrow {
@@ -463,9 +473,8 @@ function splitHighlight(line: string) {
   @media (max-width: 767px) {
     .hero {
       min-height: 0;
-      grid-template-rows: auto auto;
       padding-bottom: 32px;
-      gap: 24px;
+      gap: 16px;
       --hero-chat-w: min(100% - var(--margin) * 2, 100vw - var(--margin) * 2);
       --hero-chat-panel-h: max(120px, 28vw);
       --hero-chat-thread-max: min(26vh, 180px);
@@ -493,7 +502,7 @@ function splitHighlight(line: string) {
     .hero__actions {
       flex-direction: column;
       align-items: stretch;
-      margin-bottom: 8px;
+      margin: 0;
     }
 
     .hero__actions :global(.btn-figma-primary),

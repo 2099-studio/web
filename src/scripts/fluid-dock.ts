@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(Flip, ScrollTrigger);
 
-type DockState = 'main' | 'works';
+type DockState = 'main';
 
 export function initFluidDock(): void {
   const dock = document.querySelector<HTMLElement>('[data-fluid-dock]');
@@ -14,14 +14,13 @@ export function initFluidDock(): void {
 
   const states = {
     main: shell.querySelector<HTMLElement>('[data-dock-state="main"]'),
-    works: shell.querySelector<HTMLElement>('[data-dock-state="works"]'),
   };
 
   let current: DockState = 'main';
   let flipping = false;
 
   const setState = (next: DockState) => {
-    if (next === current || flipping || !states.main || !states.works) return;
+    if (next === current || flipping || !states.main) return;
     flipping = true;
 
     const from = states[current];
@@ -103,29 +102,15 @@ export function initFluidDock(): void {
     });
   });
 
-  dock.querySelector('[data-dock-back]')?.addEventListener('click', () => setState('main'));
-
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') closeStudio();
   });
 
-  const works = document.querySelector('#works');
-  if (works) {
-    ScrollTrigger.create({
-      trigger: works,
-      start: 'top 55%',
-      end: 'bottom 45%',
-      onEnter: () => setState('works'),
-      onEnterBack: () => setState('works'),
-      onLeave: () => setState('main'),
-      onLeaveBack: () => setState('main'),
-    });
-  }
-
   // Active link highlight by section
   const sectionMap: Array<{ id: string; link: string }> = [
-    { id: 'works', link: 'works' },
     { id: 'services', link: 'services' },
+    { id: 'industries', link: 'industries' },
+    { id: 'investment', link: 'investment' },
     { id: 'contact', link: 'contact' },
   ];
 

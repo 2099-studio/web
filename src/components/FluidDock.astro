@@ -15,19 +15,11 @@ const { nav } = t;
   <div class="fluid-dock__shell" data-dock-shell>
     <!-- Main -->
     <div class="fluid-dock__state is-active" data-dock-state="main">
-      <a class="fluid-dock__item" href="#works" data-dock-link="works">{nav.works}</a>
       <a class="fluid-dock__item" href="#services" data-dock-link="services">{nav.services}</a>
+      <a class="fluid-dock__item" href="#industries" data-dock-link="industries">{nav.industries}</a>
       <button class="fluid-dock__item" type="button" data-dock-open="studio">{nav.studio}</button>
+      <a class="fluid-dock__item" href="#investment" data-dock-link="investment">{nav.pricing}</a>
       <a class="fluid-dock__item" href="#contact" data-dock-link="contact">{nav.contact}</a>
-    </div>
-
-    <!-- Works context -->
-    <div class="fluid-dock__state" data-dock-state="works" hidden>
-      <button class="fluid-dock__item fluid-dock__item--icon" type="button" data-dock-back aria-label={locale === 'es' ? 'Menú' : 'Menu'}>
-        <span></span><span></span><span></span>
-      </button>
-      <a class="fluid-dock__item is-center" href="#works">{nav.works}</a>
-      <a class="fluid-dock__item" href="#works" data-dock-link="works-all">{locale === 'es' ? 'Ver todos' : 'View all'}</a>
     </div>
   </div>
 </div>

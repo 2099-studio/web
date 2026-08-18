@@ -9,6 +9,8 @@ const en: SiteContent = {
   nav: {
     home: '2099.studio — Home',
     services: 'Services',
+    industries: 'Industries',
+    pricing: 'Pricing',
     works: 'Projects',
     studio: 'Studio',
     contact: 'Brief',
@@ -31,13 +33,12 @@ const en: SiteContent = {
     eyebrow: 'AI Design Studio',
     title: 'We unite brand,\ndesign and technology',
     titleHighlight: 'technology',
-    lead: 'Branding, UX/UI, Web Design and AI-powered Content.',
-    leadSecondary: 'One flow for memorable brands and products that grow.',
+    lead: 'Web design with visual identity, interfaces, experiences and AI-powered content.',
     ctaWorks: 'START',
     ctaContact: 'GO',
   },
   heroChat: {
-    initialMessage: 'What do you want to create?',
+    initialMessage: 'Tell us about your idea or project.',
     questionNameEmail: 'What is your name and email?',
     questionBudget: 'What is your estimated budget?',
     thanks: 'Thanks, {name}. We will contact you soon.',
@@ -321,24 +322,6 @@ const en: SiteContent = {
         live: false,
       },
     ],
-  },
-  diagnostic: {
-    badge: 'Free diagnostic',
-    title: 'Find the right plan for your brand',
-    lead:
-      'Based on local market references (such as the Rafaela Designers Chamber tariff), a project like yours typically requires an initial investment of around $400 to $2,000 USD. Our goal with this diagnostic is to identify the right plan so your investment delivers maximum return.',
-    opportunitiesLabel: 'Three opportunities we assess',
-    opportunities: [
-      'Identity and digital presence: whether your brand needs to level up with Local Identity or a leap to Branding 360.',
-      'Content and connection: whether your audience needs strategy, AI-powered audiovisual production, and a converting website.',
-      'Scale and product: whether you are ready for a Digital Ecosystem with app, e-commerce, or a content retainer.',
-    ],
-    planLinks: [
-      { label: 'Local Identity', href: '#investment' },
-      { label: 'Branding 360', href: '#investment' },
-      { label: 'Digital Ecosystem', href: '#investment' },
-    ],
-    cta: 'Request diagnostic',
   },
   investment: {
     eyebrow: '06 — Investment',
