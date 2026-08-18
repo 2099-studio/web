@@ -112,7 +112,7 @@ export function initHeroChat(): void {
       input.placeholder = '';
       return;
     }
-    if (state.step === 'project') input.placeholder = c.panelPlaceholder;
+    if (state.step === 'project') input.placeholder = c.initialMessage;
     else if (state.step === 'contact') input.placeholder = c.questionNameEmail;
     else input.placeholder = c.questionBudget;
   }

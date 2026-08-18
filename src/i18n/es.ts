@@ -37,12 +37,11 @@ const es: SiteContent = {
     ctaContact: 'GO',
   },
   heroChat: {
-    initialMessage: '¿Qué quieres hacer o crear?',
+    initialMessage: '¿Qué quieres crear?',
     questionNameEmail: '¿Cuál es tu nombre y email?',
     questionBudget: '¿Cuál es tu presupuesto estimado?',
     thanks: 'Gracias, {name}. Te contactaremos pronto.',
     inputPlaceholder: 'Escribí tu respuesta…',
-    panelPlaceholder: 'Escribí a 2099.studio',
     sendAria: 'Enviar mensaje',
     suggestionsLabel: 'Sugerencias',
     suggestions: {
