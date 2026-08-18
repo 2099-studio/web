@@ -119,11 +119,21 @@ export interface SiteContent {
       live: boolean;
     }[];
   };
+  diagnostic: {
+    badge: string;
+    title: string;
+    lead: string;
+    opportunitiesLabel: string;
+    opportunities: string[];
+    planLinks: { label: string; href: string }[];
+    cta: string;
+  };
   investment: {
     eyebrow: string;
     badge: string;
     title: string;
     lead: string;
+    context: string;
     cta: string;
     idealForLabel: string;
     plans: {
@@ -132,6 +142,7 @@ export interface SiteContent {
       description: string;
       idealFor: string;
       price: string;
+      priceArs: string;
       priceNote: string;
     }[];
   };

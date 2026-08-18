@@ -267,11 +267,31 @@ const es: SiteContent = {
       },
     ],
   },
+  diagnostic: {
+    badge: 'Diagnóstico gratuito',
+    title: 'Conocé el plan justo para tu marca',
+    lead:
+      'Basándonos en referencias del mercado local (como el tarifario de la Cámara de Diseñadores de Rafaela), un proyecto como el tuyo suele requerir una inversión inicial que ronda los $400 a $2.000 USD. Nuestro objetivo con este diagnóstico es identificar el plan justo para que tu inversión tenga el máximo retorno.',
+    opportunitiesLabel: 'Tres oportunidades que evaluamos',
+    opportunities: [
+      'Identidad y presencia digital: si tu marca necesita profesionalizarse con Identidad Local o un salto a Branding 360.',
+      'Contenido y conexión: si tu audiencia pide estrategia, producción audiovisual con IA y una web que convierta.',
+      'Escala y producto: si estás listo para un Ecosistema Digital con app, e-commerce o retainer de contenido.',
+    ],
+    planLinks: [
+      { label: 'Identidad Local', href: '#investment' },
+      { label: 'Branding 360', href: '#investment' },
+      { label: 'Ecosistema Digital', href: '#investment' },
+    ],
+    cta: 'Pedir diagnóstico',
+  },
   investment: {
     eyebrow: '06 — Inversión',
     badge: 'Inversión',
     title: 'Inversión',
     lead: 'Elegí el nivel de impacto para tu marca.',
+    context:
+      'Nuestros precios se basan en referencias del mercado local, como el tarifario de la Cámara de Diseñadores de Rafaela. Creemos en una inversión justa que refleje el valor estratégico de tu marca. Por eso, ofrecemos precios de lanzamiento para que puedas dar el primer paso con confianza.',
     cta: 'Buy Now',
     idealForLabel: 'Ideal para',
     plans: [
@@ -282,6 +302,7 @@ const es: SiteContent = {
           'Tu marca al día. Identidad visual, web funcional y contenido audiovisual con IA para profesionalizar tu presencia digital.',
         idealFor: 'Negocios locales que necesitan dar el salto al mundo digital de forma rápida y efectiva.',
         price: '$400 USD',
+        priceArs: '$480.000 ARS',
         priceNote: 'Pago único',
       },
       {
@@ -291,7 +312,8 @@ const es: SiteContent = {
           'Tu marca en acción. Identidad completa, web optimizada, estrategia de contenido y producción audiovisual continua con IA para conectar con tu audiencia.',
         idealFor: 'PYMES que buscan destacar, generar confianza y construir una comunidad alrededor de su marca.',
         price: '$800 USD',
-        priceNote: '2 cuotas de $440 USD',
+        priceArs: '$960.000 ARS',
+        priceNote: '2 cuotas de $440 USD (aprox. $528.000 ARS c/u)',
       },
       {
         id: 'ecosystem',
@@ -300,7 +322,8 @@ const es: SiteContent = {
           'Tu marca como motor de negocio. Todo lo anterior, más desarrollo de producto digital (App / E-commerce) y una estrategia de contenido a largo plazo con producción audiovisual mensual potenciada por IA.',
         idealFor: 'Empresas en crecimiento o startups listas para escalar su impacto y facturación.',
         price: '$2,000 USD',
-        priceNote: '4 cuotas de $550 USD',
+        priceArs: '$2.400.000 ARS',
+        priceNote: '4 cuotas de $550 USD (aprox. $660.000 ARS c/u)',
       },
     ],
   },
@@ -330,10 +353,10 @@ const es: SiteContent = {
     mailBodyEmail: 'Email:',
     mailBodyBudget: 'Presupuesto:',
     budgetOptions: [
-      '$400 USD — Identidad Local',
-      '$800 USD — Branding 360',
-      '$2,000 USD — Ecosistema Digital',
-      'Otro / A medida',
+      '$400 – $800 USD',
+      '$800 – $1,500 USD',
+      '$1,500 – $3,000 USD',
+      '$3,000+ USD',
     ],
   },
   site: {

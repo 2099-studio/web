@@ -266,11 +266,31 @@ const en: SiteContent = {
       },
     ],
   },
+  diagnostic: {
+    badge: 'Free diagnostic',
+    title: 'Find the right plan for your brand',
+    lead:
+      'Based on local market references (such as the Rafaela Designers Chamber tariff), a project like yours typically requires an initial investment of around $400 to $2,000 USD. Our goal with this diagnostic is to identify the right plan so your investment delivers maximum return.',
+    opportunitiesLabel: 'Three opportunities we assess',
+    opportunities: [
+      'Identity and digital presence: whether your brand needs to level up with Local Identity or a leap to Branding 360.',
+      'Content and connection: whether your audience needs strategy, AI-powered audiovisual production, and a converting website.',
+      'Scale and product: whether you are ready for a Digital Ecosystem with app, e-commerce, or a content retainer.',
+    ],
+    planLinks: [
+      { label: 'Local Identity', href: '#investment' },
+      { label: 'Branding 360', href: '#investment' },
+      { label: 'Digital Ecosystem', href: '#investment' },
+    ],
+    cta: 'Request diagnostic',
+  },
   investment: {
     eyebrow: '06 — Investment',
     badge: 'Investment',
     title: 'Investment',
     lead: 'Choose the level of impact for your brand.',
+    context:
+      'Our pricing is based on local market references, such as the Rafaela Designers Chamber tariff. We believe in fair investment that reflects the strategic value of your brand. That is why we offer launch pricing so you can take the first step with confidence.',
     cta: 'Buy Now',
     idealForLabel: 'Ideal for',
     plans: [
@@ -281,6 +301,7 @@ const en: SiteContent = {
           'Your brand, up to date. Visual identity, a functional web presence, and AI-powered audiovisual content to professionalize your digital footprint.',
         idealFor: 'Local businesses that need to go digital quickly and effectively.',
         price: '$400 USD',
+        priceArs: '$480,000 ARS',
         priceNote: 'One-time payment',
       },
       {
@@ -290,7 +311,8 @@ const en: SiteContent = {
           'Your brand in action. Full identity, an optimized website, content strategy, and ongoing AI-powered audiovisual production to connect with your audience.',
         idealFor: 'SMBs looking to stand out, build trust, and grow a community around their brand.',
         price: '$800 USD',
-        priceNote: '2 installments of $440 USD',
+        priceArs: '$960,000 ARS',
+        priceNote: '2 installments of $440 USD (approx. $528,000 ARS each)',
       },
       {
         id: 'ecosystem',
@@ -299,7 +321,8 @@ const en: SiteContent = {
           'Your brand as a growth engine. Everything above, plus digital product development (App / E-commerce) and a long-term content strategy with monthly AI-powered audiovisual production.',
         idealFor: 'Growing companies or startups ready to scale impact and revenue.',
         price: '$2,000 USD',
-        priceNote: '4 installments of $550 USD',
+        priceArs: '$2,400,000 ARS',
+        priceNote: '4 installments of $550 USD (approx. $660,000 ARS each)',
       },
     ],
   },
@@ -329,10 +352,10 @@ const en: SiteContent = {
     mailBodyEmail: 'Email:',
     mailBodyBudget: 'Budget:',
     budgetOptions: [
-      '$400 USD — Local Identity',
-      '$800 USD — Branding 360',
-      '$2,000 USD — Digital Ecosystem',
-      'Other / Custom',
+      '$400 – $800 USD',
+      '$800 – $1,500 USD',
+      '$1,500 – $3,000 USD',
+      '$3,000+ USD',
     ],
   },
   site: {
