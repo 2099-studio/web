@@ -1,7 +1,7 @@
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { initCursor } from './cursor';
+import { initCursor, syncCursorScroll } from './cursor';
 import { initMethodology } from './methodology';
 import { initWorksFilter } from './works-filter';
 import { initContactForm } from './contact-form';
@@ -24,6 +24,7 @@ export function initMotion(): void {
   initSparklesText();
   initStarsField();
   initHeroChat();
+  initCursor();
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -66,15 +67,19 @@ export function initMotion(): void {
   }
 
   const lenis = new Lenis({
-    lerp: 0.07,
+    lerp: 0.12,
     smoothWheel: true,
     wheelMultiplier: 0.9,
   });
 
   lenis.on('scroll', ScrollTrigger.update);
+  lenis.on('scroll', () => {
+    syncCursorScroll(lenis.animatedScroll);
+  });
 
   gsap.ticker.add((time) => {
     lenis.raf(time * 1000);
+    syncCursorScroll(lenis.animatedScroll);
   });
   gsap.ticker.lagSmoothing(0);
 
@@ -138,5 +143,4 @@ export function initMotion(): void {
   initSectionParallax();
   initButtonInteractions();
   initGooeyButtons();
-  initCursor();
 }
