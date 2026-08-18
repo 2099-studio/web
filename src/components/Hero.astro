@@ -75,11 +75,7 @@ function splitHighlight(line: string) {
         role="log"
         aria-live="polite"
         aria-relevant="additions"
-      >
-        <div class="hero-chat__msg hero-chat__msg--assistant">
-          <p>{chat.initialMessage}</p>
-        </div>
-      </div>
+      ></div>
 
       <form class="hero-chat__panel" data-hero-chat-form>
         <textarea
@@ -258,6 +254,10 @@ function splitHighlight(line: string) {
     overflow-y: auto;
     padding-inline: 4px;
     scrollbar-width: thin;
+  }
+
+  .hero-chat__thread:empty {
+    display: none;
   }
 
   .hero-chat__msg {
