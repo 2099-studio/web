@@ -60,9 +60,9 @@ function getSuggestions(step: ChatStep, input: string, chat: SiteContent['heroCh
   return [];
 }
 
-function createMessage(text: string, role: 'assistant' | 'user'): HTMLElement {
+function createUserMessage(text: string): HTMLElement {
   const msg = document.createElement('div');
-  msg.className = `hero-chat__msg hero-chat__msg--${role}`;
+  msg.className = 'hero-chat__msg hero-chat__msg--user';
   const p = document.createElement('p');
   p.textContent = text;
   msg.appendChild(p);
@@ -78,12 +78,13 @@ export function initHeroChat(): void {
   if (!root) return;
 
   const messagesEl = root.querySelector<HTMLElement>('[data-hero-chat-messages]');
+  const promptTextEl = root.querySelector<HTMLElement>('[data-hero-chat-prompt-text]');
   const suggestionsEl = root.querySelector<HTMLElement>('[data-hero-chat-suggestions]');
   const suggestionsList = suggestionsEl?.querySelector<HTMLElement>('.hero-chat__suggestions-list');
   const form = root.querySelector<HTMLFormElement>('[data-hero-chat-form]');
   const input = root.querySelector<HTMLTextAreaElement>('[data-hero-chat-input]');
 
-  if (!messagesEl || !suggestionsEl || !suggestionsList || !form || !input) return;
+  if (!messagesEl || !promptTextEl || !suggestionsEl || !suggestionsList || !form || !input) return;
 
   const state: ChatState = {
     step: 'project',
@@ -106,15 +107,16 @@ export function initHeroChat(): void {
     input.style.height = `${input.scrollHeight}px`;
   }
 
-  function updatePlaceholder(): void {
+  function setPrompt(text: string): void {
+    promptTextEl.textContent = text;
+  }
+
+  function promptForStep(step: ChatStep): string {
     const c = content();
-    if (state.step === 'done') {
-      input.placeholder = '';
-      return;
-    }
-    if (state.step === 'project') input.placeholder = c.initialMessage;
-    else if (state.step === 'contact') input.placeholder = c.questionNameEmail;
-    else input.placeholder = c.questionBudget;
+    if (step === 'project') return c.initialMessage;
+    if (step === 'contact') return c.questionNameEmail;
+    if (step === 'budget') return c.questionBudget;
+    return '';
   }
 
   function renderSuggestions(items: string[]): void {
@@ -139,13 +141,8 @@ export function initHeroChat(): void {
     });
   }
 
-  function addAssistantMessage(text: string): void {
-    messagesEl.appendChild(createMessage(text, 'assistant'));
-    scrollMessages(messagesEl);
-  }
-
   function addUserMessage(text: string): void {
-    messagesEl.appendChild(createMessage(text, 'user'));
+    messagesEl.appendChild(createUserMessage(text));
     scrollMessages(messagesEl);
   }
 
@@ -158,14 +155,6 @@ export function initHeroChat(): void {
     input.disabled = true;
     form.querySelector<HTMLButtonElement>('button[type="submit"]')?.setAttribute('disabled', 'true');
     suggestionsEl.hidden = true;
-    updatePlaceholder();
-
-    submitLead({
-      name: state.nombre,
-      email: state.email,
-      budget: state.presupuesto,
-      message: state.proyecto,
-    });
   }
 
   function handleSubmit(rawValue: string): void {
@@ -179,8 +168,7 @@ export function initHeroChat(): void {
     if (state.step === 'project') {
       state.proyecto = value;
       state.step = 'contact';
-      addAssistantMessage(content().questionNameEmail);
-      updatePlaceholder();
+      setPrompt(promptForStep('contact'));
       updateSuggestions();
       return;
     }
@@ -188,15 +176,14 @@ export function initHeroChat(): void {
     if (state.step === 'contact') {
       const parsed = parseNameEmail(value);
       if (!parsed) {
-        addAssistantMessage(content().questionNameEmail);
+        setPrompt(promptForStep('contact'));
         updateSuggestions();
         return;
       }
       state.nombre = parsed.name;
       state.email = parsed.email;
       state.step = 'budget';
-      addAssistantMessage(content().questionBudget);
-      updatePlaceholder();
+      setPrompt(promptForStep('budget'));
       updateSuggestions();
       return;
     }
@@ -204,9 +191,15 @@ export function initHeroChat(): void {
     if (state.step === 'budget') {
       state.presupuesto = value;
       state.step = 'done';
-      const thanks = content().thanks.replace('{name}', state.nombre);
-      addAssistantMessage(thanks);
+      setPrompt(content().thanks.replace('{name}', state.nombre));
       finishChat();
+
+      submitLead({
+        name: state.nombre,
+        email: state.email,
+        budget: state.presupuesto,
+        message: state.proyecto,
+      });
     }
   }
 
@@ -229,6 +222,6 @@ export function initHeroChat(): void {
     handleSubmit(input.value);
   });
 
-  updatePlaceholder();
+  setPrompt(promptForStep('project'));
   updateSuggestions();
 }

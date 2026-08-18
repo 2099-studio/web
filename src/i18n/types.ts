@@ -11,6 +11,8 @@ export interface SiteContent {
   nav: {
     home: string;
     services: string;
+    industries: string;
+    pricing: string;
     works: string;
     studio: string;
     contact: string;
@@ -35,8 +37,6 @@ export interface SiteContent {
     titleHighlight: string;
     lead: string;
     leadSecondary?: string;
-    ctaWorks: string;
-    ctaContact: string;
   };
   heroChat: {
     initialMessage: string;
@@ -44,7 +44,9 @@ export interface SiteContent {
     questionBudget: string;
     thanks: string;
     inputPlaceholder: string;
+    sendLabel: string;
     sendAria: string;
+    assistantLabel: string;
     suggestionsLabel: string;
     suggestions: {
       project: {

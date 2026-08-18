@@ -14,8 +14,7 @@ const BRAND_BLUE: [number, number, number] = [0x2b / 255, 0x5f / 255, 0xff / 255
 const FALLBACK_PRIMARY_BG: [number, number, number] = [0.949, 0.949, 0.941];
 
 const SELECTOR = [
-  '.hero__actions .btn-figma-primary',
-  '.hero__actions .btn-figma-secondary',
+  '.hero-chat__send',
   '.header__cta',
   '.header__pill',
   '.header__mobile .btn-figma-primary',
