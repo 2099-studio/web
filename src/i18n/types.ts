@@ -38,6 +38,32 @@ export interface SiteContent {
     ctaWorks: string;
     ctaContact: string;
   };
+  heroChat: {
+    initialMessage: string;
+    questionNameEmail: string;
+    questionBudget: string;
+    thanks: string;
+    inputPlaceholder: string;
+    sendAria: string;
+    suggestionsLabel: string;
+    suggestions: {
+      project: {
+        landing: string[];
+        brand: string[];
+        video: string[];
+        app: string[];
+        plan: string[];
+        default: string[];
+      };
+      contact: string[];
+      budget: {
+        number: string[];
+        less: string[];
+        more: string[];
+        default: string[];
+      };
+    };
+  };
   services: {
     eyebrow: string;
     badge: string;

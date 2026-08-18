@@ -10,11 +10,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = getContent(locale);
-const baseUrl = import.meta.env.BASE_URL;
-const slides = Array.from({ length: 5 }, (_, i) => {
-  const n = String(i + 1).padStart(2, '0');
-  return `${baseUrl}assets/brand/hero-slides/${n}.jpg`;
-});
+const chat = t.heroChat;
 
 const highlight = t.hero.titleHighlight?.trim() || '';
 const titleLines = t.hero.title.split('\n').map((line) => line.trim()).filter(Boolean);
@@ -71,49 +67,37 @@ function splitHighlight(line: string) {
     </div>
   </div>
 
-  <div class="hero__carousel" data-hero-carousel data-reveal aria-roledescription="carousel">
-    <div class="hero__viewport">
-      <div class="hero__track" data-carousel-track>
-        {
-          slides.map((src, index) => (
-            <article
-              class={`hero__slide${index === 0 ? ' is-active' : ''}`}
-              data-carousel-slide
-              data-index={index}
-              aria-hidden={index !== 0}
-            >
-              <img src={src} alt="" width="940" height="400" decoding="async" loading={index === 0 ? 'eager' : 'lazy'} />
-            </article>
-          ))
-        }
+  <div class="hero__chat-wrap container" data-reveal>
+    <div class="hero-chat" data-hero-chat>
+      <div class="hero-chat__messages" data-hero-chat-messages role="log" aria-live="polite" aria-relevant="additions">
+        <div class="hero-chat__msg hero-chat__msg--assistant">
+          <p>{chat.initialMessage}</p>
+        </div>
       </div>
-    </div>
 
-    <div class="hero__nav" data-carousel-nav>
-      <button type="button" class="hero__arrow" data-carousel-prev aria-label={locale === 'es' ? 'Anterior' : 'Previous'}>
-        ←
-      </button>
-      <div class="hero__dots visually-hidden" role="tablist">
-        {
-          slides.map((_, index) => (
-            <button
-              type="button"
-              class={`hero__dot${index === 0 ? ' is-active' : ''}`}
-              data-carousel-dot={index}
-              aria-label={`Slide ${index + 1}`}
-            />
-          ))
-        }
+      <div class="hero-chat__composer">
+        <div class="hero-chat__suggestions" data-hero-chat-suggestions hidden>
+          <span class="hero-chat__suggestions-label">{chat.suggestionsLabel}</span>
+        </div>
+
+        <form class="hero-chat__form" data-hero-chat-form>
+          <input
+            class="hero-chat__input"
+            type="text"
+            name="message"
+            data-hero-chat-input
+            placeholder={chat.inputPlaceholder}
+            autocomplete="off"
+            required
+          />
+          <button class="hero-chat__send" type="submit" aria-label={chat.sendAria}>→</button>
+        </form>
       </div>
-      <button type="button" class="hero__arrow" data-carousel-next aria-label={locale === 'es' ? 'Siguiente' : 'Next'}>
-        →
-      </button>
     </div>
   </div>
 </section>
 
 <style>
-  /* Hero + coverflow carousel (Figma 608:218 / Slides Box 1440×400) */
   .hero {
     position: relative;
     display: flex;
@@ -229,139 +213,169 @@ function splitHighlight(line: string) {
     line-height: normal;
   }
 
-  /* Full-bleed coverflow — peeks reach viewport edges (Figma Slides Box 1440) */
-  .hero__carousel {
-    position: relative;
+  .hero__chat-wrap {
     flex: 0 0 auto;
-    width: 100vw;
-    max-width: none;
-    margin-top: clamp(24px, 4vh, 56px);
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
+    width: min(100% - var(--margin) * 2, 720px);
+    margin-inline: auto;
+    margin-top: clamp(8px, 2vh, 24px);
   }
 
-  .hero__viewport {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: var(--hero-slide-h);
-    margin-inline: 0;
+  .hero-chat {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 320px;
+    max-height: min(420px, 42vh);
+    padding: 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+    backdrop-filter: blur(8px);
   }
 
-  .hero__track {
-    position: relative;
-    height: 100%;
-    width: 100%;
+  .hero-chat__messages {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 4px;
+    scrollbar-width: thin;
   }
 
-  .hero__slide {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: var(--hero-far-w);
-    height: var(--hero-far-h);
-    border-radius: var(--hero-slide-radius);
-    overflow: hidden;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    visibility: hidden;
-    z-index: 1;
-    pointer-events: none;
-    /* Only transform/opacity — animating width+translate(%) drifts slides off-center */
+  .hero-chat__msg {
+    max-width: 88%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .hero-chat__msg p {
+    margin: 0;
+  }
+
+  .hero-chat__msg--assistant {
+    align-self: flex-start;
+    color: var(--color-text-primary);
+    background: color-mix(in srgb, var(--color-border) 35%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+  }
+
+  .hero-chat__msg--user {
+    align-self: flex-end;
+    color: var(--color-text-primary);
+    background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
+    border: 1px solid color-mix(in srgb, var(--color-primary) 28%, var(--color-border));
+  }
+
+  .hero-chat__composer {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-chat__suggestions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hero-chat__suggestions-label {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+  }
+
+  .hero-chat__suggestions-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .hero-chat__chip {
+    padding: 6px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-family: var(--font-body);
+    font-size: 12px;
+    line-height: 1.35;
+    cursor: pointer;
     transition:
-      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.5s ease,
-      visibility 0.5s;
-    will-change: transform, opacity;
+      border-color 0.2s ease,
+      color 0.2s ease,
+      background 0.2s ease;
   }
 
-  .hero__slide img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+  .hero-chat__chip:hover {
+    border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
+    color: var(--color-text-primary);
+    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
   }
 
-  .hero__slide.is-active {
-    width: var(--hero-slide-w);
-    height: var(--hero-slide-h);
-    opacity: 1;
-    visibility: visible;
-    z-index: 5;
-    pointer-events: auto;
-    transform: translate(-50%, -50%);
+  .hero-chat__form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 6px 6px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-surface);
   }
 
-  .hero__slide.is-prev {
-    width: var(--hero-near-w);
-    height: var(--hero-near-h);
-    opacity: 1;
-    visibility: visible;
-    z-index: 4;
-    transform: translate(calc(-50% - var(--hero-near-x-prev)), -50%);
-  }
-
-  .hero__slide.is-next {
-    width: var(--hero-near-w);
-    height: var(--hero-near-h);
-    opacity: 1;
-    visibility: visible;
-    z-index: 4;
-    transform: translate(calc(-50% + var(--hero-near-x-next)), -50%);
-  }
-
-  .hero__slide.is-far-prev {
-    width: var(--hero-far-w);
-    height: var(--hero-far-h);
-    opacity: 1;
-    visibility: visible;
-    z-index: 2;
-    transform: translate(calc(-50% - var(--hero-far-x-prev)), -50%);
-  }
-
-  .hero__slide.is-far-next {
-    width: var(--hero-far-w);
-    height: var(--hero-far-h);
-    opacity: 1;
-    visibility: visible;
-    z-index: 2;
-    transform: translate(calc(-50% + var(--hero-far-x-next)), -50%);
-  }
-
-  /* Figma has no visible pagination under the strip — keep for a11y */
-  .hero__nav {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
+  .hero-chat__input {
+    flex: 1 1 auto;
+    min-width: 0;
     border: 0;
+    background: transparent;
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.4;
+    outline: none;
   }
 
-  .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
+  .hero-chat__input::placeholder {
+    color: var(--color-text-tertiary);
+  }
+
+  .hero-chat__input:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .hero-chat__send {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
     border: 0;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-bg, #080808);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .hero-chat__send:hover:not(:disabled) {
+    opacity: 0.88;
+  }
+
+  .hero-chat__send:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 
   @media (max-width: 1023px) {
-    .hero__slide.is-far-prev,
-    .hero__slide.is-far-next {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    /* Allow title/lead to wrap — desktop nowrap clips on narrow widths */
     .hero__title {
       width: 100%;
       max-width: none;
@@ -395,12 +409,18 @@ function splitHighlight(line: string) {
       gap: 24px;
       padding-bottom: 16px;
     }
+
+    .hero-chat {
+      min-height: 280px;
+      max-height: 36vh;
+    }
   }
 
   @media (max-width: 767px) {
     .hero {
       min-height: 0;
       padding-bottom: 32px;
+      gap: 32px;
     }
 
     .hero__inner {
@@ -425,7 +445,7 @@ function splitHighlight(line: string) {
     .hero__actions {
       flex-direction: column;
       align-items: stretch;
-      margin-bottom: 28px;
+      margin-bottom: 8px;
     }
 
     .hero__actions :global(.btn-figma-primary),
@@ -433,48 +453,19 @@ function splitHighlight(line: string) {
       width: 100%;
     }
 
-    .hero__carousel {
-      width: 100%;
-      margin-left: 0;
-      margin-right: 0;
+    .hero__chat-wrap {
+      width: min(100% - var(--margin) * 2, 100%);
     }
 
-    .hero__viewport {
-      margin-inline: 0;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 940 / 400;
-      max-height: 52vw;
-      border-radius: 0;
-      overflow: hidden;
+    .hero-chat {
+      min-height: 300px;
+      max-height: none;
+      padding: 16px;
     }
 
-    .hero__slide {
-      border-radius: calc(28px * var(--hero-slide-scale, 1));
-    }
-
-    .hero__slide.is-active {
-      opacity: 1;
-      visibility: visible;
-      width: calc(100% - 24px);
-      height: 100%;
-      aspect-ratio: auto;
-      transform: translate(-50%, -50%);
-    }
-
-    .hero__slide.is-prev,
-    .hero__slide.is-next,
-    .hero__slide.is-far-prev,
-    .hero__slide.is-far-next {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero__slide {
-      transition: none;
+    .hero-chat__msg {
+      max-width: 94%;
+      font-size: 14px;
     }
   }
 </style>

@@ -36,6 +36,62 @@ const en: SiteContent = {
     ctaWorks: 'START',
     ctaContact: 'GO',
   },
+  heroChat: {
+    initialMessage: 'What do you want to build or create?',
+    questionNameEmail: 'What is your name and email?',
+    questionBudget: 'What is your estimated budget?',
+    thanks: 'Thanks, {name}. We will contact you soon.',
+    inputPlaceholder: 'Type your answer…',
+    sendAria: 'Send message',
+    suggestionsLabel: 'Suggestions',
+    suggestions: {
+      project: {
+        landing: [
+          'Landing Page (single-page site)',
+          'Website (multiple pages)',
+          'Online Store / E-commerce',
+        ],
+        brand: [
+          'Logo / Visual Identity',
+          'Full Corporate Identity',
+          'Brand Guidelines',
+        ],
+        video: [
+          'Corporate Video',
+          'Social Media Content',
+          'AI-powered Audiovisual Production',
+        ],
+        app: ['Mobile App', 'Web App / Dashboard', 'Full Platform'],
+        plan: [
+          'Full Plan (Branding + Web + Content)',
+          'Complete Digital Ecosystem',
+          'Strategic Consulting',
+        ],
+        default: [
+          'A simple project (e.g. landing page)',
+          'A complete project (brand + web + content)',
+          'Not sure / need guidance',
+        ],
+      },
+      contact: ['Suggested format: "Name, email@example.com"'],
+      budget: {
+        number: [
+          '$100 – $400 USD (simple project)',
+          '$400 – $800 USD (intermediate project)',
+          '$800 – $1,500 USD (complete project)',
+          '$1,500 – $3,000 USD (full project)',
+          '$3,000+ USD (digital ecosystem)',
+        ],
+        less: ['Less than $400 USD'],
+        more: ['More than $3,000 USD'],
+        default: [
+          '$400 – $800 USD (intermediate project)',
+          '$800 – $1,500 USD (complete project)',
+          '$1,500 – $3,000 USD (full project)',
+        ],
+      },
+    },
+  },
   services: {
     eyebrow: '02 — Services',
     badge: 'Services',

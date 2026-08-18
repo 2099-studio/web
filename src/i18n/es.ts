@@ -36,6 +36,62 @@ const es: SiteContent = {
     ctaWorks: 'START',
     ctaContact: 'GO',
   },
+  heroChat: {
+    initialMessage: '¿Qué quieres hacer o crear?',
+    questionNameEmail: '¿Cuál es tu nombre y email?',
+    questionBudget: '¿Cuál es tu presupuesto estimado?',
+    thanks: 'Gracias, {name}. Te contactaremos pronto.',
+    inputPlaceholder: 'Escribí tu respuesta…',
+    sendAria: 'Enviar mensaje',
+    suggestionsLabel: 'Sugerencias',
+    suggestions: {
+      project: {
+        landing: [
+          'Landing Page (sitio de una página)',
+          'Sitio Web (múltiples páginas)',
+          'Tienda Online / E-commerce',
+        ],
+        brand: [
+          'Logotipo / Identidad Visual',
+          'Identidad Corporativa Completa',
+          'Manual de Marca',
+        ],
+        video: [
+          'Video Corporativo',
+          'Contenido para Redes Sociales',
+          'Producción Audiovisual con IA',
+        ],
+        app: ['App Móvil', 'Web App / Dashboard', 'Plataforma Completa'],
+        plan: [
+          'Plan Integral (Branding + Web + Contenido)',
+          'Ecosistema Digital Completo',
+          'Consultoría Estratégica',
+        ],
+        default: [
+          'Un proyecto simple (ej. landing page)',
+          'Un proyecto completo (marca + web + contenido)',
+          'No estoy seguro / necesito asesoría',
+        ],
+      },
+      contact: ['Formato sugerido: "Nombre, email@ejemplo.com"'],
+      budget: {
+        number: [
+          '$100 – $400 USD (proyecto simple)',
+          '$400 – $800 USD (proyecto intermedio)',
+          '$800 – $1,500 USD (proyecto completo)',
+          '$1,500 – $3,000 USD (proyecto integral)',
+          '$3,000+ USD (ecosistema digital)',
+        ],
+        less: ['Menos de $400 USD'],
+        more: ['Más de $3,000 USD'],
+        default: [
+          '$400 – $800 USD (proyecto intermedio)',
+          '$800 – $1,500 USD (proyecto completo)',
+          '$1,500 – $3,000 USD (proyecto integral)',
+        ],
+      },
+    },
+  },
   services: {
     eyebrow: '02 — Servicios',
     badge: 'Servicios',

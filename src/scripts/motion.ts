@@ -13,7 +13,7 @@ import { initCanvasText, refreshCanvasText } from './canvas-text';
 import { initSparklesText } from './sparkles-text';
 import { initTextReveal } from './text-reveal';
 import { initStarsField } from './stars-field';
-import { initHeroCarousel } from './hero-carousel';
+import { initHeroChat } from './hero-chat';
 import { initServicesPin } from './services-pin';
 import { initSectionHold } from './section-hold';
 
@@ -23,7 +23,7 @@ export function initMotion(): void {
   initCanvasText();
   initSparklesText();
   initStarsField();
-  initHeroCarousel();
+  initHeroChat();
 
   gsap.registerPlugin(ScrollTrigger);
 
