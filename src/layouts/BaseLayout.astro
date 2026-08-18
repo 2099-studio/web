@@ -125,23 +125,16 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
     cursor: none;
   }
 
-  .cursor-root {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 2147483647;
-    overflow: visible;
-    contain: strict;
-  }
-
   .cursor-dot,
   .cursor-ring {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     pointer-events: none;
+    z-index: 2147483647;
     border-radius: 999px;
-    will-change: transform;
+    transform: translate(-50%, -50%);
+    will-change: left, top;
     backface-visibility: hidden;
   }
 
@@ -157,9 +150,9 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
     box-sizing: border-box;
     border: 1px solid color-mix(in srgb, var(--color-text-primary) 35%, transparent);
     transition:
-      width 100ms ease-out,
-      height 100ms ease-out,
-      border-color 100ms ease-out;
+      width 140ms ease-out,
+      height 140ms ease-out,
+      border-color 140ms ease-out;
   }
 
   .cursor-ring.is-hover {
@@ -173,7 +166,6 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
       cursor: auto;
     }
 
-    .cursor-root,
     .cursor-dot,
     .cursor-ring {
       display: none;
