@@ -1,35 +1,23 @@
 const HOVER_SELECTOR = 'a, button, [data-magnetic], [role="button"], input, select, textarea, label';
 
-let scrollCompensateY = 0;
-let cursorRoot: HTMLElement | null = null;
 let dotEl: HTMLElement | null = null;
 let ringEl: HTMLElement | null = null;
 let posX = 0;
 let posY = 0;
 
 function applyCursorTransform(): void {
-  if (!dotEl || !ringEl || !cursorRoot) return;
+  if (!dotEl || !ringEl) return;
 
   const point = `translate3d(${posX}px, ${posY}px, 0) translate(-50%, -50%)`;
   dotEl.style.transform = point;
   ringEl.style.transform = point;
-
-  cursorRoot.style.transform =
-    scrollCompensateY !== 0 ? `translate3d(0, ${scrollCompensateY}px, 0)` : '';
-}
-
-/** Counter Lenis transform on `<html>` so the cursor stays aligned with the pointer. */
-export function syncCursorScroll(y: number): void {
-  if (scrollCompensateY === y) return;
-  scrollCompensateY = y;
-  applyCursorTransform();
 }
 
 export function initCursor(): void {
   if (window.matchMedia('(pointer: coarse)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  cursorRoot = document.createElement('div');
+  const cursorRoot = document.createElement('div');
   cursorRoot.className = 'cursor-root';
   cursorRoot.setAttribute('aria-hidden', 'true');
 

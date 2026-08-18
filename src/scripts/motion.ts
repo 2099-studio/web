@@ -1,7 +1,7 @@
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { initCursor, syncCursorScroll } from './cursor';
+import { initCursor } from './cursor';
 import { initMethodology } from './methodology';
 import { initWorksFilter } from './works-filter';
 import { initContactForm } from './contact-form';
@@ -73,13 +73,9 @@ export function initMotion(): void {
   });
 
   lenis.on('scroll', ScrollTrigger.update);
-  lenis.on('scroll', () => {
-    syncCursorScroll(lenis.animatedScroll);
-  });
 
   gsap.ticker.add((time) => {
     lenis.raf(time * 1000);
-    syncCursorScroll(lenis.animatedScroll);
   });
   gsap.ticker.lagSmoothing(0);
 
