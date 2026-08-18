@@ -79,10 +79,11 @@ export function initHeroChat(): void {
 
   const messagesEl = root.querySelector<HTMLElement>('[data-hero-chat-messages]');
   const suggestionsEl = root.querySelector<HTMLElement>('[data-hero-chat-suggestions]');
+  const suggestionsList = suggestionsEl?.querySelector<HTMLElement>('.hero-chat__suggestions-list');
   const form = root.querySelector<HTMLFormElement>('[data-hero-chat-form]');
-  const input = root.querySelector<HTMLInputElement>('[data-hero-chat-input]');
+  const input = root.querySelector<HTMLTextAreaElement>('[data-hero-chat-input]');
 
-  if (!messagesEl || !suggestionsEl || !form || !input) return;
+  if (!messagesEl || !suggestionsEl || !suggestionsList || !form || !input) return;
 
   const state: ChatState = {
     step: 'project',
@@ -96,21 +97,34 @@ export function initHeroChat(): void {
     return getContent(getLocale()).heroChat;
   }
 
+  function resetInputHeight(): void {
+    input.style.height = 'auto';
+  }
+
+  function resizeInput(): void {
+    resetInputHeight();
+    input.style.height = `${input.scrollHeight}px`;
+  }
+
+  function updatePlaceholder(): void {
+    const c = content();
+    if (state.step === 'done') {
+      input.placeholder = '';
+      return;
+    }
+    if (state.step === 'project') input.placeholder = c.panelPlaceholder;
+    else if (state.step === 'contact') input.placeholder = c.questionNameEmail;
+    else input.placeholder = c.questionBudget;
+  }
+
   function renderSuggestions(items: string[]): void {
-    suggestionsEl.replaceChildren();
+    suggestionsList.replaceChildren();
     if (state.step === 'done' || items.length === 0) {
       suggestionsEl.hidden = true;
       return;
     }
 
     suggestionsEl.hidden = false;
-    const label = document.createElement('span');
-    label.className = 'hero-chat__suggestions-label';
-    label.textContent = content().suggestionsLabel;
-    suggestionsEl.appendChild(label);
-
-    const list = document.createElement('div');
-    list.className = 'hero-chat__suggestions-list';
     items.forEach((item) => {
       const chip = document.createElement('button');
       chip.type = 'button';
@@ -118,11 +132,11 @@ export function initHeroChat(): void {
       chip.textContent = item;
       chip.addEventListener('click', () => {
         input.value = item;
+        resizeInput();
         form.requestSubmit();
       });
-      list.appendChild(chip);
+      suggestionsList.appendChild(chip);
     });
-    suggestionsEl.appendChild(list);
   }
 
   function addAssistantMessage(text: string): void {
@@ -144,6 +158,7 @@ export function initHeroChat(): void {
     input.disabled = true;
     form.querySelector<HTMLButtonElement>('button[type="submit"]')?.setAttribute('disabled', 'true');
     suggestionsEl.hidden = true;
+    updatePlaceholder();
 
     submitLead({
       name: state.nombre,
@@ -159,11 +174,13 @@ export function initHeroChat(): void {
 
     addUserMessage(value);
     input.value = '';
+    resetInputHeight();
 
     if (state.step === 'project') {
       state.proyecto = value;
       state.step = 'contact';
       addAssistantMessage(content().questionNameEmail);
+      updatePlaceholder();
       updateSuggestions();
       return;
     }
@@ -179,6 +196,7 @@ export function initHeroChat(): void {
       state.email = parsed.email;
       state.step = 'budget';
       addAssistantMessage(content().questionBudget);
+      updatePlaceholder();
       updateSuggestions();
       return;
     }
@@ -192,13 +210,25 @@ export function initHeroChat(): void {
     }
   }
 
-  input.addEventListener('input', updateSuggestions);
+  input.addEventListener('input', () => {
+    resizeInput();
+    updateSuggestions();
+  });
+
   input.addEventListener('focus', updateSuggestions);
+
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      form.requestSubmit();
+    }
+  });
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     handleSubmit(input.value);
   });
 
+  updatePlaceholder();
   updateSuggestions();
 }

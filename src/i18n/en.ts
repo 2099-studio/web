@@ -42,6 +42,7 @@ const en: SiteContent = {
     questionBudget: 'What is your estimated budget?',
     thanks: 'Thanks, {name}. We will contact you soon.',
     inputPlaceholder: 'Type your answer…',
+    panelPlaceholder: 'Message 2099.studio',
     sendAria: 'Send message',
     suggestionsLabel: 'Suggestions',
     suggestions: {

@@ -44,6 +44,7 @@ export interface SiteContent {
     questionBudget: string;
     thanks: string;
     inputPlaceholder: string;
+    panelPlaceholder: string;
     sendAria: string;
     suggestionsLabel: string;
     suggestions: {
