@@ -15,7 +15,7 @@ const nextLabel = locale === 'es' ? 'Siguiente' : 'Next';
 const layerLabel = locale === 'es' ? 'Capa' : 'Layer';
 ---
 
-<section class="industries figma-section" id="industries" data-industries aria-labelledby="industries-title">
+<section class="industries figma-section" id="industrias" data-industries aria-labelledby="industries-title">
   <div class="industries__frame" data-industries-sticky>
     <div class="industries__fit">
     <div class="industries__wrap container container--wide">
@@ -325,7 +325,7 @@ const layerLabel = locale === 'es' ? 'Capa' : 'Layer';
 
   @media (max-width: 767px) {
     .industries__frame {
-      min-height: 100dvh;
+      min-height: 0;
     }
 
     .industries__head.figma-section__head {
@@ -408,16 +408,34 @@ const layerLabel = locale === 'es' ? 'Capa' : 'Layer';
     }
 
     .industries__pager-dot {
+      position: relative;
       flex: 1;
       height: 4px;
-      padding: 0;
+      min-height: 44px;
+      padding: 20px 0;
       border: none;
       border-radius: 8px;
-      background: var(--color-border);
+      background: transparent;
       cursor: pointer;
     }
 
+    .industries__pager-dot::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 4px;
+      transform: translateY(-50%);
+      border-radius: 8px;
+      background: var(--color-border);
+    }
+
     .industries__pager-dot.is-active {
+      background: transparent;
+    }
+
+    .industries__pager-dot.is-active::before {
       background: var(--color-text-primary);
     }
   }

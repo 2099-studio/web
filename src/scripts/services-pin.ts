@@ -6,11 +6,12 @@ gsap.registerPlugin(ScrollTrigger);
 /**
  * Sticky services panels:
  * - Desktop: pin while scroll advances 01 → 02 → 03 → 04, then release
- * - Mobile (≤900px width): click/autoplay — no pin
+ * - Mobile (≤900px width): manual ticks only — no pin, no accidental tap advance
  */
 export function initServicesPin(): () => void {
   const section = document.querySelector<HTMLElement>('[data-services-pin]');
   const sticky = section?.querySelector<HTMLElement>('[data-services-sticky]');
+  const progress = section?.querySelector<HTMLElement>('.services-pin__progress');
   const panels = Array.from(section?.querySelectorAll<HTMLElement>('[data-services-panel]') ?? []);
   const ticks = Array.from(section?.querySelectorAll<HTMLElement>('[data-services-tick]') ?? []);
 
@@ -39,15 +40,22 @@ export function initServicesPin(): () => void {
 
   const startTimer = () => {
     stopTimer();
-    if (prefersReduced) return;
+    if (prefersReduced || isMobileMq.matches) return;
     timer = window.setInterval(() => {
       index = (index + 1) % panels.length;
       showPanel(index);
     }, 2800);
   };
 
-  const onClick = () => {
-    index = (index + 1) % panels.length;
+  const onProgressClick = (event: Event) => {
+    const target = event.target as HTMLElement | null;
+    const tick = target?.closest<HTMLElement>('[data-services-tick]');
+    if (!tick) return;
+
+    const tickIndex = ticks.indexOf(tick);
+    if (tickIndex < 0) return;
+
+    index = tickIndex;
     showPanel(index);
     startTimer();
   };
@@ -55,14 +63,14 @@ export function initServicesPin(): () => void {
   const enableCompact = () => {
     trigger?.kill();
     trigger = undefined;
-    sticky.addEventListener('click', onClick);
+    progress?.addEventListener('click', onProgressClick);
     showPanel(index);
     startTimer();
   };
 
   const enablePin = () => {
     stopTimer();
-    sticky.removeEventListener('click', onClick);
+    progress?.removeEventListener('click', onProgressClick);
     trigger?.kill();
     showPanel(0);
     index = 0;
@@ -95,7 +103,7 @@ export function initServicesPin(): () => void {
 
   return () => {
     stopTimer();
-    sticky.removeEventListener('click', onClick);
+    progress?.removeEventListener('click', onProgressClick);
     isMobileMq.removeEventListener('change', syncMode);
     trigger?.kill();
   };

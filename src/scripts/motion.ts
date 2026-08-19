@@ -4,7 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initCursor } from './cursor';
 import { initMethodology } from './methodology';
 import { initWorksFilter } from './works-filter';
-import { initContactForm } from './contact-form';
 import { initButtonInteractions } from './button-interactions';
 import { initGooeyButtons } from './gooey-buttons';
 import { initIndustriesTabs } from './industries-tabs';
@@ -16,6 +15,25 @@ import { initStarsField } from './stars-field';
 import { initHeroChat } from './hero-chat';
 import { initServicesPin } from './services-pin';
 import { initSectionHold } from './section-hold';
+
+function shouldUseLenis(): boolean {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+  if (window.matchMedia('(pointer: coarse)').matches) return false;
+  if (window.matchMedia('(max-width: 1023px)').matches) return false;
+  return true;
+}
+
+function initScrollFeatures(): void {
+  initServicesPin();
+  initIndustriesTabs();
+  initMethodology();
+  initSectionHold();
+  initTextReveal();
+  initWorksFilter();
+  initSectionParallax();
+  initButtonInteractions();
+  initGooeyButtons();
+}
 
 export function initMotion(): void {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -55,14 +73,13 @@ export function initMotion(): void {
     document.querySelectorAll('[data-methodology-step]').forEach((step) => {
       step.classList.add('is-active');
     });
-    initTextReveal();
-    initWorksFilter();
-    initContactForm();
-    initIndustriesTabs();
-    initServicesPin();
-    initSectionHold();
-    initButtonInteractions();
-    initGooeyButtons();
+    initScrollFeatures();
+    return;
+  }
+
+  if (!shouldUseLenis()) {
+    initScrollFeatures();
+    animateScrollSections();
     return;
   }
 
@@ -95,13 +112,11 @@ export function initMotion(): void {
     });
   });
 
-  // Pins first, then text-reveal — scrub must account for pinned layouts
-  initServicesPin();
-  initIndustriesTabs();
-  initMethodology();
-  initSectionHold();
-  initTextReveal();
+  initScrollFeatures();
+  animateScrollSections();
+}
 
+function animateScrollSections(): void {
   const workCards = gsap.utils.toArray<HTMLElement>('[data-work-card]');
   if (workCards.length) {
     gsap.from(workCards, {
@@ -134,9 +149,21 @@ export function initMotion(): void {
     });
   }
 
-  initWorksFilter();
-  initContactForm();
-  initSectionParallax();
-  initButtonInteractions();
-  initGooeyButtons();
+  if (!shouldUseLenis()) {
+    gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
+      const hasTextReveal = Boolean(el.querySelector('[data-text-reveal]'));
+      gsap.from(el, {
+        opacity: hasTextReveal ? 1 : 0,
+        y: 64,
+        duration: 0.95,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        },
+        onComplete: refreshCanvasText,
+      });
+    });
+  }
 }

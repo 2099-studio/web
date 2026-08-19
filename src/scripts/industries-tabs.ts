@@ -100,11 +100,7 @@ export function initIndustriesTabs(): () => void {
   };
 
   const startAutoplay = () => {
-    if (!isMobileMq.matches || prefersReduced) return;
     stopAutoplay();
-    autoplayTimer = setInterval(() => {
-      setActive((activeIndex + 1) % total);
-    }, 5000);
   };
 
   const killPin = () => {
@@ -183,15 +179,13 @@ export function initIndustriesTabs(): () => void {
   const onResize = () => {
     syncLayoutA11y();
     setupPin();
-    if (isMobileMq.matches) startAutoplay();
-    else stopAutoplay();
+    stopAutoplay();
     ScrollTrigger.refresh();
   };
 
   setActive(0);
   syncLayoutA11y();
   setupPin();
-  if (isMobileMq.matches) startAutoplay();
 
   isMobileMq.addEventListener('change', onResize);
   window.addEventListener('resize', onResize);

@@ -12,25 +12,19 @@ const t = getContent(locale);
 const homePath = localePath(locale, '', import.meta.env.BASE_URL);
 
 const navLinks = [
-  { href: '#services', label: t.nav.services },
-  { href: '#industries', label: t.nav.industries },
-  { href: '#investment', label: t.nav.pricing },
+  { href: '#servicios', label: t.nav.services },
+  { href: '#industrias', label: t.nav.industries },
+  { href: '#studio', label: t.nav.studio },
 ];
 ---
 
 <header class="header">
   <div class="header__inner container">
-    <div class="header__zone header__zone--logo">
-      <a class="header__logo-link" href={homePath} aria-label={t.nav.home}>
-        <Logo />
-      </a>
-    </div>
+    <a class="header__logo" href={homePath} aria-label={t.nav.home}>
+      <Logo />
+    </a>
 
-    <button class="header__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-
-    <nav class="header__zone header__zone--nav" aria-label={locale === 'es' ? 'Principal' : 'Main'}>
+    <nav class="header__nav" aria-label={locale === 'es' ? 'Principal' : 'Main'}>
       <ul class="header__nav-list">
         {navLinks.map((link) => (
           <li><a class="header__nav-link" href={link.href} data-nav-link>{link.label}</a></li>
@@ -38,20 +32,30 @@ const navLinks = [
       </ul>
     </nav>
 
-    <div class="header__zone header__zone--actions">
-      <button class="header__pill header__pill--locale" type="button" data-locale-toggle aria-label={locale === 'es' ? t.locale.switchToEn : t.locale.switchToEs}>
-        <span class="header__locale-option header__locale-option--es">{t.locale.labelEs}</span>
-        <span class="header__locale-option header__locale-option--en">{t.locale.labelEn}</span>
+    <div class="header__aside">
+      <div class="header__tools">
+        <button class="header__pill header__pill--locale" type="button" data-locale-toggle aria-label={locale === 'es' ? t.locale.switchToEn : t.locale.switchToEs}>
+          <span class="header__locale-option header__locale-option--es">{t.locale.labelEs}</span>
+          <span class="header__locale-option header__locale-option--en">{t.locale.labelEn}</span>
+        </button>
+        <button class="header__pill header__pill--theme" type="button" data-theme-toggle aria-label={t.theme.ariaLight}>
+          <svg class="header__theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <span class="header__theme-option header__theme-option--light">{t.theme.light}</span>
+          <span class="header__theme-option header__theme-option--dark">{t.theme.dark}</span>
+        </button>
+      </div>
+
+      <div class="header__ctas">
+        <a class="btn-figma-primary header__cta" href="#hero-chat">{t.hero.ctaWorks}</a>
+        <a class="btn-figma-secondary header__cta" href="#pricing">{t.hero.ctaContact}</a>
+      </div>
+
+      <button class="header__toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="Menu">
+        <span></span><span></span><span></span>
       </button>
-      <button class="header__pill header__pill--theme" type="button" data-theme-toggle aria-label={t.theme.ariaLight}>
-        <svg class="header__theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-        </svg>
-        <span class="header__theme-option header__theme-option--light">{t.theme.light}</span>
-        <span class="header__theme-option header__theme-option--dark">{t.theme.dark}</span>
-      </button>
-      <a class="btn-figma-primary header__cta" href="#contact">{t.nav.contact}</a>
     </div>
   </div>
 
@@ -61,21 +65,10 @@ const navLinks = [
         <li><a class="header__mobile-link" href={link.href} data-nav-link>{link.label}</a></li>
       ))}
     </ul>
-    <div class="header__mobile-tools" aria-label={locale === 'es' ? 'Preferencias' : 'Preferences'}>
-      <button class="header__pill header__pill--locale" type="button" data-locale-toggle aria-label={locale === 'es' ? t.locale.switchToEn : t.locale.switchToEs}>
-        <span class="header__locale-option header__locale-option--es">{t.locale.labelEs}</span>
-        <span class="header__locale-option header__locale-option--en">{t.locale.labelEn}</span>
-      </button>
-      <button class="header__pill header__pill--theme" type="button" data-theme-toggle aria-label={t.theme.ariaLight}>
-        <svg class="header__theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-        </svg>
-        <span class="header__theme-option header__theme-option--light">{t.theme.light}</span>
-        <span class="header__theme-option header__theme-option--dark">{t.theme.dark}</span>
-      </button>
+    <div class="header__mobile-ctas">
+      <a class="btn-figma-primary" href="#hero-chat" data-nav-link>{t.hero.ctaWorks}</a>
+      <a class="btn-figma-secondary" href="#pricing" data-nav-link>{t.hero.ctaContact}</a>
     </div>
-    <a class="btn-figma-primary" href="#contact" data-nav-link>{t.nav.contact}</a>
   </div>
 </header>
 
@@ -93,45 +86,162 @@ const navLinks = [
   }
 
   .header__inner {
-    display: flex;
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
-    gap: 16px;
-    height: 72px;
+    column-gap: clamp(16px, 3vw, 32px);
+    height: var(--header-height, 72px);
   }
 
-  .header__zone--logo {
-    flex: 1 1 0;
-    min-width: 0;
-    display: flex;
-    align-items: center;
-  }
-
-  .header__logo-link {
+  .header__logo {
     display: inline-flex;
     align-items: center;
+    flex-shrink: 0;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    z-index: 2;
   }
 
-  .header__zone--nav {
-    flex: 0 0 auto;
-  }
-
-  .header__zone--actions {
-    flex: 1 1 0;
+  .header__nav {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
     min-width: 0;
+    z-index: 1;
+  }
+
+  .header__nav-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: clamp(20px, 2.5vw, 32px);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header__nav-link {
+    display: inline-flex;
+    align-items: center;
+    height: 40px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+
+  .header__nav-link:hover {
+    color: var(--color-text-primary);
+  }
+
+  .header__aside {
+    grid-column: 3;
+    grid-row: 1;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    justify-self: end;
+    gap: 10px;
+    min-width: 0;
+    z-index: 2;
+  }
+
+  .header__tools,
+  .header__ctas {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .header__ctas {
+    padding-left: 10px;
+    border-left: 1px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+  }
+
+  .header__pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-text-secondary);
+    background: transparent;
+    flex-shrink: 0;
+  }
+
+  .header__pill--locale {
+    width: 52px;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .header__pill--theme {
+    min-width: 40px;
+    padding: 0 12px;
+  }
+
+  .header__theme-icon {
+    display: block;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+  }
+
+  .header__theme-option {
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .header__pill--theme :global(.btn-gooey__label) {
     gap: 8px;
   }
 
+  .header__locale-option,
+  .header__theme-option {
+    display: none;
+  }
+
+  :global(html[lang='es']) .header__locale-option--en { display: inline; }
+  :global(html[lang='en']) .header__locale-option--es { display: inline; }
+  :global(:root) .header__theme-option--light,
+  :global([data-theme='dark']) .header__theme-option--light { display: inline; }
+  :global([data-theme='light']) .header__theme-option--light { display: none; }
+  :global([data-theme='light']) .header__theme-option--dark { display: inline; }
+
+  :global(.btn-figma-primary).header__cta,
+  :global(.btn-figma-secondary).header__cta {
+    box-sizing: border-box;
+    height: 40px;
+    min-height: 40px;
+    padding: 0 18px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
   .header__toggle {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     gap: 5px;
-    width: 44px;
-    height: 44px;
-    margin-left: 0;
+    width: 40px;
+    height: 40px;
     padding: 10px;
     border: 1px solid var(--color-border);
     border-radius: 8px;
@@ -151,102 +261,8 @@ const navLinks = [
   .header.is-open .header__toggle span:nth-child(2) { opacity: 0; }
   .header.is-open .header__toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-  .header__nav-list {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-    list-style: none;
-  }
-
-  .header__nav-link {
-    font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--color-text-secondary);
-    white-space: nowrap;
-    transition: color 0.15s;
-  }
-
-  .header__nav-link:hover {
-    color: var(--color-text-primary);
-  }
-
-  .header__pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    height: 40px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-full);
-    font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1;
-    color: var(--color-text-secondary);
-    background: transparent;
-  }
-
-  .header__pill--locale {
-    width: 56px;
-    padding: 0;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-  }
-
-  .header__pill--theme {
-    width: auto;
-    min-width: 88px;
-    padding: 0 14px;
-  }
-
-  .header__theme-icon {
-    display: block;
-    flex-shrink: 0;
-    width: 16px;
-    height: 16px;
-  }
-
-  .header__theme-option {
-    line-height: 1;
-  }
-
-  .header__pill--theme :global(.btn-gooey__label) {
-    gap: 8px;
-  }
-
-  .header__locale-option,
-  .header__theme-option {
-    display: none;
-  }
-
-  :global(html[lang='es']) .header__locale-option--en { display: inline; }
-  :global(html[lang='en']) .header__locale-option--es { display: inline; }
-  :global(:root) .header__theme-option--light,
-  :global([data-theme='dark']) .header__theme-option--light { display: inline; }
-  :global([data-theme='light']) .header__theme-option--light { display: none; }
-  :global([data-theme='light']) .header__theme-option--dark { display: inline; }
-
-  :global(.btn-figma-primary).header__cta {
-    box-sizing: border-box;
-    height: 40px;
-    min-height: 40px;
-    padding: 0 20px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1;
-  }
-
-  .header__mobile :global(.btn-figma-primary) {
-    height: 44px;
-    min-height: 44px;
-    padding: 0 20px;
-    font-size: 16px;
-  }
-
   .header__mobile {
-    padding: 0 var(--margin) 24px;
+    padding: 0 var(--margin) max(24px, env(safe-area-inset-bottom));
     border-top: 1px solid var(--color-border);
     background: var(--color-bg);
   }
@@ -256,6 +272,7 @@ const navLinks = [
 
   .header__mobile-list {
     list-style: none;
+    margin: 0;
     padding: 16px 0;
   }
 
@@ -267,23 +284,19 @@ const navLinks = [
     color: var(--color-text-secondary);
   }
 
-  .header__mobile-tools {
+  .header__mobile-ctas {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 10px;
-    margin-bottom: 16px;
+    padding-bottom: 8px;
   }
 
-  .header__mobile-tools .header__pill {
-    flex: 1 1 0;
+  .header__mobile :global(.btn-figma-primary),
+  .header__mobile :global(.btn-figma-secondary) {
     height: 44px;
-    min-width: 0;
-  }
-
-  .header__mobile-tools .header__pill--locale {
-    width: auto;
-    max-width: 88px;
-    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 20px;
+    font-size: 16px;
   }
 
   @media (min-width: 1024px) {
@@ -291,50 +304,52 @@ const navLinks = [
     .header__mobile {
       display: none !important;
     }
+  }
 
-    .header__zone--nav {
-      display: block;
+  @media (max-width: 1200px) and (min-width: 1024px) {
+    .header__nav-list {
+      gap: clamp(16px, 2vw, 24px);
     }
 
-    .header__zone--actions {
-      gap: 12px;
+    .header__theme-option {
+      display: none !important;
     }
 
-    .header__mobile-tools {
-      display: none;
+    .header__pill--theme {
+      width: 40px;
+      min-width: 40px;
+      padding: 0;
     }
   }
 
   @media (max-width: 1023px) {
     .header__inner {
-      gap: 10px;
+      grid-template-columns: 1fr auto;
+      column-gap: 12px;
     }
 
-    .header__zone--logo {
-      order: 1;
-      flex: 1 1 auto;
+    .header__nav,
+    .header__ctas {
+      display: none;
     }
 
-    .header__zone--actions {
-      order: 2;
-      flex: 0 0 auto;
+    .header__aside {
+      grid-column: 2;
+      gap: 8px;
+    }
+
+    .header__ctas {
+      padding-left: 0;
+      border-left: 0;
     }
 
     .header__toggle {
-      order: 3;
-    }
-
-    .header__zone--nav {
-      display: none;
-    }
-
-    .header__cta {
-      display: none;
+      display: flex;
     }
 
     .header__pill--theme {
-      min-width: 0;
-      padding: 0 12px;
+      min-width: 40px;
+      padding: 0 10px;
     }
 
     .header__pill--locale {
@@ -343,14 +358,18 @@ const navLinks = [
   }
 
   @media (max-width: 420px) {
-    .header__zone--actions .header__theme-option {
+    .header__theme-option {
       display: none !important;
     }
 
-    .header__zone--actions .header__pill--theme {
+    .header__pill--theme {
       width: 40px;
       min-width: 40px;
       padding: 0;
+    }
+
+    .header__tools {
+      gap: 6px;
     }
   }
 </style>
@@ -360,22 +379,29 @@ const navLinks = [
   const toggle = document.querySelector('[data-nav-toggle]');
   const panel = document.querySelector('[data-nav-panel]');
 
+  const setMenuOpen = (open) => {
+    header?.classList.toggle('is-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    panel?.toggleAttribute('hidden', !open);
+    document.body.classList.toggle('is-nav-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+
   window.addEventListener('scroll', () => {
     header?.classList.toggle('is-scrolled', window.scrollY > 8);
   }, { passive: true });
 
   toggle?.addEventListener('click', () => {
-    const open = !header?.classList.contains('is-open');
-    header?.classList.toggle('is-open', open);
-    toggle.setAttribute('aria-expanded', String(open));
-    panel?.toggleAttribute('hidden', !open);
+    setMenuOpen(!header?.classList.contains('is-open'));
   });
 
   document.querySelectorAll('[data-nav-link]').forEach((el) => {
-    el.addEventListener('click', () => {
-      header?.classList.remove('is-open');
-      panel?.setAttribute('hidden', '');
-      toggle?.setAttribute('aria-expanded', 'false');
-    });
+    el.addEventListener('click', () => setMenuOpen(false));
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && header?.classList.contains('is-open')) {
+      setMenuOpen(false);
+    }
   });
 </script>

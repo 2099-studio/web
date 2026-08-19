@@ -12,7 +12,7 @@ const t = getContent(locale);
 const { investment: inv } = t;
 ---
 
-<section class="investment figma-section" id="investment" data-section-hold aria-labelledby="investment-title">
+<section class="investment figma-section" id="pricing" data-section-hold aria-labelledby="investment-title">
   <div class="investment__sticky" data-section-hold-pin>
     <div class="investment__fit">
       <div class="investment__wrap container">
@@ -21,8 +21,6 @@ const { investment: inv } = t;
           <h2 class="figma-section__title" id="investment-title" data-text-reveal>{inv.title}</h2>
           <p class="figma-section__subtitle" data-text-reveal>{inv.lead}</p>
         </header>
-
-        <p class="investment__context" data-reveal>{inv.context}</p>
 
         <div class="investment__grid" data-reveal>
           {
@@ -84,15 +82,6 @@ const { investment: inv } = t;
     width: 100%;
     padding-block: var(--section-padding-y);
     box-sizing: border-box;
-  }
-
-  .investment__context {
-    margin: 0 0 32px;
-    max-width: 720px;
-    font-family: var(--font-body);
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
   }
 
   .investment__grid {

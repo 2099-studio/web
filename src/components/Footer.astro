@@ -15,10 +15,11 @@ const baseUrl = import.meta.env.BASE_URL;
 const homePath = localePath(locale, '', baseUrl);
 
 const navLinks = [
-  { href: '#services', label: nav.services.toUpperCase() },
-  { href: '#industries', label: nav.industries.toUpperCase() },
-  { href: '#investment', label: nav.pricing.toUpperCase() },
-  { href: '#contact', label: nav.contact.toUpperCase() },
+  { href: '#servicios', label: nav.services.toUpperCase() },
+  { href: '#industrias', label: nav.industries.toUpperCase() },
+  { href: '#studio', label: nav.studio.toUpperCase() },
+  { href: '#pricing', label: nav.pricing.toUpperCase() },
+  { href: '#hero-chat', label: nav.contact.toUpperCase() },
 ];
 
 const socialLinks = [
@@ -207,7 +208,7 @@ const socialLinks = [
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    padding: 24px 0 40px;
+    padding: 24px 0 max(40px, env(safe-area-inset-bottom));
     border-top: 1px solid var(--color-border);
   }
 

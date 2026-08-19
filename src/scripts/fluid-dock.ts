@@ -108,10 +108,11 @@ export function initFluidDock(): void {
 
   // Active link highlight by section
   const sectionMap: Array<{ id: string; link: string }> = [
-    { id: 'services', link: 'services' },
-    { id: 'industries', link: 'industries' },
-    { id: 'investment', link: 'investment' },
-    { id: 'contact', link: 'contact' },
+    { id: 'servicios', link: 'servicios' },
+    { id: 'industrias', link: 'industrias' },
+    { id: 'studio', link: 'studio' },
+    { id: 'pricing', link: 'pricing' },
+    { id: 'hero-chat', link: 'hero-chat' },
   ];
 
   sectionMap.forEach(({ id, link }) => {

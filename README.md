@@ -26,6 +26,8 @@ npm install
 npm run dev
 ```
 
+Copiá `.env.example` a `.env` y configurá `PUBLIC_LEAD_WEBHOOK_URL` con la URL del webhook de Google Apps Script para que el chat envíe emails al finalizar (ver `scripts/lead-webhook/Code.gs`).
+
 Si abres `http://localhost:4321/` con `dev:pages` activo, verás una página en blanco — entra en `/web/`.
 
 **Importante:** si antes corriste un build con `GITHUB_PAGES=true` en la terminal, cierra esa terminal o ejecuta:

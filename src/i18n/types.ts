@@ -41,12 +41,23 @@ export interface SiteContent {
     ctaContact: string;
   };
   heroChat: {
-    initialMessage: string;
+    welcomeMessage: string;
+    questionProject: string;
     questionNameEmail: string;
+    questionProjectDetails: string;
     questionBudget: string;
     thanks: string;
+    submitError: string;
+    clientAutoresponse: string;
     inputPlaceholder: string;
+    projectDetailsMaxLength: number;
+    projectDetailsTooLong: string;
     sendAria: string;
+    sendLabel: string;
+    attachAria: string;
+    removeFileAria: string;
+    fileTooLarge: string;
+    fileTypeInvalid: string;
     suggestionsLabel: string;
     suggestions: {
       project: {
@@ -189,6 +200,8 @@ export interface SiteContent {
     mailSubject: string;
     mailBodyName: string;
     mailBodyEmail: string;
+    mailBodyNeed: string;
+    mailBodyProject: string;
     mailBodyBudget: string;
     budgetOptions: string[];
   };

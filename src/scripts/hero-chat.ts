@@ -3,14 +3,19 @@ import type { SiteContent } from '../i18n/types';
 import { getLocale } from './locale';
 import { submitLead } from './submit-lead';
 
-type ChatStep = 'project' | 'contact' | 'budget' | 'done';
+type ChatStep = 'need' | 'contact' | 'details' | 'budget' | 'done';
+
+const MAX_FILE_BYTES = 5 * 1024 * 1024;
+const ALLOWED_EXTENSIONS = new Set(['pdf', 'jpg', 'jpeg', 'png', 'doc', 'docx']);
 
 interface ChatState {
   step: ChatStep;
-  proyecto: string;
+  necesidad: string;
   nombre: string;
   email: string;
+  proyectoDetalle: string;
   presupuesto: string;
+  attachment: File | null;
 }
 
 function normalize(text: string): string {
@@ -33,15 +38,9 @@ function parseNameEmail(input: string): { name: string; email: string } | null {
   return { name: namePart, email };
 }
 
-function getProjectSuggestions(input: string, suggestions: SiteContent['heroChat']['suggestions']['project']): string[] {
-  const value = normalize(input);
-  if (!value) return suggestions.default;
-  if (value.includes('landing')) return suggestions.landing;
-  if (value.includes('logo') || value.includes('marca') || value.includes('brand')) return suggestions.brand;
-  if (value.includes('video')) return suggestions.video;
-  if (value.includes('app')) return suggestions.app;
-  if (value.includes('plan') || value.includes('todo') || value.includes('full')) return suggestions.plan;
-  return suggestions.default;
+function isAllowedFile(file: File): boolean {
+  const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+  return ALLOWED_EXTENSIONS.has(ext);
 }
 
 function getBudgetSuggestions(input: string, suggestions: SiteContent['heroChat']['suggestions']['budget']): string[] {
@@ -54,10 +53,14 @@ function getBudgetSuggestions(input: string, suggestions: SiteContent['heroChat'
 }
 
 function getSuggestions(step: ChatStep, input: string, chat: SiteContent['heroChat']): string[] {
-  if (step === 'project') return getProjectSuggestions(input, chat.suggestions.project);
+  if (step === 'need') return chat.suggestions.project.default;
   if (step === 'contact' && input.trim().length > 0) return chat.suggestions.contact;
   if (step === 'budget') return getBudgetSuggestions(input, chat.suggestions.budget);
   return [];
+}
+
+function withName(template: string, name: string): string {
+  return template.replace('{name}', name);
 }
 
 function createMessage(text: string, role: 'assistant' | 'user'): HTMLElement {
@@ -74,6 +77,7 @@ function scrollMessages(container: HTMLElement): void {
 }
 
 export function initHeroChat(): void {
+  const chatWrap = document.querySelector<HTMLElement>('#hero-chat');
   const root = document.querySelector<HTMLElement>('[data-hero-chat]');
   if (!root) return;
 
@@ -82,19 +86,46 @@ export function initHeroChat(): void {
   const suggestionsList = suggestionsEl?.querySelector<HTMLElement>('.hero-chat__suggestions-list');
   const form = root.querySelector<HTMLFormElement>('[data-hero-chat-form]');
   const input = root.querySelector<HTMLTextAreaElement>('[data-hero-chat-input]');
+  const counterEl = root.querySelector<HTMLElement>('[data-hero-chat-counter]');
+  const attachBtn = root.querySelector<HTMLButtonElement>('[data-hero-chat-attach]');
+  const fileInput = root.querySelector<HTMLInputElement>('[data-hero-chat-file-input]');
+  const fileBar = root.querySelector<HTMLElement>('[data-hero-chat-file]');
+  const fileNameEl = root.querySelector<HTMLElement>('[data-hero-chat-file-name]');
+  const fileRemoveBtn = root.querySelector<HTMLButtonElement>('[data-hero-chat-file-remove]');
+  const sendBtn = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
 
-  if (!messagesEl || !suggestionsEl || !suggestionsList || !form || !input) return;
+  if (
+    !messagesEl ||
+    !suggestionsEl ||
+    !suggestionsList ||
+    !form ||
+    !input ||
+    !counterEl ||
+    !attachBtn ||
+    !fileInput ||
+    !fileBar ||
+    !fileNameEl ||
+    !fileRemoveBtn
+  ) {
+    return;
+  }
 
   const state: ChatState = {
-    step: 'project',
-    proyecto: '',
+    step: 'need',
+    necesidad: '',
     nombre: '',
     email: '',
+    proyectoDetalle: '',
     presupuesto: '',
+    attachment: null,
   };
 
   function content(): SiteContent['heroChat'] {
     return getContent(getLocale()).heroChat;
+  }
+
+  function detailsMaxLength(): number {
+    return content().projectDetailsMaxLength;
   }
 
   function resetInputHeight(): void {
@@ -108,13 +139,43 @@ export function initHeroChat(): void {
 
   function updatePlaceholder(): void {
     const c = content();
-    if (state.step === 'done') {
-      input.placeholder = '';
+    input.placeholder = state.step === 'done' ? '' : c.inputPlaceholder;
+  }
+
+  function updateCharCounter(): void {
+    const max = detailsMaxLength();
+    if (state.step !== 'details') {
+      counterEl.hidden = true;
+      input.removeAttribute('maxlength');
       return;
     }
-    if (state.step === 'project') input.placeholder = c.initialMessage;
-    else if (state.step === 'contact') input.placeholder = c.questionNameEmail;
-    else input.placeholder = c.questionBudget;
+
+    counterEl.hidden = false;
+    input.maxLength = max;
+    counterEl.textContent = `${input.value.length}/${max}`;
+  }
+
+  function renderFileBar(): void {
+    if (!state.attachment) {
+      fileBar.hidden = true;
+      fileNameEl.textContent = '';
+      return;
+    }
+
+    fileBar.hidden = false;
+    fileNameEl.textContent = `📎 ${state.attachment.name}`;
+  }
+
+  function clearAttachment(): void {
+    state.attachment = null;
+    fileInput.value = '';
+    renderFileBar();
+  }
+
+  function setDisabled(done: boolean): void {
+    input.disabled = done;
+    attachBtn.disabled = done;
+    sendBtn?.toggleAttribute('disabled', done);
   }
 
   function renderSuggestions(items: string[]): void {
@@ -133,6 +194,7 @@ export function initHeroChat(): void {
       chip.addEventListener('click', () => {
         input.value = item;
         resizeInput();
+        updateCharCounter();
         form.requestSubmit();
       });
       suggestionsList.appendChild(chip);
@@ -153,33 +215,55 @@ export function initHeroChat(): void {
     renderSuggestions(getSuggestions(state.step, input.value, content()));
   }
 
-  function finishChat(): void {
-    state.step = 'done';
-    input.disabled = true;
-    form.querySelector<HTMLButtonElement>('button[type="submit"]')?.setAttribute('disabled', 'true');
+  async function finishChat(): Promise<void> {
+    setDisabled(true);
     suggestionsEl.hidden = true;
-    updatePlaceholder();
 
-    submitLead({
+    const result = await submitLead({
       name: state.nombre,
       email: state.email,
       budget: state.presupuesto,
-      message: state.proyecto,
+      need: state.necesidad,
+      projectDetail: state.proyectoDetalle,
+      attachmentFile: state.attachment,
+      attachmentFileName: state.attachment?.name,
     });
+
+    if (result.ok) {
+      state.step = 'done';
+      addAssistantMessage(withName(content().thanks, state.nombre));
+      updatePlaceholder();
+      updateCharCounter();
+      return;
+    }
+
+    state.step = 'budget';
+    setDisabled(false);
+    suggestionsEl.hidden = false;
+    addAssistantMessage(content().submitError);
+    updateSuggestions();
   }
 
   function handleSubmit(rawValue: string): void {
     const value = rawValue.trim();
     if (!value || state.step === 'done') return;
 
+    const c = content();
+
+    if (state.step === 'details' && value.length > c.projectDetailsMaxLength) {
+      addAssistantMessage(c.projectDetailsTooLong);
+      return;
+    }
+
     addUserMessage(value);
     input.value = '';
     resetInputHeight();
+    updateCharCounter();
 
-    if (state.step === 'project') {
-      state.proyecto = value;
+    if (state.step === 'need') {
+      state.necesidad = value;
       state.step = 'contact';
-      addAssistantMessage(content().questionNameEmail);
+      addAssistantMessage(c.questionNameEmail);
       updatePlaceholder();
       updateSuggestions();
       return;
@@ -188,30 +272,76 @@ export function initHeroChat(): void {
     if (state.step === 'contact') {
       const parsed = parseNameEmail(value);
       if (!parsed) {
-        addAssistantMessage(content().questionNameEmail);
+        const hint = c.suggestions.contact[0];
+        if (hint) addAssistantMessage(hint);
         updateSuggestions();
         return;
       }
       state.nombre = parsed.name;
       state.email = parsed.email;
-      state.step = 'budget';
-      addAssistantMessage(content().questionBudget);
+      state.step = 'details';
+      addAssistantMessage(withName(c.questionProjectDetails, state.nombre));
       updatePlaceholder();
       updateSuggestions();
+      updateCharCounter();
+      return;
+    }
+
+    if (state.step === 'details') {
+      state.proyectoDetalle = value;
+      state.step = 'budget';
+      addAssistantMessage(c.questionBudget);
+      updatePlaceholder();
+      updateSuggestions();
+      updateCharCounter();
       return;
     }
 
     if (state.step === 'budget') {
       state.presupuesto = value;
-      state.step = 'done';
-      const thanks = content().thanks.replace('{name}', state.nombre);
-      addAssistantMessage(thanks);
-      finishChat();
+      void finishChat();
     }
   }
 
+  function focusChat(): void {
+    chatWrap?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.setTimeout(() => {
+      if (state.step !== 'done') input.focus({ preventScroll: true });
+    }, 320);
+  }
+
+  attachBtn.addEventListener('click', () => {
+    if (state.step === 'done') return;
+    fileInput.click();
+  });
+
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files?.[0];
+    if (!file) return;
+
+    const c = content();
+    if (!isAllowedFile(file)) {
+      addAssistantMessage(c.fileTypeInvalid);
+      fileInput.value = '';
+      return;
+    }
+    if (file.size > MAX_FILE_BYTES) {
+      addAssistantMessage(c.fileTooLarge);
+      fileInput.value = '';
+      return;
+    }
+
+    state.attachment = file;
+    renderFileBar();
+  });
+
+  fileRemoveBtn.addEventListener('click', () => {
+    clearAttachment();
+  });
+
   input.addEventListener('input', () => {
     resizeInput();
+    updateCharCounter();
     updateSuggestions();
   });
 
@@ -229,6 +359,23 @@ export function initHeroChat(): void {
     handleSubmit(input.value);
   });
 
+  window.addEventListener('hashchange', () => {
+    if (window.location.hash === '#hero-chat') focusChat();
+  });
+
+  document.querySelectorAll('a[href="#hero-chat"]').forEach((link) => {
+    link.addEventListener('click', () => {
+      window.setTimeout(focusChat, 80);
+    });
+  });
+
+  if (window.location.hash === '#hero-chat') {
+    window.setTimeout(focusChat, 400);
+  }
+
+  addAssistantMessage(content().questionProject);
   updatePlaceholder();
+  renderFileBar();
+  updateCharCounter();
   updateSuggestions();
 }

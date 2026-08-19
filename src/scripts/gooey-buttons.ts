@@ -18,7 +18,8 @@ const SELECTOR = [
   '.hero__actions .btn-figma-secondary',
   '.header__cta',
   '.header__pill',
-  '.header__mobile .btn-figma-primary',
+  '.header__mobile-ctas .btn-figma-primary',
+  '.header__mobile-ctas .btn-figma-secondary',
 ].join(', ');
 
 export function initGooeyButtons(): () => void {
