@@ -140,8 +140,10 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
     left: 0;
     pointer-events: none;
     border-radius: 999px;
-    will-change: transform;
+    will-change: transform, opacity;
+    transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
     backface-visibility: hidden;
+    contain: layout style paint;
   }
 
   .cursor-dot {
@@ -155,15 +157,11 @@ const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
     height: 36px;
     box-sizing: border-box;
     border: 1px solid color-mix(in srgb, var(--color-text-primary) 35%, transparent);
-    transition:
-      width 140ms ease-out,
-      height 140ms ease-out,
-      border-color 140ms ease-out;
+    transition: border-color 140ms ease-out;
+    transform-origin: center center;
   }
 
   .cursor-ring.is-hover {
-    width: 52px;
-    height: 52px;
     border-color: var(--color-primary);
   }
 

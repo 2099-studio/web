@@ -67,7 +67,6 @@ function enhance(btn: HTMLElement): (() => void) | void {
   let startedAt = 0;
   let duration = 1200;
   let raf = 0;
-  let timer = 0;
 
   const paint = () => {
     const parent = canvas.parentElement;
@@ -112,10 +111,6 @@ function enhance(btn: HTMLElement): (() => void) | void {
       cancelAnimationFrame(raf);
       raf = 0;
     }
-    if (timer) {
-      clearInterval(timer);
-      timer = 0;
-    }
   };
 
   const frame = (now: number) => {
@@ -137,15 +132,6 @@ function enhance(btn: HTMLElement): (() => void) | void {
     startedAt = performance.now();
     stopLoop();
     raf = requestAnimationFrame(frame);
-    timer = window.setInterval(() => {
-      const done = sampleProgress(performance.now());
-      paint();
-      if (done) {
-        progress = target;
-        paint();
-        stopLoop();
-      }
-    }, 32);
   };
 
   const onEnter = () => {
