@@ -33,7 +33,7 @@ const en: SiteContent = {
     eyebrow: 'AI Design Studio',
     title: 'We unite brand,\ndesign and technology.',
     titleHighlight: 'technology',
-    lead: 'Web design with visual identity, experience design, interfaces and AI-powered content.',
+    lead: 'Web design with visual identity, digital experiences and interfaces, and AI-powered content.',
     ctaWorks: 'Start',
     ctaContact: 'Go',
   },
