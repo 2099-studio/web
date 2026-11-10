@@ -480,6 +480,36 @@ const UNION_PATH =
     }
   }
 
+  /*
+   * Laptops de poca altura (≤840px): el padding de .services-pin__fit depende
+   * del ancho (8vw), no de la altura, así que en pantallas anchas y bajas la
+   * card queda pegada al borde inferior. Escalamos la composición completa
+   * según la altura para que quede centrada con aire arriba y abajo.
+   */
+  @media (min-width: 901px) and (max-height: 840px) {
+    .services-pin__fit {
+      zoom: 0.9;
+    }
+  }
+
+  @media (min-width: 901px) and (max-height: 780px) {
+    .services-pin__fit {
+      zoom: 0.85;
+    }
+  }
+
+  @media (min-width: 901px) and (max-height: 720px) {
+    .services-pin__fit {
+      zoom: 0.8;
+    }
+  }
+
+  @media (min-width: 901px) and (max-height: 660px) {
+    .services-pin__fit {
+      zoom: 0.72;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .services-pin__panel {
       transition: none;
