@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '../i18n';
 import { getContent } from '../i18n';
+import { withBase } from '../utils/paths';
 
 interface Props {
   locale: Locale;
@@ -9,7 +10,12 @@ interface Props {
 const { locale } = Astro.props;
 const t = getContent(locale);
 const baseUrl = import.meta.env.BASE_URL;
-const mediaSrc = `${baseUrl}assets/brand/service-panel-media.jpg`;
+const folderImages = [
+  'service-folder-branding.png',
+  'service-folder-uxui.png',
+  'service-folder-advertising.png',
+  'service-folder-development.png',
+];
 
 const UNION_PATH =
   'M129.876 0C135.501 0 140.714 2.95353 143.604 7.7793L155.043 26.8828C157.933 31.7086 163.146 34.6621 168.771 34.6621H298C306.837 34.6621 314 41.8256 314 50.6621V372.422C314 381.258 306.837 388.422 298 388.422H16C7.16344 388.422 0 381.258 0 372.422V16C0 7.16345 7.16345 0 16 0H129.876Z';
@@ -42,7 +48,14 @@ const UNION_PATH =
 
             <div class="services-pin__visual">
               <div class="services-pin__media">
-                <img src={mediaSrc} alt="" width="551" height="336" loading="lazy" decoding="async" />
+                <img
+                  src={withBase(`assets/brand/${folderImages[index % folderImages.length]}`, baseUrl)}
+                  alt=""
+                  width="316"
+                  height="393"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                />
               </div>
               <div class="services-pin__folder" aria-hidden="true">
                 <svg
@@ -225,30 +238,35 @@ const UNION_PATH =
   /* Visual group 570×388.42 — media behind folder (Figma 11:76) */
   .services-pin__visual {
     position: relative;
-    width: var(--service-visual-w);
-    height: var(--service-visual-h);
+    width: 556px;
+    height: 388.422px;
     margin-top: 50px;
     justify-self: start;
+    container-type: inline-size;
   }
 
   .services-pin__media {
     position: absolute;
-    left: var(--service-media-left);
-    top: var(--service-media-top);
+    left: 13px;
+    top: 49px;
     z-index: 1;
-    width: var(--service-media-w);
-    height: var(--service-media-h);
-    border: var(--border-service-image) solid var(--color-surface);
-    border-radius: var(--radius-service-card);
+    width: 543px;
+    height: 331px;
+    border: 1.8cqw solid var(--color-surface);
+    border-radius: 5.76cqw;
     overflow: hidden;
     box-sizing: border-box;
+    background: var(--color-service-panel-fill);
   }
 
   .services-pin__media img {
+    position: absolute;
+    left: 52.85%;
+    top: -0.7cqw;
     display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: calc(45.5% + 1.65cqw);
+    height: auto;
+    object-fit: contain;
   }
 
   .services-pin__folder {
@@ -283,24 +301,25 @@ const UNION_PATH =
 
   .services-pin__list {
     position: absolute;
-    left: 19px;
-    top: 59px;
+    left: 6.05%;
+    top: 15.2%;
     z-index: 1;
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: var(--service-list-gap);
+    gap: 3.42cqw;
     margin: 0;
     padding: 0;
-    width: 174px;
+    width: max-content;
+    max-width: calc(100% - 38px);
   }
 
   .services-pin__list li {
     margin: 0;
     font-family: var(--font-body);
-    font-size: var(--text-service-list);
+    font-size: clamp(14px, 4.317cqw, 24px);
     font-weight: 400;
-    line-height: 31px;
+    line-height: 1.29;
     color: #e9e9e9;
     white-space: nowrap;
   }
@@ -335,36 +354,27 @@ const UNION_PATH =
 
     .services-pin__visual {
       width: 100%;
-      max-width: var(--service-visual-w);
+      max-width: 556px;
       height: auto;
-      aspect-ratio: 570 / 388.422;
+      aspect-ratio: 556 / 388.422;
       margin-top: clamp(24px, 3vw, 50px);
     }
 
     .services-pin__folder {
-      width: 55.09%;
+      width: 56.47%;
       height: 100%;
     }
 
     .services-pin__media {
-      left: 3.33%;
-      top: 11.33%;
-      width: 96.67%;
-      height: 86.5%;
+      left: 2.34%;
+      top: 12.61%;
+      width: 97.66%;
+      height: 85.22%;
     }
 
     .services-pin__list {
-      left: 6%;
-      top: 15%;
-      width: auto;
-      max-width: 42%;
-      gap: clamp(10px, 2vw, 19px);
-    }
-
-    .services-pin__list li {
-      font-size: clamp(14px, 2vw, 24px);
-      line-height: 1.3;
-      white-space: normal;
+      left: 6.05%;
+      top: 15.2%;
     }
   }
 
@@ -416,61 +426,30 @@ const UNION_PATH =
     }
 
     .services-pin__visual {
-      position: relative;
-      width: 100%;
-      max-width: none;
+      width: min(100%, 556px);
+      max-width: 556px;
       height: auto;
-      aspect-ratio: auto;
+      aspect-ratio: 556 / 388.422;
       margin-top: 0;
-      justify-self: stretch;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      justify-self: center;
     }
 
     .services-pin__folder {
-      position: relative;
-      left: auto;
-      top: auto;
-      width: 100%;
-      height: auto;
-      max-width: none;
-      min-height: 0;
-      border-radius: 24px;
-      background: color-mix(in srgb, var(--color-elevated) 92%, transparent);
-      border: 1px solid var(--color-border);
-      overflow: hidden;
-      order: 2;
-    }
-
-    .services-pin__folder-shape {
-      display: none;
+      width: 56.47%;
+      height: 100%;
     }
 
     .services-pin__list {
-      position: static;
-      padding: 20px;
-      gap: 10px;
-      width: auto;
-      max-width: none;
-    }
-
-    .services-pin__list li {
-      white-space: normal;
-      line-height: 1.35;
+      position: absolute;
+      left: 6.05%;
+      top: 15.2%;
     }
 
     .services-pin__media {
-      position: relative;
-      left: auto;
-      top: auto;
-      margin: 0;
-      max-width: none;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 551 / 336;
-      border-width: 0;
-      order: 1;
+      left: 2.34%;
+      top: 12.61%;
+      width: 97.66%;
+      height: 85.22%;
     }
 
     .services-pin__progress {

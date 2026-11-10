@@ -73,7 +73,7 @@ const { investment: inv } = t;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     box-sizing: border-box;
     overflow: hidden;
   }
@@ -81,6 +81,7 @@ const { investment: inv } = t;
   .investment__fit {
     width: 100%;
     padding-block: var(--section-padding-y);
+    padding-top: clamp(32px, 4.5vw, 56px);
     box-sizing: border-box;
   }
 

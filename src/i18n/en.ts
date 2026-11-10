@@ -152,7 +152,7 @@ const en: SiteContent = {
         title: 'Development',
         shortTitle: 'Development',
         description: 'Frontend, MVPs, and web products. With performance, accessibility, and quality.',
-        tags: ['Front-End & Back-End', 'CMS', 'Landing Pages', 'E-commerce', 'MVPs'],
+        tags: ['Front-end & Backend', 'CMS', 'Landing Pages', 'E-commerce', 'MVPs'],
         accent: 'blue',
       },
     ],
