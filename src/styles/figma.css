@@ -84,6 +84,8 @@
   --service-copy-w: 257px;
   --service-copy-top: 47px;
   --service-visual-gap: 88px;
+  /* Zoom de la imagen dentro del marco de la carpeta (1 = sin zoom) */
+  --service-media-zoom: 1;
 
   /* ── Methodology (Figma 608:327) ── */
   --methodology-card-min: 160px;

@@ -11,10 +11,10 @@ const { locale } = Astro.props;
 const t = getContent(locale);
 const baseUrl = import.meta.env.BASE_URL;
 const folderImages = [
-  'service-folder-branding.png',
-  'service-folder-uxui.png',
-  'service-folder-advertising.png',
-  'service-folder-development.png',
+  'service-folder-branding.jpg',
+  'service-folder-uxui.jpg',
+  'service-folder-advertising.jpg',
+  'service-folder-development.jpg',
 ];
 
 const UNION_PATH =
@@ -51,8 +51,8 @@ const UNION_PATH =
                 <img
                   src={withBase(`assets/brand/${folderImages[index % folderImages.length]}`, baseUrl)}
                   alt=""
-                  width="316"
-                  height="393"
+                  width="243"
+                  height="333"
                   loading={index === 0 ? 'eager' : 'lazy'}
                   decoding="async"
                 />
@@ -261,12 +261,19 @@ const UNION_PATH =
 
   .services-pin__media img {
     position: absolute;
-    left: 52.85%;
-    top: -0.7cqw;
+    left: 55.64%;
+    right: 0;
+    top: 0;
+    bottom: 0;
     display: block;
-    width: calc(45.5% + 1.65cqw);
-    height: auto;
-    object-fit: contain;
+    /* Ocupa solo la franja visible a la derecha de la carpeta */
+    width: 44.36%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    /* Zoom sobre la pantalla del mockup; el marco recorta por overflow */
+    transform: scale(var(--service-media-zoom));
+    transform-origin: center center;
   }
 
   .services-pin__folder {
@@ -296,7 +303,7 @@ const UNION_PATH =
   }
 
   :global([data-theme='light']) .services-pin__folder {
-    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.06));
+    filter: drop-shadow(0 12px 28px rgba(9, 9, 11, 0.08));
   }
 
   .services-pin__list {
