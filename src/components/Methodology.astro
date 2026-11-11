@@ -62,6 +62,13 @@ const { methodology } = t;
     padding-bottom: clamp(24px, 4vw, 48px);
   }
 
+  /* Pinned at `top top` under the fixed header (≥1024px, see methodology.ts) */
+  @media (min-width: 1024px) {
+    .methodology.figma-section {
+      padding-top: calc(var(--header-height) + var(--section-padding-y));
+    }
+  }
+
   .methodology__inner {
     display: grid;
     grid-template-columns: minmax(0, var(--sidebar-methodology)) minmax(0, 1fr);
