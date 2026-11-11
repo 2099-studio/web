@@ -2,51 +2,34 @@
 
 Sitio marketing del estudio. Astro 7, design tokens, i18n ES/EN, GSAP + Lenis.
 
-## Demo en vivo
+## Sitio en vivo
 
-**GitHub Pages:** https://2099-studio.github.io/web/
+**https://2099.design**
 
 | Ruta | Idioma |
 |------|--------|
-| [/web/](https://2099-studio.github.io/web/) | Español |
-| [/web/en/](https://2099-studio.github.io/web/en/) | English |
+| [/](https://2099.design/) | Español |
+| [/en/](https://2099.design/en/) | English |
 
 ## Desarrollo local
 
-Hay **dos modos**. No uses la misma URL para ambos:
-
-| Comando | URL local | Cuándo usarlo |
-|---------|-----------|---------------|
-| `npm run dev` | http://localhost:4321/ | Desarrollo normal (recomendado) |
-| `npm run dev:pages` | http://localhost:4321/web/ | Probar igual que GitHub Pages |
-| `npm run preview:pages` | http://localhost:4321/web/ | Preview del build de producción |
-
 ```bash
 npm install
-npm run dev
+npm run dev            # http://localhost:4321/
 ```
 
 Copiá `.env.example` a `.env` y configurá `PUBLIC_LEAD_WEBHOOK_URL` con la URL del webhook de Google Apps Script para que el chat envíe emails al finalizar (ver `scripts/lead-webhook/Code.gs`).
 
-Si abres `http://localhost:4321/` con `dev:pages` activo, verás una página en blanco — entra en `/web/`.
-
-**Importante:** si antes corriste un build con `GITHUB_PAGES=true` en la terminal, cierra esa terminal o ejecuta:
-
-```powershell
-Remove-Item Env:GITHUB_PAGES -ErrorAction SilentlyContinue
-```
-
 ## Build
 
 ```bash
-npm run build          # producción para 2099.studio (base /)
-npm run build:pages    # build para GitHub Pages (base /web/)
+npm run build          # producción (output en dist/)
 npm run preview        # preview del build local
 ```
 
 ## Deploy
 
-El push a `main` dispara el workflow [Deploy to GitHub Pages](.github/workflows/deploy.yml).
+Cloudflare Pages (proyecto `web`) compila cada push a `main` con `npm run build` y publica `dist/` en https://2099.design. Las variables `NODE_VERSION`, `PUBLIC_LEAD_WEBHOOK_URL` y `PUBLIC_WEB3FORMS_ACCESS_KEY` se configuran en el proyecto de Cloudflare (Settings → Variables and Secrets).
 
 ## Estructura
 

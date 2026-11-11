@@ -10,7 +10,7 @@ interface Props {
 
 const { locale, title, description } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
-const siteUrl = Astro.site?.href.replace(/\/$/, '') ?? 'https://2099.studio';
+const siteUrl = Astro.site?.href.replace(/\/$/, '') ?? 'https://2099.design';
 const esUrl = `${siteUrl}${localePath('es', '', baseUrl)}`;
 const enUrl = `${siteUrl}${localePath('en', '', baseUrl)}`;
 ---
