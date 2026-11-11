@@ -128,6 +128,13 @@ const UNION_PATH =
     width: 100%;
   }
 
+  /* The sticky frame already reserves the header height (figma.css) */
+  @media (min-width: 901px) {
+    .services-pin__fit {
+      padding-block: clamp(24px, 6vh, 72px);
+    }
+  }
+
   .services-pin__head {
     display: flex;
     flex-direction: column;

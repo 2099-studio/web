@@ -171,6 +171,13 @@ const layerLabel = locale === 'es' ? 'Capa' : 'Layer';
     box-sizing: border-box;
   }
 
+  /* Pinned under the fixed header (≥768px, see industries-tabs.ts) */
+  @media (min-width: 768px) {
+    .industries__frame {
+      padding-top: var(--header-height);
+    }
+  }
+
   .industries__wrap {
     position: relative;
     z-index: 1;
@@ -179,6 +186,29 @@ const layerLabel = locale === 'es' ? 'Capa' : 'Layer';
     justify-content: center;
     gap: clamp(40px, 4.444vw, 64px);
     box-sizing: border-box;
+  }
+
+  @media (min-width: 768px) and (max-height: 820px) {
+    .industries__fit {
+      padding-block: clamp(16px, 3vh, 32px);
+    }
+
+    .industries__wrap {
+      gap: clamp(24px, 4vh, 40px);
+    }
+  }
+
+  /* Very short laptops: scale the whole composition like Services does */
+  @media (min-width: 768px) and (max-height: 700px) {
+    .industries__fit {
+      zoom: 0.84;
+    }
+  }
+
+  @media (min-width: 768px) and (max-height: 620px) {
+    .industries__fit {
+      zoom: 0.76;
+    }
   }
 
   /* Figma 1:483 — badge + title stacked and centered */

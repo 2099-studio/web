@@ -153,6 +153,22 @@
   background: transparent;
 }
 
+/*
+ * Pinned frames sit at `top top` under the fixed header: reserve its height
+ * so the content centers in the visible area. Breakpoints match each pin script.
+ */
+@media (min-width: 901px) {
+  [data-services-sticky] {
+    padding-top: var(--header-height);
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-section-hold-pin] {
+    padding-top: var(--header-height);
+  }
+}
+
 .figma-section__head {
   display: grid;
   grid-template-columns: auto 1fr;

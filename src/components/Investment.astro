@@ -85,6 +85,13 @@ const { investment: inv } = t;
     box-sizing: border-box;
   }
 
+  /* Pinned under the fixed header (figma.css reserves its height) */
+  @media (min-width: 1024px) {
+    .investment__fit {
+      padding-top: clamp(16px, 3vh, 40px);
+    }
+  }
+
   .investment__grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -100,6 +107,25 @@ const { investment: inv } = t;
     border: 1px solid var(--color-border);
     border-radius: 16px;
     background: var(--color-surface);
+  }
+
+  @media (min-width: 1024px) and (max-height: 820px) {
+    .investment__card {
+      padding: 24px;
+      gap: 20px;
+    }
+  }
+
+  @media (min-width: 1024px) and (max-height: 700px) {
+    .investment__fit {
+      zoom: 0.8;
+    }
+  }
+
+  @media (min-width: 1024px) and (max-height: 620px) {
+    .investment__fit {
+      zoom: 0.72;
+    }
   }
 
   .investment__copy {
