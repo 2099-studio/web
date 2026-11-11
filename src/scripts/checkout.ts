@@ -56,6 +56,13 @@ export function initCheckout(): void {
     text('[data-checkout-total]', d.planPrice ?? '');
     text('[data-checkout-note]', d.planNote ?? '');
 
+    const installmentsEl = root.querySelector<HTMLElement>('[data-checkout-installments]');
+    if (installmentsEl) {
+      const n = Number(d.installments);
+      installmentsEl.textContent = n > 1 ? (installmentsEl.dataset.template ?? '').replace('{n}', String(n)) : '';
+      installmentsEl.hidden = !(n > 1);
+    }
+
     radios.forEach((radio) => {
       const provider = radio.value as Provider;
       const available = Boolean(urls[provider]);

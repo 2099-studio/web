@@ -46,7 +46,7 @@ const en: SiteContent = {
     thanks:
       'Thanks, {name}! We sent you an email with a summary of your inquiry. You will shortly receive our free brand advisory and consultation.',
     submitError:
-      'We could not send the email right now. Write to hola@2099.studio and we will get back to you shortly.',
+      'We could not send the email right now. Write to hola@2099.design and we will get back to you shortly.',
     clientAutoresponse:
       'Hi {name},\n\nThank you for reaching out. Here is a summary of what you shared:\n\n• Need: {need}\n• Project: {projectDetail}\n• Estimated budget: {budget}\n\nYou will shortly receive our free brand advisory and consultation with personalized recommendations for your project.\n\n— 2099.studio team',
     inputPlaceholder: 'Type your answer…',
@@ -361,6 +361,7 @@ const en: SiteContent = {
       mercadoPagoDetail: 'Argentine pesos (ARS) · card, debit or account balance',
       crypto: 'Pay with crypto',
       cryptoDetail: 'Cardano (ADA) via NOWPayments',
+      installments: 'Up to {n} interest-free installments',
       soon: 'Coming soon',
       continueMercadoPago: 'Continue to Mercado Pago',
       continueCrypto: 'Continue to NOWPayments',
@@ -377,7 +378,7 @@ const en: SiteContent = {
         idealFor: 'Local businesses that need to go digital quickly and effectively.',
         price: '$400 USD',
         priceArs: '$480,000 ARS',
-        priceNote: 'One-time payment',
+        priceNote: 'Up to 3 interest-free installments of $160,000 ARS with Mercado Pago',
       },
       {
         id: 'branding360',
@@ -387,7 +388,7 @@ const en: SiteContent = {
         idealFor: 'SMBs looking to stand out, build trust, and grow a community around their brand.',
         price: '$800 USD',
         priceArs: '$960,000 ARS',
-        priceNote: '2 installments of $440 USD (approx. $528,000 ARS each)',
+        priceNote: 'Up to 3 interest-free installments of $320,000 ARS with Mercado Pago',
       },
       {
         id: 'ecosystem',
@@ -397,7 +398,7 @@ const en: SiteContent = {
         idealFor: 'Growing companies or startups ready to scale impact and revenue.',
         price: '$2,000 USD',
         priceArs: '$2,400,000 ARS',
-        priceNote: '4 installments of $550 USD (approx. $660,000 ARS each)',
+        priceNote: 'Up to 6 interest-free installments of $400,000 ARS with Mercado Pago',
       },
     ],
   },
@@ -408,7 +409,7 @@ const en: SiteContent = {
     titleAfter: '',
     lead: 'Tell us what you need and we will help shape it.',
     formIntro: '',
-    formIntroEmail: 'hola@2099.studio',
+    formIntroEmail: 'hola@2099.design',
     name: 'Your name',
     email: 'Your email',
     budget: 'Estimated budget',
@@ -443,7 +444,7 @@ const en: SiteContent = {
       'Our methodology integrates all pillars in one continuous flow — the same team that defines the brand designs the product and builds it.',
     ventajaEmergente: 'We make the extremely complex usable.',
     contact: {
-      email: 'hola@2099.studio',
+      email: 'hola@2099.design',
       whatsapp: 'https://wa.me/0000000000',
       linkedin: 'https://linkedin.com/company/2099studio',
       instagram: 'https://instagram.com/2099.studio',

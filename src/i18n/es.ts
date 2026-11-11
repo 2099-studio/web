@@ -46,7 +46,7 @@ const es: SiteContent = {
     thanks:
       '¡Gracias, {name}! Te enviamos un email con el resumen de tu consulta. En breve recibirás nuestra asesoría y consultoría de marca gratuita.',
     submitError:
-      'No pudimos enviar el email en este momento. Escribinos a hola@2099.studio y te respondemos a la brevedad.',
+      'No pudimos enviar el email en este momento. Escribinos a hola@2099.design y te respondemos a la brevedad.',
     clientAutoresponse:
       'Hola {name},\n\nGracias por contactarnos. Este es el resumen de lo que nos compartiste:\n\n• Necesidad: {need}\n• Proyecto: {projectDetail}\n• Presupuesto estimado: {budget}\n\nEn breve te enviaremos nuestra asesoría y consultoría de marca gratuita con recomendaciones personalizadas para tu proyecto.\n\n— Equipo 2099.studio',
     inputPlaceholder: 'Escribí tu respuesta…',
@@ -362,6 +362,7 @@ const es: SiteContent = {
       mercadoPagoDetail: 'Pesos argentinos (ARS) · tarjeta, débito o dinero en cuenta',
       crypto: 'Pay with crypto',
       cryptoDetail: 'Cardano (ADA) vía NOWPayments',
+      installments: 'Hasta {n} cuotas sin interés',
       soon: 'Próximamente',
       continueMercadoPago: 'Continuar a Mercado Pago',
       continueCrypto: 'Continuar a NOWPayments',
@@ -378,7 +379,7 @@ const es: SiteContent = {
         idealFor: 'Negocios locales que necesitan dar el salto al mundo digital de forma rápida y efectiva.',
         price: '$400 USD',
         priceArs: '$480.000 ARS',
-        priceNote: 'Pago único',
+        priceNote: 'Hasta 3 cuotas sin interés de $160.000 ARS con Mercado Pago',
       },
       {
         id: 'branding360',
@@ -388,7 +389,7 @@ const es: SiteContent = {
         idealFor: 'PYMES que buscan destacar, generar confianza y construir una comunidad alrededor de su marca.',
         price: '$800 USD',
         priceArs: '$960.000 ARS',
-        priceNote: '2 cuotas de $440 USD (aprox. $528.000 ARS c/u)',
+        priceNote: 'Hasta 3 cuotas sin interés de $320.000 ARS con Mercado Pago',
       },
       {
         id: 'ecosystem',
@@ -398,7 +399,7 @@ const es: SiteContent = {
         idealFor: 'Empresas en crecimiento o startups listas para escalar su impacto y facturación.',
         price: '$2,000 USD',
         priceArs: '$2.400.000 ARS',
-        priceNote: '4 cuotas de $550 USD (aprox. $660.000 ARS c/u)',
+        priceNote: 'Hasta 6 cuotas sin interés de $400.000 ARS con Mercado Pago',
       },
     ],
   },
@@ -409,7 +410,7 @@ const es: SiteContent = {
     titleAfter: '',
     lead: 'Contanos qué necesitas y te ayudaremos a darle forma.',
     formIntro: '',
-    formIntroEmail: 'hola@2099.studio',
+    formIntroEmail: 'hola@2099.design',
     name: 'Tu nombre',
     email: 'Tu email',
     budget: 'Presupuesto estimado',
@@ -444,7 +445,7 @@ const es: SiteContent = {
       'Nuestra metodología integra todos los pilares en un flujo continuo — el mismo equipo que define la marca diseña el producto y lo construye.',
     ventajaEmergente: 'Hacemos usable lo extremadamente complejo.',
     contact: {
-      email: 'hola@2099.studio',
+      email: 'hola@2099.design',
       whatsapp: 'https://wa.me/0000000000',
       linkedin: 'https://linkedin.com/company/2099studio',
       instagram: 'https://instagram.com/2099.studio',

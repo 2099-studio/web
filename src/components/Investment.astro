@@ -1,7 +1,7 @@
 ---
 import type { Locale } from '../i18n';
 import { getContent } from '../i18n';
-import { getPaymentUrl, isExternalUrl } from '../data/payments';
+import { getPaymentUrl, isExternalUrl, mercadoPagoInstallments } from '../data/payments';
 import CheckoutModal from './CheckoutModal.astro';
 
 interface Props {
@@ -59,6 +59,7 @@ const { investment: inv } = t;
                         data-plan-note={plan.priceNote}
                         data-url-mercadopago={mpUrl}
                         data-url-nowpayments={cryptoUrl}
+                        data-installments={mercadoPagoInstallments[plan.id]}
                         aria-haspopup="dialog"
                         {...(isExternalUrl(fallback)
                           ? { target: '_blank', rel: 'noopener noreferrer' }

@@ -174,6 +174,7 @@ export interface SiteContent {
       mercadoPagoDetail: string;
       crypto: string;
       cryptoDetail: string;
+      installments: string;
       soon: string;
       continueMercadoPago: string;
       continueCrypto: string;

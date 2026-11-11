@@ -10,7 +10,7 @@
  * Optional: si no configurás la URL, el sitio usa FormSubmit como respaldo.
  */
 
-var STUDIO_EMAIL = 'hola@2099.studio';
+var STUDIO_EMAIL = 'hola@2099.design';
 
 var CLIENT_COPY = {
   es: {

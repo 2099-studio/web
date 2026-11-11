@@ -16,6 +16,13 @@ export const investmentPaymentLinks: Record<InvestmentPlanId, Record<PaymentProv
   ecosystem: { mercadopago: 'https://mpago.li/2WFkume', nowpayments: '' },
 };
 
+/** Interest-free installments configured on each Mercado Pago link. */
+export const mercadoPagoInstallments: Record<InvestmentPlanId, number> = {
+  local: 3,
+  branding360: 3,
+  ecosystem: 6,
+};
+
 /** Returns the provider link, or '' when it is not configured yet. */
 export function getPaymentUrl(planId: InvestmentPlanId, provider: PaymentProvider): string {
   return investmentPaymentLinks[planId]?.[provider]?.trim() ?? '';
