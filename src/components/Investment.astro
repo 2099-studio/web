@@ -1,7 +1,8 @@
 ---
 import type { Locale } from '../i18n';
 import { getContent } from '../i18n';
-import { getInvestmentCheckoutUrl } from '../data/payments';
+import { getPaymentUrl, isExternalUrl } from '../data/payments';
+import CheckoutModal from './CheckoutModal.astro';
 
 interface Props {
   locale: Locale;
@@ -25,8 +26,6 @@ const { investment: inv } = t;
         <div class="investment__grid" data-reveal>
           {
             inv.plans.map((plan) => {
-              const checkoutUrl = getInvestmentCheckoutUrl(plan.id);
-              const isExternal = /^https?:\/\//i.test(checkoutUrl);
               return (
                 <article class="investment__card" data-plan={plan.id}>
                   <div class="investment__copy">
@@ -44,16 +43,31 @@ const { investment: inv } = t;
                     <p class="investment__note">{plan.priceNote}</p>
                   </div>
 
-                  <a
-                    class="btn-figma-primary investment__cta"
-                    href={checkoutUrl}
-                    data-checkout={plan.id}
-                    {...(isExternal
-                      ? { target: '_blank', rel: 'noopener noreferrer' }
-                      : {})}
-                  >
-                    {inv.cta}
-                  </a>
+                  {(() => {
+                    const mpUrl = getPaymentUrl(plan.id, 'mercadopago');
+                    const cryptoUrl = getPaymentUrl(plan.id, 'nowpayments');
+                    // No-JS fallback: go straight to Mercado Pago (or the chat)
+                    const fallback = mpUrl || '#hero-chat';
+                    return (
+                      <a
+                        class="btn-figma-primary investment__cta"
+                        href={fallback}
+                        data-checkout-open={plan.id}
+                        data-plan-name={plan.name}
+                        data-plan-price={plan.price}
+                        data-plan-price-ars={plan.priceArs}
+                        data-plan-note={plan.priceNote}
+                        data-url-mercadopago={mpUrl}
+                        data-url-nowpayments={cryptoUrl}
+                        aria-haspopup="dialog"
+                        {...(isExternalUrl(fallback)
+                          ? { target: '_blank', rel: 'noopener noreferrer' }
+                          : {})}
+                      >
+                        {inv.cta}
+                      </a>
+                    );
+                  })()}
                 </article>
               );
             })
@@ -62,6 +76,7 @@ const { investment: inv } = t;
       </div>
     </div>
   </div>
+  <CheckoutModal labels={inv.checkout} />
 </section>
 
 <style>
@@ -110,6 +125,10 @@ const { investment: inv } = t;
   }
 
   @media (min-width: 1024px) and (max-height: 820px) {
+    .investment__fit {
+      padding-bottom: clamp(16px, 3vh, 32px);
+    }
+
     .investment__card {
       padding: 24px;
       gap: 20px;

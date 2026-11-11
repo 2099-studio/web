@@ -352,6 +352,21 @@ const en: SiteContent = {
     context:
       'Our pricing is based on local market references, such as the Rafaela Designers Chamber tariff. We believe in fair investment that reflects the strategic value of your brand. That is why we offer launch pricing so you can take the first step with confidence.',
     cta: 'Buy Now',
+    checkout: {
+      title: 'Checkout',
+      summary: 'Order summary',
+      total: 'Total',
+      method: 'Payment method',
+      mercadoPago: 'Mercado Pago',
+      mercadoPagoDetail: 'Argentine pesos (ARS) · card, debit or account balance',
+      crypto: 'Pay with crypto',
+      cryptoDetail: 'Cardano (ADA) via NOWPayments',
+      soon: 'Coming soon',
+      continueMercadoPago: 'Continue to Mercado Pago',
+      continueCrypto: 'Continue to NOWPayments',
+      secure: 'Secure payment. Opens in a new tab.',
+      close: 'Close',
+    },
     idealForLabel: 'Ideal for',
     plans: [
       {

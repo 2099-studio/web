@@ -165,6 +165,21 @@ export interface SiteContent {
     lead: string;
     context: string;
     cta: string;
+    checkout: {
+      title: string;
+      summary: string;
+      total: string;
+      method: string;
+      mercadoPago: string;
+      mercadoPagoDetail: string;
+      crypto: string;
+      cryptoDetail: string;
+      soon: string;
+      continueMercadoPago: string;
+      continueCrypto: string;
+      secure: string;
+      close: string;
+    };
     idealForLabel: string;
     plans: {
       id: 'local' | 'branding360' | 'ecosystem';

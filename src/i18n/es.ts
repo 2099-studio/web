@@ -353,6 +353,21 @@ const es: SiteContent = {
     context:
       'Nuestros precios se basan en referencias del mercado local, como el tarifario de la Cámara de Diseñadores de Rafaela. Creemos en una inversión justa que refleje el valor estratégico de tu marca. Por eso, ofrecemos precios de lanzamiento para que puedas dar el primer paso con confianza.',
     cta: 'Buy Now',
+    checkout: {
+      title: 'Checkout',
+      summary: 'Resumen del pedido',
+      total: 'Total',
+      method: 'Método de pago',
+      mercadoPago: 'Mercado Pago',
+      mercadoPagoDetail: 'Pesos argentinos (ARS) · tarjeta, débito o dinero en cuenta',
+      crypto: 'Pay with crypto',
+      cryptoDetail: 'Cardano (ADA) vía NOWPayments',
+      soon: 'Próximamente',
+      continueMercadoPago: 'Continuar a Mercado Pago',
+      continueCrypto: 'Continuar a NOWPayments',
+      secure: 'Pago seguro. Se abre en una pestaña nueva.',
+      close: 'Cerrar',
+    },
     idealForLabel: 'Ideal para',
     plans: [
       {

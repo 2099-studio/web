@@ -89,6 +89,7 @@ export function initMotion(): void {
     wheelMultiplier: 0.9,
   });
 
+  (window as Window & { __lenis?: Lenis }).__lenis = lenis;
   lenis.on('scroll', ScrollTrigger.update);
 
   gsap.ticker.add((time) => {
