@@ -1,0 +1,116 @@
+---
+/*
+ * Animated ".studio" ↔ ".design" suffix, in the coordinates of
+ * public/assets/brand/logo-header.svg (viewBox 0 0 73 42). Render it inside
+ * an <svg> (or a scaled <g>) that provides the fill.
+ *
+ * Each of the six letter slots holds both glyphs and swaps with a short
+ * pixel-step stagger. ".design" reuses the logo's own glyphs (d, s, i;
+ * n = u rotated) plus e and g built on the same pixel grid as s/d.
+ */
+const D = 'M48.3309 31.6419H42.6729V33.6142H40.7175V39.707H42.6729V41.7191H48.3309H50.8406V27.6576H48.3309V31.6419ZM48.3309 39.4914H42.8895V33.81H48.3309V39.4914Z';
+const S = 'M7.55434 33.7249H5.613V35.8561H7.55434V37.8142H13.3559V39.5566H5.613V41.7077H13.5697V39.7695H15.5307V37.5985H13.5697V35.6404H7.76817V33.9178H15.5307V31.7668H7.55434V33.7249Z';
+const U = 'M36.7392 36.977C36.7392 37.8199 36.5619 38.4868 36.2102 38.9749C35.8585 39.463 35.3042 39.707 34.5474 39.707C33.8975 39.707 33.4023 39.5055 33.0647 39.1054C32.727 38.7024 32.5554 38.1547 32.5554 37.4595V31.7554H30.0457V37.9845C30.0457 38.8954 30.2005 39.6474 30.5128 40.2434C30.8251 40.8393 31.2471 41.282 31.7789 41.5686C32.3106 41.8553 32.9015 42 33.5514 42C34.9976 42 35.9429 41.4239 36.379 40.2718H36.7363V41.7191H39.246V31.7554H36.7363V36.9799L36.7392 36.977Z';
+const I_STEM = 'M58.4681 31.7554H52.8523V34.1647H55.9584V39.3097H52.6131V41.7191H61.3379V39.3097H58.4681V31.7554Z';
+const I_DOT = 'M57.1936 30.7111C57.7112 30.7111 58.1558 30.5266 58.5272 30.1577C58.8986 29.7888 59.0843 29.3376 59.0843 28.8012C59.0843 28.2649 58.8986 27.8136 58.5272 27.4447C58.1558 27.0758 57.7112 26.8914 57.1936 26.8914C56.6759 26.8914 56.2313 27.0758 55.8599 27.4447C55.4886 27.8136 55.3029 28.2649 55.3029 28.8012C55.3029 29.3376 55.4886 29.7888 55.8599 30.1577C56.2313 30.5266 56.6759 30.7111 57.1936 30.7111Z';
+const T = 'M26.194 39.3097H23.6056C23.2482 39.3097 23.0682 39.1082 23.0682 38.7081V34.1676H26.6329V31.7582H23.0682V27.6604H20.5585V31.7582H17.6296V34.1676H20.5585V40.1554C20.5585 40.6095 20.702 40.9869 20.9862 41.2792C21.2731 41.5743 21.6389 41.7219 22.0919 41.7219H26.4332V39.5623H28.5996V37.1388H26.1968V39.3126L26.194 39.3097Z';
+const O = 'M71.0277 31.7299H64.9814V33.6965H63.0316V39.7723H64.9814V41.7191H71.0277V39.7723H73V33.6965H71.0277V31.7299ZM70.8139 39.5566H65.1981V33.8923H70.8139V39.5566Z';
+const O_DOT = 'M68.006 38.4584C68.473 38.4584 68.8725 38.2909 69.2102 37.9589C69.545 37.6269 69.7138 37.2182 69.7138 36.7358C69.7138 36.2534 69.545 35.8447 69.2102 35.5127C68.8754 35.1807 68.473 35.0161 68.006 35.0161C67.5389 35.0161 67.1394 35.1835 66.8018 35.5127C66.467 35.8447 66.2982 36.2534 66.2982 36.7358C66.2982 37.2182 66.467 37.6269 66.8018 37.9589C67.1366 38.2909 67.5389 38.4584 68.006 38.4584Z';
+/* e on the s/o pixel grid (2.16 stroke, 1.95 corner notch), drawn in slot 2 */
+const E = 'M20.08 31.73H26.15V33.89H20.08Z M18.13 33.68H20.29V39.77H18.13Z M25.94 33.68H28.1V37.8H25.94Z M18.13 35.64H28.1V37.8H18.13Z M20.08 39.56H28.1V41.72H20.08Z';
+/* g = d's bowl with the stem dropped into a descender and a hook bar */
+const G = 'M48.33 31.64H50.84V43.8H48.33Z M42.67 31.64H48.45V33.81H42.67Z M40.72 33.61H42.89V39.71H40.72Z M42.67 39.49H48.45V41.72H42.67Z M40.72 43.6H48.33V45.77H40.72Z';
+---
+
+<g class="logo__suffix logo__suffix--studio">
+  <path class="logo__glyph" style="--i: 1" d={S} />
+  <path class="logo__glyph" style="--i: 2" d={T} />
+  <path class="logo__glyph" style="--i: 3" d={U} />
+  <path class="logo__glyph" style="--i: 4" d={D} />
+  <g class="logo__glyph" style="--i: 5"><path d={I_STEM} /><path d={I_DOT} /></g>
+  <g class="logo__glyph" style="--i: 6"><path d={O} /><path d={O_DOT} /></g>
+</g>
+
+<!-- Each ".design" glyph is centered on the matching ".studio" slot -->
+<g class="logo__suffix logo__suffix--design">
+  <g class="logo__glyph" style="--i: 1"><path d={D} transform="translate(-35.21 0)" /></g>
+  <path class="logo__glyph" style="--i: 2" d={E} />
+  <g class="logo__glyph" style="--i: 3"><path d={S} transform="translate(24.08 0)" /></g>
+  <g class="logo__glyph" style="--i: 4"><g transform="translate(-11.19 0)"><path d={I_STEM} /><path d={I_DOT} /></g></g>
+  <g class="logo__glyph" style="--i: 5"><path d={G} transform="translate(11.19 0)" /></g>
+  <g class="logo__glyph" style="--i: 6"><path d={U} transform="translate(33.37 0) rotate(180 34.646 36.878)" /></g>
+</g>
+
+<style>
+  /* 6s loop: 3s ".studio", 3s ".design"; glyphs swap 50ms apart in 3 pixel steps */
+  .logo__glyph {
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    animation-delay: calc(var(--i) * 50ms);
+  }
+
+  .logo__suffix--studio .logo__glyph {
+    animation-name: logo-suffix-out;
+  }
+
+  .logo__suffix--design .logo__glyph {
+    animation-name: logo-suffix-in;
+  }
+
+  @keyframes logo-suffix-out {
+    0%,
+    46% {
+      opacity: 1;
+      transform: translateY(0);
+      animation-timing-function: steps(3, end);
+    }
+    50%,
+    95.9% {
+      opacity: 0;
+      transform: translateY(-3px);
+    }
+    96% {
+      opacity: 0;
+      transform: translateY(3px);
+      animation-timing-function: steps(3, end);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes logo-suffix-in {
+    0%,
+    45.9% {
+      opacity: 0;
+      transform: translateY(3px);
+    }
+    46% {
+      opacity: 0;
+      transform: translateY(3px);
+      animation-timing-function: steps(3, end);
+    }
+    50%,
+    96% {
+      opacity: 1;
+      transform: translateY(0);
+      animation-timing-function: steps(3, end);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-3px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo__glyph {
+      animation: none;
+    }
+
+    .logo__suffix--design {
+      display: none;
+    }
+  }
+</style>
