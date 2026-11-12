@@ -11,9 +11,9 @@ export type InvestmentPlanId = 'local' | 'branding360' | 'ecosystem';
 export type PaymentProvider = 'mercadopago' | 'nowpayments';
 
 export const investmentPaymentLinks: Record<InvestmentPlanId, Record<PaymentProvider, string>> = {
-  local: { mercadopago: 'https://mpago.li/1RFHzeK', nowpayments: '' },
-  branding360: { mercadopago: 'https://mpago.li/2csWVBc', nowpayments: '' },
-  ecosystem: { mercadopago: 'https://mpago.li/2WFkume', nowpayments: '' },
+  local: { mercadopago: 'https://mpago.li/1RFHzeK', nowpayments: 'https://nowpayments.io/payment/?iid=5346995331' },
+  branding360: { mercadopago: 'https://mpago.li/2csWVBc', nowpayments: 'https://nowpayments.io/payment/?iid=4319603605' },
+  ecosystem: { mercadopago: 'https://mpago.li/2WFkume', nowpayments: 'https://nowpayments.io/payment/?iid=4491411583' },
 };
 
 /** Interest-free installments configured on each Mercado Pago link. */
