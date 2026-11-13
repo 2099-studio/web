@@ -360,7 +360,7 @@ const en: SiteContent = {
       mercadoPago: 'Mercado Pago',
       mercadoPagoDetail: 'Argentine pesos (ARS) · card, debit or account balance',
       crypto: 'Pay with crypto',
-      cryptoDetail: 'Cardano (ADA) via NOWPayments',
+      cryptoDetail: 'USDT, USDC, BTC, ETH, ADA and more · via NOWPayments',
       installments: 'Up to {n} interest-free installments',
       soon: 'Coming soon',
       continueMercadoPago: 'Continue to Mercado Pago',

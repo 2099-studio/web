@@ -361,7 +361,7 @@ const es: SiteContent = {
       mercadoPago: 'Mercado Pago',
       mercadoPagoDetail: 'Pesos argentinos (ARS) · tarjeta, débito o dinero en cuenta',
       crypto: 'Pay with crypto',
-      cryptoDetail: 'Cardano (ADA) vía NOWPayments',
+      cryptoDetail: 'USDT, USDC, BTC, ETH, ADA y más · vía NOWPayments',
       installments: 'Hasta {n} cuotas sin interés',
       soon: 'Próximamente',
       continueMercadoPago: 'Continuar a Mercado Pago',

@@ -2,7 +2,8 @@
  * Payment links for the Investment (pricing) cards.
  *
  * - mercadopago: Mercado Pago "Link de pago" in ARS (https://mpago.la/... or https://link.mercadopago.com.ar/...)
- * - nowpayments: NOWPayments payment link in ADA (https://nowpayments.io/payment/?iid=...)
+ * - nowpayments: NOWPayments payment link priced in USD; the customer picks the coin and
+ *   payouts are auto-converted to ADA (https://nowpayments.io/payment/?iid=...)
  *
  * "Buy Now" opens a checkout modal (scripts/checkout.ts) to pick the method.
  * An empty link shows that method as "coming soon".
@@ -11,9 +12,9 @@ export type InvestmentPlanId = 'local' | 'branding360' | 'ecosystem';
 export type PaymentProvider = 'mercadopago' | 'nowpayments';
 
 export const investmentPaymentLinks: Record<InvestmentPlanId, Record<PaymentProvider, string>> = {
-  local: { mercadopago: 'https://mpago.li/1RFHzeK', nowpayments: 'https://nowpayments.io/payment/?iid=5346995331' },
-  branding360: { mercadopago: 'https://mpago.li/2csWVBc', nowpayments: 'https://nowpayments.io/payment/?iid=4319603605' },
-  ecosystem: { mercadopago: 'https://mpago.li/2WFkume', nowpayments: 'https://nowpayments.io/payment/?iid=4491411583' },
+  local: { mercadopago: 'https://mpago.li/1RFHzeK', nowpayments: 'https://nowpayments.io/payment/?iid=6438300727' },
+  branding360: { mercadopago: 'https://mpago.li/2csWVBc', nowpayments: 'https://nowpayments.io/payment/?iid=4837590880' },
+  ecosystem: { mercadopago: 'https://mpago.li/2WFkume', nowpayments: 'https://nowpayments.io/payment/?iid=4643932748' },
 };
 
 /** Interest-free installments configured on each Mercado Pago link. */
