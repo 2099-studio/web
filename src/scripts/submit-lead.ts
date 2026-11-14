@@ -16,6 +16,9 @@ export interface SubmitLeadResult {
   ok: boolean;
 }
 
+/** FormSubmit alias for hola@2099.design (keeps the address out of the page source). */
+const FORMSUBMIT_ID = '930040ede6fc3f67121986e96a46b9f8';
+
 function fillClientAutoresponse(template: string, data: LeadData): string {
   return template
     .replaceAll('{name}', data.name)
@@ -87,8 +90,6 @@ async function submitViaFormSubmitIframe(
   content: SiteContent,
   payload: ReturnType<typeof buildPayload>,
 ): Promise<SubmitLeadResult> {
-  const studioEmail = content.site.contact.email;
-
   return new Promise((resolve) => {
     const frameName = `formsubmit_${Date.now()}`;
     const iframe = document.createElement('iframe');
@@ -99,7 +100,7 @@ async function submitViaFormSubmitIframe(
 
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = `https://formsubmit.co/${encodeURIComponent(studioEmail)}`;
+    form.action = `https://formsubmit.co/${FORMSUBMIT_ID}`;
     form.target = frameName;
     form.acceptCharset = 'UTF-8';
     form.style.display = 'none';
@@ -148,10 +149,8 @@ async function submitViaFormSubmitAjax(
   data: LeadData,
   content: SiteContent,
 ): Promise<SubmitLeadResult> {
-  const studioEmail = content.site.contact.email;
-
   try {
-    const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(studioEmail)}`, {
+    const response = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_ID}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

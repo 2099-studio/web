@@ -1,43 +1,44 @@
 # Envío de leads del chat
 
-Al finalizar el chat se envían **dos emails**:
+Cuando alguien completa el chat del hero, el Apps Script (`Code.gs`):
 
-1. **Al cliente** — resumen automático con necesidad, proyecto y presupuesto.
-2. **A hola@2099.design** — mismo brief para que prepares la asesoría manual.
+1. **Registra el lead** en la hoja de Google Sheets **"2099 Leads"** (fecha, nombre, email, necesidad, proyecto, presupuesto, idioma, estado).
+2. **Te avisa** en el Gmail dueño del script, con la etiqueta **"Leads 2099"**. Responder ese mail le contesta directo al cliente.
+3. **Le envía al cliente** un resumen con su consulta (responder va a `hola@2099.design`).
+   Cuando Gmail tenga configurado "Enviar como" `hola@2099.design`, sale automáticamente desde esa dirección.
 
-## Opción A — Google Apps Script (recomendado)
+Si el Apps Script no está configurado o falla, el sitio usa FormSubmit como respaldo.
 
-Envía ambos emails desde Gmail sin popup.
+## Instalación (una sola vez)
 
-1. Abrí [script.google.com](https://script.google.com) con tu cuenta de Google.
-2. Proyecto nuevo → pegá `Code.gs`.
-3. **Implementar → Nueva implementación → Aplicación web**
+Con la cuenta **2099.designstudio@gmail.com**:
+
+1. Abrí [script.google.com](https://script.google.com) → **Nuevo proyecto** → nombralo `2099 Leads`.
+2. Borrá el contenido de `Código.gs` y pegá todo `Code.gs` → **Guardar**.
+3. Arriba, elegí la función **`setup`** → **Ejecutar** → aceptá los permisos
+   (Google avisa "app no verificada": *Configuración avanzada → Ir a 2099 Leads*).
+   En el registro aparece el link a la hoja **"2099 Leads"**.
+4. **Implementar → Nueva implementación** → tipo **Aplicación web**:
    - Ejecutar como: **Yo**
-   - Acceso: **Cualquier persona**
-4. Copiá la URL `/exec` en `.env`:
+   - Quién tiene acceso: **Cualquier persona**
+5. Copiá la **URL de la aplicación web** (termina en `/exec`).
+
+## Conectarlo al sitio
+
+- **Producción:** Cloudflare → Workers & Pages → `web` → Settings → Variables and Secrets →
+  `PUBLIC_LEAD_WEBHOOK_URL` = la URL `/exec` → guardar y volver a desplegar.
+- **Local:** en `.env`:
 
 ```env
 PUBLIC_LEAD_WEBHOOK_URL=https://script.google.com/macros/s/.../exec
 ```
 
-5. Reiniciá el dev server (`npm run dev`).
-6. En GitHub → **Settings → Secrets → Actions** → `PUBLIC_LEAD_WEBHOOK_URL` para producción.
+## Actualizar el script
 
-## Opción B — FormSubmit (sin Apps Script)
+Después de editar `Code.gs`: **Implementar → Administrar implementaciones → ✏️ → Versión: Nueva → Implementar**.
+Así la URL `/exec` no cambia.
 
-El sitio usa [FormSubmit](https://formsubmit.co) con envío clásico (iframe), que **sí** permite autorespuesta al cliente.
+## Respaldo: FormSubmit
 
-**Primera vez:** completá un chat de prueba y revisá la bandeja de `hola@2099.design` (y spam). FormSubmit envía un mail de **activación**; hay que hacer clic en el enlace **una sola vez**. Después funciona automáticamente.
-
-> FormSubmit **no** envía autorespuestas si se usa la API `/ajax` — por eso el sitio usa POST clásico en iframe.
-
-## Opción C — Web3Forms (respaldo)
-
-1. Creá una cuenta en [web3forms.com](https://web3forms.com) con `hola@2099.design`.
-2. Copiá el access key en `.env`:
-
-```env
-PUBLIC_WEB3FORMS_ACCESS_KEY=tu-access-key
-```
-
-Solo notifica al estudio (no envía email al cliente). Usalo como respaldo si FormSubmit falla.
+Si el webhook falla, el sitio envía con [FormSubmit](https://formsubmit.co) a `hola@2099.design`.
+La primera vez llega un mail de **activación**: hay que hacer clic una sola vez.
